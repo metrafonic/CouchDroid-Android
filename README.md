@@ -1,7 +1,7 @@
-CouchDroid
+CouchDroid Gradle Project
 ==
-Android Gradle Project
+for Android by Mathias Hedberg
 --
-by Mathias Hedberg
+
 
 A CouchPotato API Client for Android
