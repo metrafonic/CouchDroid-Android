@@ -12,6 +12,8 @@ import android.widget.Button;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
