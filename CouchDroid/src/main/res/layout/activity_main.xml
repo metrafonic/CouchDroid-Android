@@ -7,7 +7,7 @@
 
     <ImageView
         android:layout_width="200dp"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -22,8 +22,8 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/imageView"
         android:layout_alignBottom="@+id/imageView"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/couchnine" />
+        android:background="@drawable/couchnine"
+        android:layout_toLeftOf="@+id/buttonSettings" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -55,4 +55,14 @@
                 android:layout_centerHorizontal="true" />
         </RelativeLayout>
     </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:id="@+id/buttonSettings"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/imageView2"
+        android:background="@drawable/couchnine"
+        android:layout_alignParentTop="true" />
 </RelativeLayout>
