@@ -36,7 +36,7 @@ public class FragmentHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle bundle = this.getArguments();
-        String response = bundle.getString("movielist", "no bundle");
+        final String response = bundle.getString("movielist");
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         TextView textViewResponse = (TextView) rootView.findViewById(R.id.textView);
 
@@ -87,7 +87,16 @@ public class FragmentHome extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                    // do whatever you want ...
+                    Bundle data = new Bundle();
+                    data.putInt("movieid", Integer.parseInt(imageView.getTag().toString()));
+                    data.putString("response", response);
+                    android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    FragmentMovie myFragment = new FragmentMovie();
+                    myFragment.setArguments(data);
+                    ft.replace(R.id.fragmentLayout, myFragment);
+                    ft.addToBackStack(null);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
 
                 }
             });

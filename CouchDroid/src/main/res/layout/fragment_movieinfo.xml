@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/imageViewBackdrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:src="#edffce"
+        android:scaleType="centerCrop" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:background="#CC070707">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageViewPoster"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:src="#edffce" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:id="@+id/textViewMovieTitle"
+            android:textSize="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/imageViewPoster" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/scrollView"
+            android:layout_below="@+id/textViewMovieTitle"
+            android:layout_toRightOf="@+id/imageViewPoster"
+            android:layout_alignBottom="@+id/imageViewPoster"
+            android:layout_alignRight="@+id/textViewMovieTitle">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                android:id="@+id/textViewPlot"
+                android:layout_below="@+id/textViewMovieTitle"
+                android:layout_toRightOf="@+id/imageViewPoster"
+                android:layout_alignRight="@+id/textViewMovieTitle" />
+        </ScrollView>
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -36,7 +36,8 @@ public class MainActivity extends FragmentActivity {
 
             System.out.println(webaddress);
             final AsyncHttpClient client = new AsyncHttpClient();
-        client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
+        if (savedInstanceState == null) {
+            client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
             @Override
                 public void onSuccess(String response) {
                     //System.out.println("something2");
@@ -51,6 +52,7 @@ public class MainActivity extends FragmentActivity {
 
                 }
             });
+        }
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

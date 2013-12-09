@@ -15,11 +15,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
+        android:text="Small"
         android:id="@+id/_imageName"
         android:layout_alignBottom="@+id/_image"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/_image" />
+        android:layout_alignRight="@+id/_image"
+        android:background="#CC070707"
+        android:gravity="center_horizontal" />
 
 
 </RelativeLayout>
