@@ -7,15 +7,17 @@
     android:background="#4e5969">
 
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/_celllinearLayout"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView" />
-    </ScrollView>
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 </RelativeLayout>
