@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ public class FragmentHome extends Fragment {
 
     private int[] images = {R.drawable.ic_launcher, R.drawable.logobanner};
     private View cell;
-    private TextView text;
+    private TextView movieTitle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -41,7 +42,8 @@ public class FragmentHome extends Fragment {
         TextView textViewResponse = (TextView) rootView.findViewById(R.id.textView);
 
 
-        final String PREFS_NAME = "ServerPrefsFile";
+        if (savedInstanceState == null) {
+            final String PREFS_NAME = "ServerPrefsFile";
         SharedPreferences settings = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
         if (savedInstanceState == null){
             //textViewResponse.setText(response);
@@ -51,7 +53,8 @@ public class FragmentHome extends Fragment {
         final ArrayList<String> wantedMovieslist = new ArrayList<String>();
         final ArrayList<Integer> idMovie = new ArrayList<Integer>();
         final ArrayList<String> posterMovie = new ArrayList<String>();
-        JSONObject jsonResponse = null;
+            final ArrayList<String> plotMovie = new ArrayList<String>();
+            JSONObject jsonResponse = null;
         try {
             jsonResponse = new JSONObject(response);
             JSONArray jsonMainNode = jsonResponse.optJSONArray("movies");
@@ -69,6 +72,7 @@ public class FragmentHome extends Fragment {
                 posterMovie.add(jsonPoster.get(0).toString());
                 idMovie.add(jsonChildNode.getInt("library_id"));
                 wantedMovieslist.add(jsonTitles.getString(0));
+                plotMovie.add(jsonInfo.getString("plot").toString());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -83,6 +87,22 @@ public class FragmentHome extends Fragment {
             final AQuery aq = new AQuery(cell);
 
             final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
+            final RelativeLayout cellText = (RelativeLayout) cell.findViewById(R.id.celltext);
+            cellText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Bundle data = new Bundle();
+                    data.putInt("movieid", Integer.parseInt(imageView.getTag().toString()));
+                    data.putString("response", response);
+                    android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    FragmentMovie myFragment = new FragmentMovie();
+                    myFragment.setArguments(data);
+                    ft.replace(R.id.fragmentLayout, myFragment);
+                    ft.addToBackStack(null);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.commit();
+                }
+            });
             imageView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -103,15 +123,17 @@ public class FragmentHome extends Fragment {
 
             imageView.setTag(idMovie.get(i).toString());
 
-            text = (TextView) cell.findViewById(R.id._imageName);
-
+            movieTitle = (TextView) cell.findViewById(R.id._imageName);
+            TextView moviePlot = (TextView) cell.findViewById(R.id.textViewMoviePlot);
             //imageView.setImageResource(images[0]);
-            text.setText(wantedMovieslist.get(i).toString());
+            movieTitle.setText(wantedMovieslist.get(i).toString());
+            moviePlot.setText(plotMovie.get(i).toString());
             aq.id(R.id._image).image(posterMovie.get(i).toString());
 
             wantedLayout.addView(cell);
         }
 
+        }
         return rootView;
     }
 }

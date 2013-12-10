@@ -57,8 +57,8 @@ public class FragmentMovie extends Fragment {
             response = extras.getString("response");
         }
         View rootView = inflater.inflate(R.layout.fragment_movieinfo, container, false);
-        TextView movieTitle = (TextView) rootView.findViewById(R.id.textViewMovieTitle);
-        TextView moviePlot = (TextView) rootView.findViewById(R.id.textViewPlot);
+        TextView movieTitle = (TextView) rootView.findViewById(R.id._imageName);
+        TextView moviePlot = (TextView) rootView.findViewById(R.id.textViewMoviePlot);
 
         movieTitle.setText(String.valueOf(movieId));
 
@@ -80,7 +80,7 @@ public class FragmentMovie extends Fragment {
                     JSONArray jsonPoster = jsonImages.getJSONArray("poster");
                     JSONArray jsonBacdrop = jsonImages.getJSONArray("backdrop");
 
-                    aq.id(R.id.imageViewPoster).image(jsonPoster.get(0).toString());
+                    aq.id(R.id._image).image(jsonPoster.get(0).toString());
                     aq.id(R.id.imageViewBackdrop).image(jsonBacdrop.get(0).toString());
 
                     movieTitle.setText(jsonTitles.get(0).toString() + " (" + jsonInfo.getInt("year") + ")");

@@ -1,63 +1,84 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayoutCells"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
 
     <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/imageViewBackdrop"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:src="#edffce"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/celltext"
         android:scaleType="centerCrop" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewBackdropShade"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:background="#CC070707">
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/celltext"
+        android:src="#CC070707" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageViewPoster"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:src="#edffce" />
+    <ImageView
+        android:id="@+id/_image"
+        android:layout_width="143px"
+        android:layout_height="210px"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/_image"
+        android:background="#CC47515f"
+        android:id="@+id/celltext"
+        android:layout_alignBottom="@+id/_image">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/textViewMovieTitle"
-            android:textSize="30dp"
+            android:text="Small"
+            android:id="@+id/_imageName"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/imageViewPoster" />
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="15dp"
+            android:textStyle="bold"
+            android:textSize="25dp" />
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/scrollView"
-            android:layout_below="@+id/textViewMovieTitle"
-            android:layout_toRightOf="@+id/imageViewPoster"
-            android:layout_alignBottom="@+id/imageViewPoster"
-            android:layout_alignRight="@+id/textViewMovieTitle">
+            android:layout_below="@+id/_imageName"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/textViewPlot"
-                android:layout_below="@+id/textViewMovieTitle"
-                android:layout_toRightOf="@+id/imageViewPoster"
-                android:layout_alignRight="@+id/textViewMovieTitle" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textViewMoviePlot"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
+                android:layout_below="@+id/_imageName"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true" />
         </ScrollView>
+
     </RelativeLayout>
 
 

@@ -1,27 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linearLayoutCells"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="12dp">
 
     <ImageView
         android:id="@+id/_image"
-        android:layout_width="200px"
-        android:layout_height="300px"
-        android:scaleType="centerCrop" />
+        android:layout_width="143px"
+        android:layout_height="210px"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small"
-        android:id="@+id/_imageName"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/_image"
         android:layout_alignBottom="@+id/_image"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/_image"
-        android:background="#CC070707"
-        android:gravity="center_horizontal" />
+        android:background="#47515f"
+        android:id="@+id/celltext">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Small"
+            android:id="@+id/_imageName"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="15dp"
+            android:textStyle="bold"
+            android:textSize="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/textViewMoviePlot"
+            android:paddingLeft="10dp"
+            android:layout_below="@+id/_imageName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="10dp" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

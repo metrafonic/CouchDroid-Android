@@ -19,7 +19,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true">
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
         </LinearLayout>
     </ScrollView>
