@@ -2,6 +2,7 @@ package com.metrafonic.couchdroid;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -21,7 +22,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button buttonSettings = (Button) findViewById(R.id.buttonSettings);
-        Button buttonRefresh = (Button) findViewById(R.id.buttonRefresh);
+        final Button buttonManage = (Button) findViewById(R.id.buttonManage);
+        final Button buttonWanted = (Button) findViewById(R.id.buttonWanted);
         final String PREFS_NAME = "ServerPrefsFile";
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
 
@@ -37,19 +39,22 @@ public class MainActivity extends FragmentActivity {
             System.out.println(webaddress);
             final AsyncHttpClient client = new AsyncHttpClient();
         if (savedInstanceState == null) {
+            buttonWanted.setTypeface(null, Typeface.BOLD);
+            buttonManage.setTypeface(null, Typeface.NORMAL);
             client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
             @Override
                 public void onSuccess(String response) {
                     //System.out.println("something2");
                     //System.out.println(response);
                     Bundle data = new Bundle();
-                    data.putString("movielist",response);
+                data.putString("listtype", "Wanted Movies:");
+                data.putString("movielist",response);
                     FragmentHome newFragment = new FragmentHome();
                     newFragment.setArguments(data);
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 final android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-                ft.add(R.id.fragmentLayout, newFragment);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.add(R.id.fragmentLayout, newFragment, "wanted");
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.commit();
 
                 }
@@ -62,9 +67,50 @@ public class MainActivity extends FragmentActivity {
                 startActivity(intent);
             }
         });
-        buttonRefresh.setOnClickListener(new View.OnClickListener() {
+        buttonManage.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+                transaction.remove(fm.findFragmentById(R.id.fragmentLayout)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                buttonWanted.setTypeface(null, Typeface.NORMAL);
+                buttonManage.setTypeface(null, Typeface.BOLD);
+                buttonWanted.setClickable(false);
+                buttonManage.setClickable(false);
+                client.get(webaddress + "/movie.list", new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+                        //System.out.println("something2");
+                        //System.out.println(response);
+                        Bundle data = new Bundle();
+                        data.putString("movielist", response);
+                        data.putString("listtype", "Manage Movies:");
+                        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                        final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+                        FragmentHome newFragment = new FragmentHome();
+                        newFragment.setArguments(data);
+                        transaction.replace(R.id.fragmentLayout, newFragment, "manage");
+                        fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
+                        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        transaction.commit();
+                        buttonWanted.setClickable(true);
+                        buttonManage.setClickable(true);
+
+                    }
+                });
+            }
+        });
+        buttonWanted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+                transaction.remove(fm.findFragmentById(R.id.fragmentLayout)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                buttonWanted.setClickable(false);
+                buttonWanted.setTypeface(null, Typeface.BOLD);
+                buttonManage.setTypeface(null, Typeface.NORMAL);
+                buttonManage.setClickable(false);
                 client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
@@ -72,13 +118,17 @@ public class MainActivity extends FragmentActivity {
                         //System.out.println(response);
                         Bundle data = new Bundle();
                         data.putString("movielist", response);
+                        data.putString("listtype", "Wanted Movies:");
                         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                         final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
                         FragmentHome newFragment = new FragmentHome();
                         newFragment.setArguments(data);
-                        transaction.replace(R.id.fragmentLayout, newFragment);
+                        transaction.replace(R.id.fragmentLayout, newFragment, "wanted");
+                        fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
                         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction.commit();
+                        buttonWanted.setClickable(true);
+                        buttonManage.setClickable(true);
 
                     }
                 });

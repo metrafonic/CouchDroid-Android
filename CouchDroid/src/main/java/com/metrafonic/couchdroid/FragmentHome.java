@@ -38,8 +38,12 @@ public class FragmentHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         Bundle bundle = this.getArguments();
         final String response = bundle.getString("movielist");
+        final String listtype = bundle.getString("listtype");
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         TextView textViewResponse = (TextView) rootView.findViewById(R.id.textView);
+        TextView textViewListType = (TextView) rootView.findViewById(R.id.textViewListType);
+
+        textViewListType.setText(listtype);
 
 
         final String PREFS_NAME = "ServerPrefsFile";
@@ -98,7 +102,7 @@ public class FragmentHome extends Fragment {
                     myFragment.setArguments(data);
                     ft.replace(R.id.fragmentLayout, myFragment);
                     ft.addToBackStack(null);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     ft.commit();
                 }
             });
@@ -114,7 +118,7 @@ public class FragmentHome extends Fragment {
                     myFragment.setArguments(data);
                     ft.replace(R.id.fragmentLayout, myFragment);
                     ft.addToBackStack(null);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     ft.commit();
 
                 }

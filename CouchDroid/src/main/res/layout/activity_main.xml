@@ -19,11 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView"
-        android:layout_alignBottom="@+id/imageView"
         android:background="@drawable/couchnine"
-        android:layout_toLeftOf="@+id/buttonRefresh" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/buttonManage"
+        android:layout_above="@+id/fragmentLayout"
+        android:layout_toLeftOf="@+id/buttonSettings" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -61,19 +61,29 @@
         android:layout_height="wrap_content"
         android:text="Settings"
         android:id="@+id/buttonSettings"
-        android:layout_alignParentRight="true"
-        android:layout_alignBottom="@+id/imageView2"
         android:background="@drawable/couchnine"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_above="@+id/fragmentLayout" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Refresh"
-        android:id="@+id/buttonRefresh"
+        android:text="Manage"
+        android:id="@+id/buttonManage"
+        android:background="@drawable/couchnine"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/buttonSettings"
-        android:layout_above="@+id/fragmentLayout"
-        android:background="@drawable/couchnine" />
+        android:layout_toRightOf="@+id/buttonWanted"
+        android:layout_above="@+id/fragmentLayout" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wanted"
+        android:id="@+id/buttonWanted"
+        android:background="@drawable/couchnine"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_above="@+id/fragmentLayout" />
 
 </RelativeLayout>

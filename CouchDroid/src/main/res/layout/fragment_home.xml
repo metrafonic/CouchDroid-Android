@@ -10,7 +10,7 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
+        android:layout_below="@+id/textViewListType"
         android:layout_alignParentLeft="true">
 
         <LinearLayout
@@ -18,7 +18,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/textViewListType"
             android:layout_alignParentLeft="true"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
@@ -31,10 +31,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Wanted Movies:"
-        android:id="@+id/textView"
+        android:id="@+id/textViewListType"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:typeface="normal"
-        android:textSize="30dp" />
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:paddingEnd="10dp"
+        android:paddingBottom="5dp" />
 
 </RelativeLayout>
