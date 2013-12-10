@@ -11,7 +11,7 @@
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/logobanner"
+        android:src="@drawable/couchdroid"
         android:scaleType="centerInside"
         android:background="@drawable/couchnine" />
 
@@ -23,7 +23,7 @@
         android:layout_toRightOf="@+id/imageView"
         android:layout_alignBottom="@+id/imageView"
         android:background="@drawable/couchnine"
-        android:layout_toLeftOf="@+id/buttonSettings" />
+        android:layout_toLeftOf="@+id/buttonRefresh" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -65,4 +65,15 @@
         android:layout_alignBottom="@+id/imageView2"
         android:background="@drawable/couchnine"
         android:layout_alignParentTop="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        android:id="@+id/buttonRefresh"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/buttonSettings"
+        android:layout_above="@+id/fragmentLayout"
+        android:background="@drawable/couchnine" />
+
 </RelativeLayout>

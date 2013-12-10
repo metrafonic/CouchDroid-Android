@@ -19,11 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageViewBackdropShade"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/celltext"
-        android:src="#CC070707" />
+        android:src="#AA222734"
+        android:layout_below="@+id/_image" />
 
     <ImageView
         android:id="@+id/_image"
@@ -39,13 +39,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/_image"
-        android:background="#CC47515f"
+        android:background="#EE222734"
         android:id="@+id/celltext"
         android:layout_alignBottom="@+id/_image">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Small"
             android:id="@+id/_imageName"
@@ -64,9 +64,9 @@
             android:layout_alignParentTop="false"
             android:layout_alignParentRight="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true">
+            android:layout_above="@+id/relativeLayout">
 
-            <TextView
+        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -78,6 +78,13 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true" />
         </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/relativeLayout"></RelativeLayout>
 
     </RelativeLayout>
 

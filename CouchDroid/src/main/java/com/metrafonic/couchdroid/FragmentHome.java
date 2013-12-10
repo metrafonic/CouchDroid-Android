@@ -42,8 +42,7 @@ public class FragmentHome extends Fragment {
         TextView textViewResponse = (TextView) rootView.findViewById(R.id.textView);
 
 
-        if (savedInstanceState == null) {
-            final String PREFS_NAME = "ServerPrefsFile";
+        final String PREFS_NAME = "ServerPrefsFile";
         SharedPreferences settings = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
         if (savedInstanceState == null){
             //textViewResponse.setText(response);
@@ -133,7 +132,7 @@ public class FragmentHome extends Fragment {
             wantedLayout.addView(cell);
         }
 
-        }
+
         return rootView;
     }
 }

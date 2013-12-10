@@ -21,11 +21,11 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button buttonSettings = (Button) findViewById(R.id.buttonSettings);
+        Button buttonRefresh = (Button) findViewById(R.id.buttonRefresh);
         final String PREFS_NAME = "ServerPrefsFile";
         final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-        final android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        String webaddress = ("http://" + settings.getString("hostname", null) + ":" + settings.getString("port", null) + "/api/" + settings.getString("apikey", null));
+
+        final String webaddress = ("http://" + settings.getString("hostname", null) + ":" + settings.getString("port", null) + "/api/" + settings.getString("apikey", null));
         System.out.println(webaddress);
 
         if (settings.getString("apikey", "none").length()<5) {
@@ -46,7 +46,9 @@ public class MainActivity extends FragmentActivity {
                     data.putString("movielist",response);
                     FragmentHome newFragment = new FragmentHome();
                     newFragment.setArguments(data);
-                    ft.add(R.id.fragmentLayout, newFragment);
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                final android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+                ft.add(R.id.fragmentLayout, newFragment);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.commit();
 
@@ -60,7 +62,31 @@ public class MainActivity extends FragmentActivity {
                 startActivity(intent);
             }
         });
+        buttonRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(String response) {
+                        //System.out.println("something2");
+                        //System.out.println(response);
+                        Bundle data = new Bundle();
+                        data.putString("movielist", response);
+                        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                        final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+                        FragmentHome newFragment = new FragmentHome();
+                        newFragment.setArguments(data);
+                        transaction.replace(R.id.fragmentLayout, newFragment);
+                        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        transaction.commit();
+
+                    }
+                });
+            }
+        });
+
 
     }
+
 
 }
