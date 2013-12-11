@@ -56,7 +56,7 @@
             android:layout_alignParentLeft="true"
             android:layout_above="@+id/relativeLayout">
 
-        <TextView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
@@ -95,7 +95,6 @@
                 android:text="Runtime: "
                 android:id="@+id/textViewMovieRuntime"
                 android:textStyle="bold"
-                android:paddingRight="15dp"
                 android:layout_alignTop="@+id/textViewMovieMPAA"
                 android:layout_toRightOf="@+id/textViewMovieMPAA" />
         </RelativeLayout>
