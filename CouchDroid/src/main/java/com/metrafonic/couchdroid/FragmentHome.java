@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ public class FragmentHome extends Fragment {
     private int[] images = {R.drawable.ic_launcher, R.drawable.logobanner};
     private View cell;
     private TextView movieTitle;
+    float scrollY = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -42,12 +44,13 @@ public class FragmentHome extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         TextView textViewResponse = (TextView) rootView.findViewById(R.id.textView);
         TextView textViewListType = (TextView) rootView.findViewById(R.id.textViewListType);
+        final ScrollView scrollListView = (ScrollView) rootView.findViewById(R.id.scrolllistview);
 
         textViewListType.setText(listtype);
 
 
         final String PREFS_NAME = "ServerPrefsFile";
-        SharedPreferences settings = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
+        final SharedPreferences settings = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
         if (savedInstanceState == null){
             //textViewResponse.setText(response);
         }
@@ -120,9 +123,11 @@ public class FragmentHome extends Fragment {
                     ft.addToBackStack(null);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     ft.commit();
+                    settings.edit().putFloat("scollloc", scrollListView.getY()).commit();
 
                 }
             });
+            scrollListView.smoothScrollTo(5, (int) settings.getFloat("scrollloc", 1));
 
             imageView.setTag(idMovie.get(i).toString());
 

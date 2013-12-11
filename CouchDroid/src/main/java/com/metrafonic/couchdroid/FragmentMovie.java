@@ -59,6 +59,8 @@ public class FragmentMovie extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_movieinfo, container, false);
         TextView movieTitle = (TextView) rootView.findViewById(R.id._imageName);
         TextView moviePlot = (TextView) rootView.findViewById(R.id.textViewMoviePlot);
+        TextView movieMPAA = (TextView) rootView.findViewById(R.id.textViewMovieMPAA);
+        TextView movieRuntime = (TextView) rootView.findViewById(R.id.textViewMovieRuntime);
 
         movieTitle.setText(String.valueOf(movieId));
 
@@ -85,6 +87,11 @@ public class FragmentMovie extends Fragment {
 
                     movieTitle.setText(jsonTitles.get(0).toString() + " (" + jsonInfo.getInt("year") + ")");
                     moviePlot.setText(jsonInfo.getString("plot").toString());
+                    movieMPAA.setText("Rated: " + jsonInfo.getString("mpaa").toString());
+                    if (jsonInfo.getString("mpaa").toString().contains("null"))
+                        movieMPAA.setText("Rated: n/a");
+                    movieRuntime.setText("Runtime: " + jsonInfo.getInt("runtime") + "min");
+                    if (jsonInfo.getInt("runtime") == 0) movieRuntime.setText("Runtime: n/a");
                     //dialog.cancel();
 
                     break;
