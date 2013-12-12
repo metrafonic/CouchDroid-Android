@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,12 +58,19 @@ public class FragmentMovie extends Fragment {
             response = extras.getString("response");
         }
         View rootView = inflater.inflate(R.layout.fragment_movieinfo, container, false);
-        TextView movieTitle = (TextView) rootView.findViewById(R.id._imageName);
+        TextView movieTitle = (TextView) rootView.findViewById(R.id.textViewMovieName);
         TextView moviePlot = (TextView) rootView.findViewById(R.id.textViewMoviePlot);
-        TextView movieMPAA = (TextView) rootView.findViewById(R.id.textViewMovieMPAA);
+        TextView movieMPAA = (TextView) rootView.findViewById(R.id.textViewMovieRating);
         TextView movieRuntime = (TextView) rootView.findViewById(R.id.textViewMovieRuntime);
+        Button movieDelete = (Button) rootView.findViewById(R.id.buttonMovieDelete);
 
         movieTitle.setText(String.valueOf(movieId));
+
+        final String PREFS_NAME = "ServerPrefsFile";
+        final SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        final String webaddress = settings.getString("webaddress", null);
+
+        final AsyncHttpClient client = new AsyncHttpClient();
 
         JSONObject jsonResponse = null;
         final AQuery aq = new AQuery(rootView);
@@ -82,8 +90,8 @@ public class FragmentMovie extends Fragment {
                     JSONArray jsonPoster = jsonImages.getJSONArray("poster");
                     JSONArray jsonBacdrop = jsonImages.getJSONArray("backdrop");
 
-                    aq.id(R.id._image).image(jsonPoster.get(0).toString());
-                    aq.id(R.id.imageViewBackdrop).image(jsonBacdrop.get(0).toString());
+                    aq.id(R.id.imageViewPoster).image(jsonPoster.get(0).toString());
+                    aq.id(R.id.imageViewBackDrop).image(jsonBacdrop.get(0).toString());
 
                     movieTitle.setText(jsonTitles.get(0).toString() + " (" + jsonInfo.getInt("year") + ")");
                     moviePlot.setText(jsonInfo.getString("plot").toString());
@@ -100,8 +108,8 @@ public class FragmentMovie extends Fragment {
             //idMovie.add(jsonChildNode.getInt("library_id"));
             //list.add(jsonTitles.getString(0));
             final int finalMovieId1 = movieId;
-            /*
-            buttonDeleteMovie.setOnClickListener(new View.OnClickListener() {
+
+            movieDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     client.get(webaddress+ "/movie.delete" + "?id=" + finalMovieId1, new AsyncHttpResponseHandler() {
@@ -110,16 +118,36 @@ public class FragmentMovie extends Fragment {
                             Toast.makeText(getActivity(),
                                     "Successfully deleted movie", Toast.LENGTH_SHORT)
                                     .show();
+                            client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    System.out.println("it worked!");
+                                    settings.edit().putString("responsewanted", response).commit();
+                                    System.out.println("starting web request2");
+                                    client.get(webaddress + "/movie.list?status=done", new AsyncHttpResponseHandler() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            settings.edit().putString("responsemanage", response).commit();
+                                            getActivity().getSupportFragmentManager().popBackStack();
+                                        }
+                                    });
+
+                                }
+                            });
+
 
                         }
                     });
                 }
             });
-            */
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+
         return rootView;
     }
+
+
 }

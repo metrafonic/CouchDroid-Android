@@ -127,7 +127,7 @@ public class FragmentHome extends Fragment {
 
                 }
             });
-            scrollListView.smoothScrollTo(5, (int) settings.getFloat("scrollloc", 1));
+            scrollListView.scrollTo(5, (int) settings.getFloat("scrollloc", 1));
 
             imageView.setTag(idMovie.get(i).toString());
 
@@ -144,4 +144,5 @@ public class FragmentHome extends Fragment {
 
         return rootView;
     }
+
 }

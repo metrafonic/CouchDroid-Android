@@ -24,7 +24,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/buttonManage"
         android:layout_above="@+id/fragmentLayout"
-        android:layout_toLeftOf="@+id/imageButton" />
+        android:layout_toLeftOf="@+id/imageButtonSearch" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -54,11 +54,12 @@
                 android:id="@+id/progressBar"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
+
         </RelativeLayout>
     </RelativeLayout>
 
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:text="Settings"
         android:id="@+id/buttonSettings"
@@ -115,13 +116,23 @@
         android:layout_alignBottom="@+id/buttonManage" />
 
     <ImageButton
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButtonSearch"
+        android:background="@drawable/couchnine"
+        android:src="@drawable/abc_ic_search"
+        android:layout_above="@+id/fragmentLayout"
+        android:layout_toLeftOf="@+id/imageButtonRefresh"
+        android:layout_alignParentTop="true" />
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonRefresh"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/buttonSettings"
-        android:layout_above="@+id/fragmentLayout"
+        android:layout_alignBottom="@+id/buttonSettings"
         android:background="@drawable/couchnine"
-        android:src="@drawable/abc_ic_search" />
+        android:src="@drawable/ic_action_refresh2" />
 
 </RelativeLayout>

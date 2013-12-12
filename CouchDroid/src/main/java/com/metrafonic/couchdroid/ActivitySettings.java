@@ -42,8 +42,8 @@ public class ActivitySettings extends Activity {
                         .putString("apikey", editApiKey.getText().toString())
                         .commit();
 
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                //startActivity(intent);
             }
         });
 

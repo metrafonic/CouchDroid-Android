@@ -3,127 +3,148 @@
     android:id="@+id/linearLayoutCells"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageViewBackdrop"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/celltext"
-        android:scaleType="centerCrop" />
-
-    <ImageView
-        android:id="@+id/_image"
-        android:layout_width="143px"
-        android:layout_height="210px"
-        android:scaleType="centerCrop"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true" />
+    android:orientation="vertical"
+    android:background="#4e5969">
 
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/_image"
-        android:background="#EE222734"
-        android:id="@+id/celltext"
-        android:layout_alignBottom="@+id/_image">
+        android:layout_alignParentLeft="true"
+        android:id="@+id/relativeLayout"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Small"
-            android:id="@+id/_imageName"
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            android:id="@+id/imageViewPoster"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentLeft="true"
-            android:paddingLeft="15dp"
-            android:textStyle="bold"
-            android:textSize="25dp" />
+            android:src="#717171"
+            android:scaleType="centerCrop" />
 
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/scrollView"
-            android:layout_below="@+id/_imageName"
-            android:layout_alignParentTop="false"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="true"
-            android:layout_above="@+id/relativeLayout">
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/imageViewPoster"
+            android:layout_alignBottom="@+id/imageViewPoster"
+            android:background="#47515f">
+
+            <HorizontalScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/horizontalScrollView"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="5dp"
+                android:background="#47515f"
+                android:paddingRight="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:id="@+id/textViewMovieName"
+                    android:textSize="30dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/imageViewPoster" />
+            </HorizontalScrollView>
+
+            <ScrollView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/scrollView"
+                android:layout_below="@+id/horizontalScrollView"
+                android:paddingLeft="5dp"
+                android:background="#47515f"
+                android:paddingRight="5dp"
+                android:layout_above="@+id/textViewMovieRating">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="Small Text"
+                    android:id="@+id/textViewMoviePlot" />
+            </ScrollView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
-                android:id="@+id/textViewMoviePlot"
-                android:paddingLeft="10dp"
-                android:paddingBottom="10dp"
-                android:layout_below="@+id/_imageName"
+                android:id="@+id/textViewMovieRating"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textViewMovieRuntime"
+                android:paddingRight="5dp"
+                android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true" />
-        </ScrollView>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignParentLeft="true"
+        android:padding="10dp"
+        android:paddingRight="10dp"
+        android:layout_alignParentBottom="true">
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="30dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/relativeLayout">
+            android:layout_height="fill_parent"
+            android:background="#DD47515f">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Rated: "
-                android:id="@+id/textViewMovieMPAA"
-                android:layout_centerVertical="true"
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageViewBackDrop"
+                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:paddingLeft="10dp"
-                android:textStyle="bold"
-                android:paddingRight="10dp" />
+                android:scaleType="centerCrop" />
 
-            <TextView
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/imageViewBackShade"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:scaleType="centerCrop"
+                android:background="#CC47515f" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Runtime: "
-                android:id="@+id/textViewMovieRuntime"
-                android:textStyle="bold"
-                android:layout_alignTop="@+id/textViewMovieMPAA"
-                android:layout_toRightOf="@+id/textViewMovieMPAA" />
+                android:layout_height="39dp"
+                android:text="Edit"
+                android:id="@+id/buttonMovieEdit"
+                android:layout_above="@+id/buttonMovieDelete"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="39dp"
+                android:text="Delete Movie"
+                android:id="@+id/buttonMovieDelete"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true" />
+
         </RelativeLayout>
-
     </RelativeLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:id="@+id/imageView"
-        android:background="#AA222734"
-        android:layout_below="@+id/celltext"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/textView" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="300dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Releases:"
-        android:id="@+id/textView"
-        android:textStyle="bold"
-        android:textSize="25dp"
-        android:background="#EE222734"
-        android:paddingLeft="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/celltext" />
-
 
 </RelativeLayout>

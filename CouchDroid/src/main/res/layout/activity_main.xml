@@ -6,7 +6,7 @@
     android:background="#4e5969">
 
     <ImageView
-        android:layout_width="140dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
         android:id="@+id/imageView"
         android:layout_alignParentTop="true"
@@ -56,7 +56,7 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings"
@@ -65,7 +65,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/fragmentLayout"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:src="@drawable/abc_ic_menu_moreoverflow_normal_holo_dark" />
 
     <Button
         android:layout_width="wrap_content"
@@ -76,8 +77,9 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/buttonWanted"
         android:layout_above="@+id/fragmentLayout"
-        android:paddingLeft="6dp"
-        android:textColor="#ffffff" />
+        android:paddingLeft="10dp"
+        android:textColor="#ffffff"
+        android:paddingRight="10dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -88,8 +90,28 @@
         android:layout_alignParentTop="true"
         android:layout_above="@+id/fragmentLayout"
         android:layout_toRightOf="@+id/imageView"
-        android:paddingLeft="3dp"
-        android:paddingRight="6dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:textColor="#ffffff" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonSearch"
+        android:background="@drawable/couchnine"
+        android:src="@drawable/abc_ic_search"
+        android:layout_above="@+id/fragmentLayout"
+        android:layout_toLeftOf="@+id/imageButtonRefresh"
+        android:layout_alignParentTop="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButtonRefresh"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/buttonSettings"
+        android:layout_alignBottom="@+id/buttonSettings"
+        android:background="@drawable/couchnine"
+        android:src="@drawable/ic_action_refresh2" />
 
 </RelativeLayout>
