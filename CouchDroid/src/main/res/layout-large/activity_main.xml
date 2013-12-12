@@ -24,7 +24,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/buttonManage"
         android:layout_above="@+id/fragmentLayout"
-        android:layout_toLeftOf="@+id/buttonSettings" />
+        android:layout_toLeftOf="@+id/imageButton" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -57,7 +57,7 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Settings"
@@ -66,7 +66,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_above="@+id/fragmentLayout"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        android:src="@drawable/abc_ic_menu_moreoverflow_normal_holo_dark" />
 
     <Button
         android:layout_width="wrap_content"
@@ -112,5 +113,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/buttonManage"
         android:layout_alignBottom="@+id/buttonManage" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/buttonSettings"
+        android:layout_above="@+id/fragmentLayout"
+        android:background="@drawable/couchnine"
+        android:src="@drawable/abc_ic_search" />
 
 </RelativeLayout>
