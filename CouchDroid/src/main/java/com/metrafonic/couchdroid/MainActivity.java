@@ -1,5 +1,6 @@
 package com.metrafonic.couchdroid;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -11,14 +12,18 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 
 public class MainActivity extends FragmentActivity {
+    SharedPreferences settings;
+
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
@@ -31,7 +36,7 @@ public class MainActivity extends FragmentActivity {
         //TextView lobster = (TextView) findViewById(R.id.textViewLobster);
         //Typeface font = Typeface.createFromAsset(lobster.getContext().getAssets(), "fonts/lobster.ttf");
         final String PREFS_NAME = "ServerPrefsFile";
-        final SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        settings = getSharedPreferences(PREFS_NAME, 0);
 
 
         settings.edit().putString("webaddress", ("http://" + settings.getString("hostname", "127.0.0.1") + ":" + settings.getString("port", "80") + "/api/" + settings.getString("apikey", "key"))).commit();
@@ -191,6 +196,25 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+        buttonSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+                FragmentSearch newFragment = new FragmentSearch();
+                transaction.replace(R.id.fragmentLayout, newFragment, "search");
+                fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction.commit();
+                settings.edit().putString("currentfragment", "search").commit();
+                buttonWanted.setClickable(true);
+                buttonWanted.setTypeface(null, Typeface.NORMAL);
+                buttonManage.setClickable(true);
+                buttonManage.setTypeface(null, Typeface.NORMAL);
+
+            }
+        });
 /*
         if (settings.getString("currentfragment", null).toString().contains("wanted")){
             buttonWanted.setTypeface(null, Typeface.BOLD);
@@ -200,5 +224,32 @@ public class MainActivity extends FragmentActivity {
 */
     }
 
+    public void swag() {
+        final String PREFS_NAME = "ServerPrefsFile";
+        Bundle data = new Bundle();
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+        FragmentHome newFragment = new FragmentHome();
+
+
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        if (settings.getString("currentfragment", null).contains("wanted")) {
+            data.putString("movielist", settings.getString("responsewanted", "null").toString());
+            data.putString("listtype", "Wanted Movies:");
+            transaction.replace(R.id.fragmentLayout, newFragment, "wanted");
+        } else if (settings.getString("currentfragment", null).contains("manage")) {
+            data.putString("movielist", settings.getString("responsemanage", "null").toString());
+            data.putString("listtype", "Manage Movies:");
+            transaction.replace(R.id.fragmentLayout, newFragment, "manage");
+        }
+
+        newFragment.setArguments(data);
+
+        fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction.commit();
+
+
+    }
 
 }

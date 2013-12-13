@@ -63,6 +63,7 @@ public class FragmentMovie extends Fragment {
         TextView movieMPAA = (TextView) rootView.findViewById(R.id.textViewMovieRating);
         TextView movieRuntime = (TextView) rootView.findViewById(R.id.textViewMovieRuntime);
         Button movieDelete = (Button) rootView.findViewById(R.id.buttonMovieDelete);
+        Button movieEdit = (Button) rootView.findViewById(R.id.buttonMovieEdit);
 
         movieTitle.setText(String.valueOf(movieId));
 
@@ -88,10 +89,12 @@ public class FragmentMovie extends Fragment {
                 if (jsonChildNode.getInt("library_id") == movieId) {
                     JSONObject jsonImages = jsonInfo.getJSONObject("images");
                     JSONArray jsonPoster = jsonImages.getJSONArray("poster");
-                    JSONArray jsonBacdrop = jsonImages.getJSONArray("backdrop");
+                    JSONArray jsonBackdrop = jsonImages.getJSONArray("backdrop");
 
-                    aq.id(R.id.imageViewPoster).image(jsonPoster.get(0).toString());
-                    aq.id(R.id.imageViewBackDrop).image(jsonBacdrop.get(0).toString());
+                    if (jsonPoster.length() >= 1)
+                        aq.id(R.id.imageViewPoster).image(jsonPoster.get(0).toString());
+                    if (jsonBackdrop.length() >= 1)
+                        aq.id(R.id.imageViewBackDrop).image(jsonBackdrop.get(0).toString());
 
                     movieTitle.setText(jsonTitles.get(0).toString() + " (" + jsonInfo.getInt("year") + ")");
                     moviePlot.setText(jsonInfo.getString("plot").toString());
@@ -129,6 +132,7 @@ public class FragmentMovie extends Fragment {
                                         public void onSuccess(String response) {
                                             settings.edit().putString("responsemanage", response).commit();
                                             getActivity().getSupportFragmentManager().popBackStack();
+                                            ((MainActivity) getActivity()).swag();
                                         }
                                     });
 
@@ -138,6 +142,12 @@ public class FragmentMovie extends Fragment {
 
                         }
                     });
+                }
+            });
+            movieEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((MainActivity) getActivity()).swag();
                 }
             });
 

@@ -35,6 +35,8 @@ public class FragmentHome extends Fragment {
     private View cell;
     private TextView movieTitle;
     float scrollY = 0;
+    ViewGroup rootView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -45,12 +47,10 @@ public class FragmentHome extends Fragment {
         TextView textViewResponse = (TextView) rootView.findViewById(R.id.textView);
         TextView textViewListType = (TextView) rootView.findViewById(R.id.textViewListType);
         final ScrollView scrollListView = (ScrollView) rootView.findViewById(R.id.scrolllistview);
-
-        textViewListType.setText(listtype);
-
-
         final String PREFS_NAME = "ServerPrefsFile";
         final SharedPreferences settings = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
+
+
         if (savedInstanceState == null){
             //textViewResponse.setText(response);
         }
@@ -59,8 +59,8 @@ public class FragmentHome extends Fragment {
         final ArrayList<String> wantedMovieslist = new ArrayList<String>();
         final ArrayList<Integer> idMovie = new ArrayList<Integer>();
         final ArrayList<String> posterMovie = new ArrayList<String>();
-            final ArrayList<String> plotMovie = new ArrayList<String>();
-            JSONObject jsonResponse = null;
+        final ArrayList<String> plotMovie = new ArrayList<String>();
+        JSONObject jsonResponse = null;
         try {
             jsonResponse = new JSONObject(response);
             JSONArray jsonMainNode = jsonResponse.optJSONArray("movies");
@@ -75,10 +75,20 @@ public class FragmentHome extends Fragment {
                 JSONObject jsonImages = jsonInfo.getJSONObject("images");
                 JSONArray jsonPoster = jsonImages.getJSONArray("poster");
 
-                posterMovie.add(jsonPoster.get(0).toString());
-                idMovie.add(jsonChildNode.getInt("library_id"));
-                wantedMovieslist.add(jsonTitles.getString(0));
-                plotMovie.add(jsonInfo.getString("plot").toString());
+                if (jsonPoster.length() >= 0) {
+                    posterMovie.add(jsonPoster.get(0).toString());
+                } else posterMovie.add("null");
+                if (jsonChildNode.has("library_id")) {
+                    idMovie.add(jsonChildNode.getInt("library_id"));
+                } else idMovie.add(1);
+                if (jsonInfo.has("plot")) {
+                    plotMovie.add(jsonInfo.getString("plot").toString());
+                } else plotMovie.add("no plot found!");
+                if (jsonTitles.length() >= 0) {
+                    wantedMovieslist.add(jsonTitles.getString(0));
+                } else wantedMovieslist.add(null);
+
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -144,5 +154,6 @@ public class FragmentHome extends Fragment {
 
         return rootView;
     }
+
 
 }
