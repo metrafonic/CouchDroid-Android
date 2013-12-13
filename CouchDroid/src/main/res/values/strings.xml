@@ -4,5 +4,6 @@
     <string name="app_name">CouchDroid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <color name="gold">#a2a232</color>
 
 </resources>

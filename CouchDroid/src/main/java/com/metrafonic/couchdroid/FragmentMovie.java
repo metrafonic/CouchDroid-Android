@@ -131,7 +131,7 @@ public class FragmentMovie extends Fragment {
                                         @Override
                                         public void onSuccess(String response) {
                                             settings.edit().putString("responsemanage", response).commit();
-                                            getActivity().getSupportFragmentManager().popBackStack();
+                                            //getActivity().getSupportFragmentManager().popBackStack();
                                             ((MainActivity) getActivity()).swag();
                                         }
                                     });

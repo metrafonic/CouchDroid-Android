@@ -16,12 +16,12 @@
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/_image"
-        android:layout_alignBottom="@+id/_image"
         android:background="#47515f"
-        android:id="@+id/celltext">
+        android:id="@+id/celltext"
+        android:layout_above="@+id/relativeLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,19 +36,47 @@
             android:textStyle="bold"
             android:textSize="25dp" />
 
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/_imageName">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Small Text"
+                android:id="@+id/textViewMoviePlot"
+                android:paddingLeft="10dp"
+                android:paddingBottom="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/_image"
+        android:layout_alignBottom="@+id/_image"
+        android:id="@+id/relativeLayout"
+        android:background="#47515f"
+        android:paddingLeft="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Small Text"
-            android:id="@+id/textViewMoviePlot"
-            android:paddingLeft="10dp"
-            android:layout_below="@+id/_imageName"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="10dp" />
-
+            android:text="Wanted"
+            android:id="@+id/textViewMovieStatusId"
+            android:layout_alignBottom="@+id/_image"
+            android:layout_toRightOf="@+id/_image"
+            android:textColor="#ffffff"
+            android:background="#808080"
+            android:padding="2dp" />
     </RelativeLayout>
 
 

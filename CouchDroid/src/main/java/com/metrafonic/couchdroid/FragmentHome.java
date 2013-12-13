@@ -1,6 +1,8 @@
 package com.metrafonic.couchdroid;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -58,6 +60,8 @@ public class FragmentHome extends Fragment {
         //Organize Json
         final ArrayList<String> wantedMovieslist = new ArrayList<String>();
         final ArrayList<Integer> idMovie = new ArrayList<Integer>();
+        final ArrayList<Integer> releasesStatusMovie = new ArrayList<Integer>();
+        final ArrayList<Integer> releasesQualityMovie = new ArrayList<Integer>();
         final ArrayList<String> posterMovie = new ArrayList<String>();
         final ArrayList<String> plotMovie = new ArrayList<String>();
         JSONObject jsonResponse = null;
@@ -69,12 +73,21 @@ public class FragmentHome extends Fragment {
             for (int i = 0; i < jsonMainNode.length(); i++) {
                 JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
                 JSONObject jsonLibrary = jsonChildNode.getJSONObject("library");
+                JSONArray jsonReleases = jsonChildNode.getJSONArray("releases");
                 JSONObject jsonInfo = jsonLibrary.getJSONObject("info");
                 JSONArray jsonTitles = jsonInfo.optJSONArray("titles");
 
                 JSONObject jsonImages = jsonInfo.getJSONObject("images");
                 JSONArray jsonPoster = jsonImages.getJSONArray("poster");
 
+                if (jsonChildNode.getInt("releases_count") >= 1) {
+                    JSONObject jsonRelease = jsonReleases.getJSONObject(0);
+                    releasesStatusMovie.add(jsonRelease.getInt("status_id"));
+                    releasesQualityMovie.add(jsonRelease.getInt("quality_id"));
+                } else {
+                    releasesStatusMovie.add(0);
+                    releasesQualityMovie.add(0);
+                }
                 if (jsonPoster.length() >= 0) {
                     posterMovie.add(jsonPoster.get(0).toString());
                 } else posterMovie.add("null");
@@ -140,10 +153,31 @@ public class FragmentHome extends Fragment {
             scrollListView.scrollTo(5, (int) settings.getFloat("scrollloc", 1));
 
             imageView.setTag(idMovie.get(i).toString());
-
             movieTitle = (TextView) cell.findViewById(R.id._imageName);
+            TextView movieStatusId = (TextView) cell.findViewById(R.id.textViewMovieStatusId);
             TextView moviePlot = (TextView) cell.findViewById(R.id.textViewMoviePlot);
             //imageView.setImageResource(images[0]);
+            if (releasesStatusMovie.get(i).toString().contains("0") == false) {
+                movieStatusId.setText("Snatched" + releasesStatusMovie.get(i).toString());
+                if (releasesStatusMovie.get(i).toString().contains("7")) {
+                    movieStatusId.setBackgroundColor(Color.parseColor("#a2a232"));
+                    movieStatusId.setText("Snatched");
+                }
+                if (releasesStatusMovie.get(i).toString().contains("1")) {
+                    movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
+                    movieStatusId.setText("Snatched");
+                }
+                if (releasesStatusMovie.get(i).toString().contains("6")) {
+                    movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
+                    movieStatusId.setText("Downloaded");
+                }
+                if (releasesStatusMovie.get(i).toString().contains("0")) {
+                    //movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
+                    movieStatusId.setText("Wanted");
+                }
+
+            }
+
             movieTitle.setText(wantedMovieslist.get(i).toString());
             moviePlot.setText(plotMovie.get(i).toString());
             aq.id(R.id._image).image(posterMovie.get(i).toString());

@@ -1,7 +1,11 @@
 package com.metrafonic.couchdroid;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -44,6 +48,7 @@ public class FragmentSearch extends Fragment {
 
 
         final String webaddress = settings.getString("webaddress", null);
+
 
         searchMovie.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -116,25 +121,8 @@ public class FragmentSearch extends Fragment {
                                 cell.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        ((MainActivity) getActivity()).swag();
-                                        client.get(webaddress + "/movie.add?identifier=" + imdbMovie.get(finalI), new AsyncHttpResponseHandler() {
-                                            @Override
-                                            public void onSuccess(String response) {
-                                                client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
-                                                    @Override
-                                                    public void onSuccess(String response) {
-                                                        System.out.println("it worked!");
-                                                        settings.edit().putString("responsewanted", response).commit();
-                                                        System.out.println("starting web request2");
-                                                        getActivity().getSupportFragmentManager().popBackStack();
-                                                        //((MainActivity)getActivity()).swag();
+                                        launchRingDialog(rootView, imdbMovie.get(finalI));
 
-                                                    }
-                                                });
-                                            }
-
-
-                                        });
                                     }
                                 });
 
@@ -153,5 +141,52 @@ public class FragmentSearch extends Fragment {
 
 
         return rootView;
+    }
+
+    public void launchRingDialog(View view, final String imdb) {
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Please wait ...", "Adding Movie...", true);
+        final String PREFS_NAME = "ServerPrefsFile";
+        final SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        final String webaddress = settings.getString("webaddress", null);
+        ringProgressDialog.setCancelable(true);
+        final AsyncHttpClient client = new AsyncHttpClient();
+
+        final Handler handler = new Handler();
+
+        client.get(webaddress + "/movie.add?identifier=" + imdb, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+
+                            Thread.sleep(4000);
+                            client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(String response2) {
+                                    settings.edit().putString("responsewanted", response2).commit();
+                                    settings.edit().putString("currentfragment", "wanted").commit();
+                                    //getActivity().getSupportFragmentManager().popBackStack();
+                                    ringProgressDialog.dismiss();
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((MainActivity) getActivity()).swag();
+                                        }
+                                    });
+                                }
+                            });
+
+                        } catch (Exception e) {
+                        }
+
+                        //Toast.makeText(getActivity(), "You clicked on OK", Toast.LENGTH_SHORT).show();
+                    }
+                }).start();
+            }
+        });
+
     }
 }
