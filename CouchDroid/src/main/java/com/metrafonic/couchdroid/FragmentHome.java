@@ -146,7 +146,7 @@ public class FragmentHome extends Fragment {
                     ft.addToBackStack(null);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     ft.commit();
-                    settings.edit().putFloat("scollloc", scrollListView.getY()).commit();
+                    //settings.edit().putFloat("scollloc", scrollListView.getY()).commit();
 
                 }
             });

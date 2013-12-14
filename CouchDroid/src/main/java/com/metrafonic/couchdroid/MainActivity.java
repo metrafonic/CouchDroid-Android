@@ -44,8 +44,13 @@ public class MainActivity extends FragmentActivity {
         System.out.println(webaddress);
 
         if (settings.getString("apikey", "none").length() < 5) {
-            Intent intent = new Intent(getBaseContext(), ActivitySettings.class);
-            startActivity(intent);
+            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+            final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+            ActivitySettings newFragment = new ActivitySettings();
+            transaction.replace(R.id.fragmentLayout, newFragment, "wanted");
+            fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.commit();
         }
         System.out.println("something");
 
@@ -53,12 +58,13 @@ public class MainActivity extends FragmentActivity {
         final AsyncHttpClient client = new AsyncHttpClient();
         //lobster.setTypeface(font);
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null) if (settings.getString("apikey", "none").length() > 5) {
             buttonWanted.setTypeface(null, Typeface.BOLD);
             buttonManage.setTypeface(null, Typeface.NORMAL);
             buttonWanted.setClickable(false);
             buttonManage.setClickable(false);
             System.out.println("starting web request");
+            System.out.println(webaddress);
             //webaddress + "/movie.list?status=active"
             client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
                 @Override
@@ -70,18 +76,8 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void onSuccess(String response) {
                             settings.edit().putString("responsemanage", response).commit();
-                            Bundle data = new Bundle();
-                            data.putString("movielist", settings.getString("responsewanted", "null").toString());
-                            data.putString("listtype", "Wanted Movies:");
-                            android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                            final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-                            FragmentHome newFragment = new FragmentHome();
-                            newFragment.setArguments(data);
-                            transaction.add(R.id.fragmentLayout, newFragment, "wanted");
-                            //fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
-                            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            transaction.commit();
                             settings.edit().putString("currentfragment", "wanted").commit();
+                            swag();
 
                         }
                     });
@@ -93,8 +89,13 @@ public class MainActivity extends FragmentActivity {
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), ActivitySettings.class);
-                startActivity(intent);
+                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+                final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
+                ActivitySettings newFragment = new ActivitySettings();
+                transaction.replace(R.id.fragmentLayout, newFragment, "wanted");
+                fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
+                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction.commit();
             }
         });
         buttonManage.setOnClickListener(new View.OnClickListener() {
@@ -103,26 +104,12 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 android.support.v4.app.FragmentManager fm2 = getSupportFragmentManager();
                 final android.support.v4.app.FragmentTransaction transaction2 = fm2.beginTransaction();
-                transaction2.remove(fm2.findFragmentById(R.id.fragmentLayout)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                transaction2.remove(fm2.findFragmentById(R.id.fragmentLayout));
+                transaction2.commit();
                 buttonWanted.setTypeface(null, Typeface.NORMAL);
                 buttonManage.setTypeface(null, Typeface.BOLD);
-                buttonWanted.setClickable(false);
-                buttonManage.setClickable(false);
-                settings.edit().putString("openfragment", "manage");
-                Bundle data = new Bundle();
-                data.putString("movielist", settings.getString("responsemanage", "null").toString());
-                data.putString("listtype", "Manage Movies");
-                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-                FragmentHome newFragment = new FragmentHome();
-                newFragment.setArguments(data);
-                transaction.replace(R.id.fragmentLayout, newFragment, "manage");
-                fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction.commit();
-                buttonWanted.setClickable(true);
-                buttonManage.setClickable(true);
                 settings.edit().putString("currentfragment", "manage").commit();
+                swag();
 
             }
         });
@@ -131,25 +118,12 @@ public class MainActivity extends FragmentActivity {
             public void onClick(View view) {
                 android.support.v4.app.FragmentManager fm2 = getSupportFragmentManager();
                 final android.support.v4.app.FragmentTransaction transaction2 = fm2.beginTransaction();
-                transaction2.remove(fm2.findFragmentById(R.id.fragmentLayout)).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                buttonWanted.setClickable(false);
+                transaction2.remove(fm2.findFragmentById(R.id.fragmentLayout));
+                transaction2.commit();
                 buttonWanted.setTypeface(null, Typeface.BOLD);
                 buttonManage.setTypeface(null, Typeface.NORMAL);
-                buttonManage.setClickable(false);
-                Bundle data = new Bundle();
-                data.putString("movielist", settings.getString("responsewanted", "null").toString());
-                data.putString("listtype", "Wanted Movies:");
-                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-                FragmentHome newFragment = new FragmentHome();
-                newFragment.setArguments(data);
-                transaction.replace(R.id.fragmentLayout, newFragment, "wanted");
-                fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
-                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction.commit();
-                buttonWanted.setClickable(true);
-                buttonManage.setClickable(true);
                 settings.edit().putString("currentfragment", "wanted").commit();
+                swag();
 
             }
         });
@@ -157,6 +131,7 @@ public class MainActivity extends FragmentActivity {
         buttonRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("pressed refresh");
                 settings.edit().putString("webaddress", ("http://" + settings.getString("hostname", "127.0.0.1") + ":" + settings.getString("port", "80") + "/api/" + settings.getString("apikey", "key"))).commit();
                 buttonWanted.setClickable(false);
                 buttonWanted.setTypeface(null, Typeface.BOLD);
@@ -176,20 +151,8 @@ public class MainActivity extends FragmentActivity {
                             @Override
                             public void onSuccess(String response) {
                                 settings.edit().putString("responsemanage", response).commit();
-                                Bundle data = new Bundle();
-                                data.putString("movielist", settings.getString("responsewanted", "null").toString());
-                                data.putString("listtype", "Wanted Movies:");
-                                android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-                                final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-                                FragmentHome newFragment = new FragmentHome();
-                                newFragment.setArguments(data);
-                                transaction.replace(R.id.fragmentLayout, newFragment, "wanted");
-                                fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
-                                transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                                transaction.commit();
                                 settings.edit().putString("currentfragment", "wanted").commit();
-                                buttonWanted.setClickable(true);
-                                buttonManage.setClickable(true);
+                                swag();
                             }
                         });
                     }

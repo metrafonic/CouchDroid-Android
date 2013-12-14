@@ -2,18 +2,22 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#4e5969"
+    android:padding="10dp">
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="wrap_content"
+        android:background="#47515f"
+        android:padding="5dp">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save Settings"
             android:id="@+id/button"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/editTextApiKey"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true" />
 
@@ -22,7 +26,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/editTextHostname"
             android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:hint=" server.com or 192.168.1.16" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +74,8 @@
             android:id="@+id/editTextPort"
             android:layout_below="@+id/textView3"
             android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="true" />
+            android:layout_alignParentLeft="true"
+            android:hint="Same as web interface" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,6 +93,7 @@
             android:id="@+id/editTextApiKey"
             android:layout_below="@+id/textView4"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:hint="Long alphanumerical string" />
     </RelativeLayout>
 </LinearLayout>

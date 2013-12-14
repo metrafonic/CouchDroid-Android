@@ -23,35 +23,43 @@
         android:id="@+id/celltext"
         android:layout_above="@+id/relativeLayout">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Small"
-            android:id="@+id/_imageName"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="15dp"
-            android:textStyle="bold"
-            android:textSize="25dp" />
-
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/_imageName">
+            android:layout_below="@+id/horizontalScrollView">
 
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Small Text"
                 android:id="@+id/textViewMoviePlot"
                 android:paddingLeft="10dp"
                 android:paddingBottom="10dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true" />
         </RelativeLayout>
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/horizontalScrollView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Small"
+                android:id="@+id/_imageName"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="15dp"
+                android:textStyle="bold"
+                android:textSize="25dp" />
+        </HorizontalScrollView>
 
     </RelativeLayout>
 
@@ -72,11 +80,11 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Wanted"
             android:id="@+id/textViewMovieStatusId"
-            android:layout_alignBottom="@+id/_image"
-            android:layout_toRightOf="@+id/_image"
             android:textColor="#ffffff"
             android:background="#808080"
-            android:padding="2dp" />
+            android:padding="2dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true" />
     </RelativeLayout>
 
 
