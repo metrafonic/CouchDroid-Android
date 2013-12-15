@@ -14,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:id="@+id/scrolllistview">
 
-    <LinearLayout
+        <LinearLayout
             android:id="@+id/_celllinearLayout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -41,5 +41,14 @@
         android:paddingEnd="10dp"
         android:paddingBottom="5dp"
         android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewError"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp" />
 
 </RelativeLayout>

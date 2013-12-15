@@ -144,6 +144,33 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true" />
 
+            <ScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:id="@+id/scrollView2"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_above="@+id/buttonMovieEdit"
+                android:layout_alignParentRight="true">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+
+                    <RelativeLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Medium Text"
+                            android:id="@+id/textView" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </ScrollView>
+
         </RelativeLayout>
     </RelativeLayout>
 

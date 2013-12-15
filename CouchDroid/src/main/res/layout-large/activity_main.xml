@@ -43,9 +43,11 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Loading..."
-                android:id="@+id/textView"
-                android:layout_below="@+id/progressBar"
-                android:layout_centerHorizontal="true" />
+                android:id="@+id/textViewLoading"
+                android:layout_above="@+id/progressBarLoadingBar"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:gravity="center_horizontal" />
 
             <ProgressBar
                 style="?android:attr/progressBarStyleLarge"
@@ -54,6 +56,15 @@
                 android:id="@+id/progressBar"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBarLoadingBar"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true" />
 
         </RelativeLayout>
     </RelativeLayout>

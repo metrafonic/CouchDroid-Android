@@ -12,6 +12,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -26,14 +29,21 @@ public class ActivitySettings extends Fragment {
         final EditText editApiKey = (EditText) rootView.findViewById(R.id.editTextApiKey);
         final EditText editHostname = (EditText) rootView.findViewById(R.id.editTextHostname);
         final EditText editPort = (EditText) rootView.findViewById(R.id.editTextPort);
+        final EditText editUsername = (EditText) rootView.findViewById(R.id.editTextUsername);
+        final EditText editPassword = (EditText) rootView.findViewById(R.id.editTextPassword);
+        final RelativeLayout loadingscreen = (RelativeLayout) rootView.findViewById(R.id.relativeLayoutSettingsLoading);
+        final ProgressBar progressLoading = (ProgressBar) rootView.findViewById(R.id.progressBarSettingsLoading);
+        final TextView progressText = (TextView) rootView.findViewById(R.id.textViewSettingsLoading);
         final String PREFS_NAME = "ServerPrefsFile";
         final SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
-        final AsyncHttpClient client = new AsyncHttpClient();
 
 
         editHostname.setText(settings.getString("hostname", null));
         editPort.setText(settings.getString("port", null));
         editApiKey.setText(settings.getString("apikey", null));
+
+        editUsername.setText(settings.getString("username", null));
+        editPassword.setText(settings.getString("password", null));
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,14 +51,19 @@ public class ActivitySettings extends Fragment {
                 settings.edit()
                         .putString("hostname", editHostname.getText().toString())
                         .putString("port", editPort.getText().toString())
+                        .putString("username", editUsername.getText().toString())
+                        .putString("password", editPassword.getText().toString())
                         .putString("apikey", "1d2092c35fbd466ba0bb2530628a11ac"/*editApiKey.getText().toString()*/)
                         .commit();
 
-
+                loadingscreen.setVisibility(View.VISIBLE);
                 //Intent intent = new Intent(getBaseContext(), MainActivity.class);
                 //startActivity(intent);
-                settings.edit().putString("webaddress", ("http://" + settings.getString("hostname", "127.0.0.1") + ":" + settings.getString("port", "80") + "/api/" + settings.getString("apikey", "key"))).commit();
+                settings.edit().putString("webaddress", "http://" + settings.getString("hostname", "127.0.0.1") + ":" + settings.getString("port", "80") + "/api/" + settings.getString("apikey", "key")).commit();
                 final String webaddress = settings.getString("webaddress", null);
+
+                final AsyncHttpClient client = new AsyncHttpClient();
+                client.setBasicAuth(settings.getString("username", ""), settings.getString("password", ""));
                 client.get(webaddress + "/movie.list?status=active", new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(String response) {
@@ -60,11 +75,26 @@ public class ActivitySettings extends Fragment {
                             public void onSuccess(String response) {
                                 settings.edit().putString("responsemanage", response).commit();
                                 settings.edit().putString("currentfragment", "wanted").commit();
+                                settings.edit().putString("errormessage", "null").commit();
+                                settings.edit().putBoolean("serverstatus", true).commit();
                                 ((MainActivity) getActivity()).swag();
 
                             }
                         });
 
+                    }
+
+                    @Override
+                    public void onProgress(int bytesWritten, int totalSize) {
+                        int prosent = (bytesWritten / totalSize) * 100;
+                        progressLoading.setProgress(prosent / 5);
+                        progressText.setText("Checking Connectivity (" + prosent / 5 + "%)...");
+
+                    }
+
+                    @Override
+                    public void onFailure(java.lang.Throwable error) {
+                        progressText.setText(error.toString());
                     }
                 });
             }

@@ -3,97 +3,221 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4e5969"
-    android:padding="10dp">
+    android:background="#4e5969">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#47515f"
-        android:padding="5dp">
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:padding="10dp">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save Settings"
-            android:id="@+id/button"
-            android:layout_below="@+id/editTextApiKey"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true" />
-
-        <EditText
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextHostname"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:hint=" server.com or 192.168.1.16" />
+            android:background="#47515f"
+            android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Settings:"
-            android:id="@+id/textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:textSize="35dp" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Settings"
+                android:id="@+id/button"
+                android:layout_below="@+id/editTextPassword"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Hostname:"
-            android:id="@+id/textView2"
-            android:layout_below="@+id/imageView"
-            android:layout_alignParentLeft="true"
-            android:paddingTop="10dp" />
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextHostname"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentLeft="true"
+                android:hint=" server.com or 192.168.1.16" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Port:"
-            android:id="@+id/textView3"
-            android:layout_below="@+id/editTextHostname"
-            android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Basic Settings:"
+                android:id="@+id/textView"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="3dp"
-            android:id="@+id/imageView"
-            android:background="#fffef2"
-            android:layout_below="@+id/textView"
-            android:layout_alignParentLeft="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Hostname:"
+                android:id="@+id/textView2"
+                android:layout_below="@+id/imageView"
+                android:layout_alignParentLeft="true"
+                android:paddingTop="10dp"
+                android:paddingLeft="5dp" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
-            android:id="@+id/editTextPort"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentLeft="true"
-            android:hint="Same as web interface" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Port:"
+                android:id="@+id/textView3"
+                android:layout_below="@+id/editTextHostname"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="API Key:"
-            android:id="@+id/textView4"
-            android:layout_below="@+id/editTextPort"
-            android:layout_alignParentLeft="true"
-            android:singleLine="false" />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="3dp"
+                android:id="@+id/imageView"
+                android:background="#fffef2"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentLeft="true" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/editTextApiKey"
-            android:layout_below="@+id/textView4"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:hint="Long alphanumerical string" />
-    </RelativeLayout>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="10"
+                android:id="@+id/editTextPort"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentLeft="true"
+                android:hint="Same as web interface" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="API Key:"
+                android:id="@+id/textView4"
+                android:layout_below="@+id/editTextPort"
+                android:layout_alignParentLeft="true"
+                android:singleLine="false"
+                android:paddingLeft="5dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextApiKey"
+                android:layout_below="@+id/textView4"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:hint="Long alphanumerical string" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Authentication:"
+                android:id="@+id/textView5"
+                android:layout_alignParentTop="false"
+                android:layout_alignParentLeft="true"
+                android:textSize="25dp"
+                android:layout_below="@+id/editTextApiKey"
+                android:paddingTop="15dp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:id="@+id/imageView2"
+                android:background="#fffef2"
+                android:layout_below="@+id/textView5"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Username:"
+                android:id="@+id/textView6"
+                android:layout_below="@+id/checkBox"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp"
+                android:paddingTop="5dp" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Use Authentication"
+                android:id="@+id/checkBox"
+                android:layout_below="@+id/imageView2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@+id/imageView2"
+                android:visibility="gone" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextUsername"
+                android:hint="BasicAuth Username"
+                android:layout_below="@+id/textView6"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Password:"
+                android:id="@+id/textView7"
+                android:layout_below="@+id/editTextUsername"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="5dp" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/editTextPassword"
+                android:layout_below="@+id/textView7"
+                android:layout_alignParentLeft="true"
+                android:layout_alignRight="@+id/button"
+                android:hint="BasicAuth Password"
+                android:paddingLeft="5dp" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:layout_below="@+id/button">
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#EE47515f"
+                    android:id="@+id/relativeLayoutSettingsLoading"
+                    android:visibility="invisible">
+
+                    <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/progressBar"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Checking Connectivity (0%)..."
+                        android:id="@+id/textViewSettingsLoading"
+                        android:layout_below="@+id/progressBar"
+                        android:layout_centerHorizontal="true" />
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/progressBarSettingsLoading"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@+id/textViewSettingsLoading" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+
 </LinearLayout>

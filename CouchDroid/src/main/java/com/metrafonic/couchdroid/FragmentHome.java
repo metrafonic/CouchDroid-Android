@@ -41,20 +41,27 @@ public class FragmentHome extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = this.getArguments();
         final String response = bundle.getString("movielist");
         final String listtype = bundle.getString("listtype");
+        final String error = bundle.getString("error");
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         TextView textViewResponse = (TextView) rootView.findViewById(R.id.textView);
         TextView textViewListType = (TextView) rootView.findViewById(R.id.textViewListType);
+        TextView textViewError = (TextView) rootView.findViewById(R.id.textViewError);
         final ScrollView scrollListView = (ScrollView) rootView.findViewById(R.id.scrolllistview);
         final String PREFS_NAME = "ServerPrefsFile";
         final SharedPreferences settings = this.getActivity().getSharedPreferences(PREFS_NAME, 0);
 
 
-        if (savedInstanceState == null){
+        if (savedInstanceState == null) {
             //textViewResponse.setText(response);
+        }
+        if (error.contains("null") == false) {
+            textViewError.setText(error);
+        } else {
+            textViewError.setText(null);
         }
 
         //Organize Json
