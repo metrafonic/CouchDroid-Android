@@ -74,27 +74,69 @@ public class ActivitySettings extends Fragment {
                             @Override
                             public void onSuccess(String response) {
                                 settings.edit().putString("responsemanage", response).commit();
-                                settings.edit().putString("currentfragment", "wanted").commit();
-                                settings.edit().putString("errormessage", "null").commit();
-                                settings.edit().putBoolean("serverstatus", true).commit();
-                                ((MainActivity) getActivity()).swag();
+                                client.get(webaddress + "/quality.list", new AsyncHttpResponseHandler() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        settings.edit().putString("responsequality", response).commit();
+                                        settings.edit().putString("currentfragment", "wanted").commit();
+                                        settings.edit().putString("errormessage", "null").commit();
+                                        settings.edit().putBoolean("serverstatus", true).commit();
+                                        ((MainActivity) getActivity()).swag();
+                                    }
+
+                                    @Override
+                                    public void onFailure(java.lang.Throwable error) {
+                                        System.out.println("timed out!!!!" + error);
+                                        settings.edit().putString("responsewanted", "null").commit();
+                                        settings.edit().putString("responsemanage", "null").commit();
+                                        settings.edit().putString("currentfragment", "wanted").commit();
+                                        settings.edit().putString("errormessage", error.toString()).commit();
+                                        settings.edit().putBoolean("serverstatus", false).commit();
+                                        ((MainActivity) getActivity()).swag();
+                                    }
+
+                                    @Override
+                                    public void onProgress(int bytesWritten, int totalSize) {
+                                        int prosent = 100;
+                                        progressLoading.setProgress(prosent);
+                                        progressText.setText("Checking Connectivity (" + prosent + "%)...");
+                                    }
+                                });
 
                             }
+
+                            public void onFailure(java.lang.Throwable error) {
+                                System.out.println("timed out!!!!" + error);
+                                settings.edit().putString("responsewanted", "null").commit();
+                                settings.edit().putString("responsemanage", "null").commit();
+                                settings.edit().putString("currentfragment", "wanted").commit();
+                                settings.edit().putString("errormessage", error.toString()).commit();
+                                settings.edit().putBoolean("serverstatus", false).commit();
+                                ((MainActivity) getActivity()).swag();
+                            }
+
+                            @Override
+                            public void onProgress(int bytesWritten, int totalSize) {
+                                int prosent = 60;
+                                progressLoading.setProgress(prosent);
+                                progressText.setText("Checking Connectivity (" + prosent + "%)...");
+                            }
+
                         });
 
                     }
 
                     @Override
                     public void onProgress(int bytesWritten, int totalSize) {
-                        int prosent = (bytesWritten / totalSize) * 100;
-                        progressLoading.setProgress(prosent / 5);
-                        progressText.setText("Checking Connectivity (" + prosent / 5 + "%)...");
-
+                        int prosent = 30;
+                        progressLoading.setProgress(prosent);
+                        progressText.setText("Checking Connectivity (" + prosent + "%)...");
                     }
 
                     @Override
                     public void onFailure(java.lang.Throwable error) {
                         progressText.setText(error.toString());
+                        settings.edit().putBoolean("serverstatus", false).commit();
                     }
                 });
             }

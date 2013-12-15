@@ -72,11 +72,17 @@ public class FragmentMovie extends Fragment {
         final String webaddress = settings.getString("webaddress", null);
 
         final AsyncHttpClient client = new AsyncHttpClient();
+        client.setBasicAuth(settings.getString("username", ""), settings.getString("password", ""));
 
         JSONObject jsonResponse = null;
         final AQuery aq = new AQuery(rootView);
 
         try {
+            //Try to organize the qualities
+            JSONObject jsonQualities = null;
+            jsonQualities = new JSONObject(settings.getString("responsequality", null).toString());
+
+            //Try to "decompile"(idk??) the MOVIE RESPONSE and put it in tables
             jsonResponse = new JSONObject(response);
             JSONArray jsonMainNode = jsonResponse.optJSONArray("movies");
             for (int i = 0; i < jsonMainNode.length(); i++) {
@@ -84,8 +90,7 @@ public class FragmentMovie extends Fragment {
                 JSONObject jsonLibrary = jsonChildNode.getJSONObject("library");
                 JSONObject jsonInfo = jsonLibrary.getJSONObject("info");
                 JSONArray jsonTitles = jsonInfo.optJSONArray("titles");
-                //textview1.append("\n" + jsonChildNode.getInt("library_id"));
-                //textview1.append("-" + movieID);
+
                 if (jsonChildNode.getInt("library_id") == movieId) {
                     JSONObject jsonImages = jsonInfo.getJSONObject("images");
                     JSONArray jsonPoster = jsonImages.getJSONArray("poster");
@@ -108,6 +113,7 @@ public class FragmentMovie extends Fragment {
                     break;
                 }
             }
+
             //idMovie.add(jsonChildNode.getInt("library_id"));
             //list.add(jsonTitles.getString(0));
             final int finalMovieId1 = movieId;
@@ -131,15 +137,43 @@ public class FragmentMovie extends Fragment {
                                         @Override
                                         public void onSuccess(String response) {
                                             settings.edit().putString("responsemanage", response).commit();
-                                            //getActivity().getSupportFragmentManager().popBackStack();
+                                            settings.edit().putString("currentfragment", "wanted").commit();
+                                            getActivity().getSupportFragmentManager().popBackStack();
+                                            ((MainActivity) getActivity()).swag();
+                                        }
+
+                                        @Override
+                                        public void onFailure(java.lang.Throwable error) {
+                                            System.out.println("timed out!!!!" + error);
+                                            settings.edit().putString("responsewanted", "null").commit();
+                                            settings.edit().putString("responsemanage", "null").commit();
+                                            settings.edit().putString("currentfragment", "wanted").commit();
+                                            settings.edit().putString("errormessage", error.toString()).commit();
                                             ((MainActivity) getActivity()).swag();
                                         }
                                     });
+                                }
 
+                                @Override
+                                public void onFailure(java.lang.Throwable error) {
+                                    System.out.println("timed out!!!!" + error);
+                                    settings.edit().putString("responsewanted", "null").commit();
+                                    settings.edit().putString("responsemanage", "null").commit();
+                                    settings.edit().putString("currentfragment", "wanted").commit();
+                                    settings.edit().putString("errormessage", error.toString()).commit();
+                                    ((MainActivity) getActivity()).swag();
                                 }
                             });
+                        }
 
-
+                        @Override
+                        public void onFailure(java.lang.Throwable error) {
+                            System.out.println("timed out!!!!" + error);
+                            settings.edit().putString("responsewanted", "null").commit();
+                            settings.edit().putString("responsemanage", "null").commit();
+                            settings.edit().putString("currentfragment", "wanted").commit();
+                            settings.edit().putString("errormessage", error.toString()).commit();
+                            ((MainActivity) getActivity()).swag();
                         }
                     });
                 }

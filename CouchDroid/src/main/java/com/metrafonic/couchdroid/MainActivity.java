@@ -83,11 +83,38 @@ public class MainActivity extends FragmentActivity {
                         @Override
                         public void onSuccess(String response) {
                             settings.edit().putString("responsemanage", response).commit();
+                            client.get(webaddress + "/quality.list", new AsyncHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    settings.edit().putString("responsequality", response).commit();
+                                    settings.edit().putString("currentfragment", "wanted").commit();
+                                    settings.edit().putString("errormessage", "null").commit();
+
+                                    swag();
+                                }
+
+                                @Override
+                                public void onFailure(java.lang.Throwable error) {
+                                    System.out.println("timed out!!!!" + error);
+                                    settings.edit().putString("responsewanted", "null").commit();
+                                    settings.edit().putString("responsemanage", "null").commit();
+                                    settings.edit().putString("currentfragment", "wanted").commit();
+                                    settings.edit().putString("errormessage", error.toString()).commit();
+                                    swag();
+                                }
+                            });
+
+
+                        }
+
+                        @Override
+                        public void onFailure(java.lang.Throwable error) {
+                            System.out.println("timed out!!!!" + error);
+                            settings.edit().putString("responsewanted", "null").commit();
+                            settings.edit().putString("responsemanage", "null").commit();
                             settings.edit().putString("currentfragment", "wanted").commit();
-                            settings.edit().putString("errormessage", "null").commit();
-
+                            settings.edit().putString("errormessage", error.toString()).commit();
                             swag();
-
                         }
                     });
 
@@ -111,6 +138,7 @@ public class MainActivity extends FragmentActivity {
 
                 }
             });
+
 
         } else {
             settings.edit().putString("responsewanted", "null").commit();
@@ -202,16 +230,57 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void onSuccess(String response) {
                                     settings.edit().putString("responsemanage", response).commit();
-                                    settings.edit().putString("currentfragment", "wanted").commit();
-                                    settings.edit().putString("errormessage", "null").commit();
-                                    buttonWanted.setClickable(true);
-                                    buttonManage.setClickable(true);
-                                    buttonRefresh.setClickable(true);
+                                    clientnew.get(webaddress + "/quality.list", new AsyncHttpResponseHandler() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            settings.edit().putString("responsequality", response).commit();
+                                            settings.edit().putString("currentfragment", "wanted").commit();
+                                            settings.edit().putString("errormessage", "null").commit();
+                                            buttonWanted.setClickable(true);
+                                            buttonManage.setClickable(true);
+                                            buttonRefresh.setClickable(true);
+                                            swag();
+                                        }
 
+                                        @Override
+                                        public void onFailure(java.lang.Throwable error) {
+                                            System.out.println("timed out!!!!" + error);
+                                            settings.edit().putString("responsewanted", "null").commit();
+                                            settings.edit().putString("responsemanage", "null").commit();
+                                            settings.edit().putString("currentfragment", "wanted").commit();
+                                            settings.edit().putString("errormessage", error.toString()).commit();
+                                            swag();
+                                        }
+
+                                        @Override
+                                        public void onProgress(int bytesWritten, int totalSize) {
+                                            int prosent = 100;
+                                            progressloading.setProgress(prosent);
+                                            textViewLoading.setText("Loading... (" + prosent + "%)");
+
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(java.lang.Throwable error) {
+                                    System.out.println("timed out!!!!" + error);
+                                    settings.edit().putString("responsewanted", "null").commit();
+                                    settings.edit().putString("responsemanage", "null").commit();
+                                    settings.edit().putString("currentfragment", "wanted").commit();
+                                    settings.edit().putString("errormessage", error.toString()).commit();
                                     swag();
-                            }
-                        });
-                    }
+                                }
+
+                                @Override
+                                public void onProgress(int bytesWritten, int totalSize) {
+                                    int prosent = 60;
+                                    progressloading.setProgress(prosent);
+                                    textViewLoading.setText("Loading... (" + prosent + "%)");
+
+                                }
+                            });
+                        }
 
                         @Override
                         public void onFailure(java.lang.Throwable error) {
@@ -229,9 +298,9 @@ public class MainActivity extends FragmentActivity {
 
                         @Override
                         public void onProgress(int bytesWritten, int totalSize) {
-                            int prosent = (bytesWritten / totalSize) * 100;
-                            progressloading.setProgress(prosent / 5);
-                            textViewLoading.setText("Loading... (" + prosent / 5 + "%)");
+                            int prosent = 30;
+                            progressloading.setProgress(prosent);
+                            textViewLoading.setText("Loading... (" + prosent + "%)");
 
                         }
                     });

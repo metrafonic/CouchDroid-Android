@@ -23,7 +23,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:src="#717171"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:background="#AA7c7c7c" />
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -132,7 +133,8 @@
                 android:id="@+id/buttonMovieEdit"
                 android:layout_above="@+id/buttonMovieDelete"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true"
+                android:visibility="gone" />
 
             <Button
                 style="?android:attr/buttonStyleSmall"
@@ -165,7 +167,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Medium Text"
                             android:id="@+id/textView" />
                     </RelativeLayout>
                 </RelativeLayout>

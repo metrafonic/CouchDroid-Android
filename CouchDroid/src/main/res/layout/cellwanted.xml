@@ -87,5 +87,14 @@
             android:layout_alignParentLeft="true" />
     </RelativeLayout>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="1.5dp"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="#AA5f5f5f" />
+
 
 </RelativeLayout>

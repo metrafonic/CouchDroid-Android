@@ -69,6 +69,7 @@ public class FragmentSearch extends Fragment {
                             final ArrayList<String> yearMovie = new ArrayList<String>();
 
 
+                            //TODO: fix crash when no result
                             JSONObject jsonResponse = null;
                             try {
                                 jsonResponse = new JSONObject(response);
@@ -130,6 +131,17 @@ public class FragmentSearch extends Fragment {
                             }
                         }
 
+                        @Override
+                        public void onFailure(java.lang.Throwable error) {
+                            System.out.println("timed out!!!!" + error);
+                            settings.edit().putString("responsewanted", "null").commit();
+                            settings.edit().putString("responsemanage", "null").commit();
+                            settings.edit().putString("currentfragment", "wanted").commit();
+                            settings.edit().putString("errormessage", error.toString()).commit();
+                            ((MainActivity) getActivity()).swag();
+
+                        }
+
 
                     });
 
@@ -168,7 +180,24 @@ public class FragmentSearch extends Fragment {
                                 public void onSuccess(String response2) {
                                     settings.edit().putString("responsewanted", response2).commit();
                                     settings.edit().putString("currentfragment", "wanted").commit();
+                                    settings.edit().putString("errormessage", "");
                                     //getActivity().getSupportFragmentManager().popBackStack();
+                                    ringProgressDialog.dismiss();
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            ((MainActivity) getActivity()).swag();
+                                        }
+                                    });
+                                }
+
+                                @Override
+                                public void onFailure(java.lang.Throwable error) {
+                                    System.out.println("timed out!!!!" + error);
+                                    settings.edit().putString("responsewanted", "null").commit();
+                                    settings.edit().putString("responsemanage", "null").commit();
+                                    settings.edit().putString("currentfragment", "wanted").commit();
+                                    settings.edit().putString("errormessage", error.toString()).commit();
                                     ringProgressDialog.dismiss();
                                     handler.post(new Runnable() {
                                         @Override
@@ -185,6 +214,22 @@ public class FragmentSearch extends Fragment {
                         //Toast.makeText(getActivity(), "You clicked on OK", Toast.LENGTH_SHORT).show();
                     }
                 }).start();
+            }
+
+            @Override
+            public void onFailure(java.lang.Throwable error) {
+                System.out.println("timed out!!!!" + error);
+                settings.edit().putString("responsewanted", "null").commit();
+                settings.edit().putString("responsemanage", "null").commit();
+                settings.edit().putString("currentfragment", "wanted").commit();
+                settings.edit().putString("errormessage", error.toString()).commit();
+                ringProgressDialog.dismiss();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((MainActivity) getActivity()).swag();
+                    }
+                });
             }
         });
 
