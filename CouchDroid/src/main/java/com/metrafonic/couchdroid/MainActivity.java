@@ -230,7 +230,7 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void onSuccess(String response) {
                                     settings.edit().putString("responsemanage", response).commit();
-                                    clientnew.get(webaddress + "/quality.list", new AsyncHttpResponseHandler() {
+                                    clientnew.get(webaddressnew + "/quality.list", new AsyncHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(String response) {
                                             settings.edit().putString("responsequality", response).commit();
