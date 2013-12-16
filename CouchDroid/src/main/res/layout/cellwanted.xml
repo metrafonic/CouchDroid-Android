@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/_image"
-        android:layout_width="143px"
-        android:layout_height="210px"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
         android:scaleType="centerCrop"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true" />
