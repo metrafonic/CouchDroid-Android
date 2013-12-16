@@ -230,7 +230,7 @@ public class MainActivity extends FragmentActivity {
                                 @Override
                                 public void onSuccess(String response) {
                                     settings.edit().putString("responsemanage", response).commit();
-                                    clientnew.get(webaddress + "/quality.list", new AsyncHttpResponseHandler() {
+                                    clientnew.get(webaddressnew + "/quality.list", new AsyncHttpResponseHandler() {
                                         @Override
                                         public void onSuccess(String response) {
                                             settings.edit().putString("responsequality", response).commit();
@@ -249,6 +249,9 @@ public class MainActivity extends FragmentActivity {
                                             settings.edit().putString("responsemanage", "null").commit();
                                             settings.edit().putString("currentfragment", "wanted").commit();
                                             settings.edit().putString("errormessage", error.toString()).commit();
+                                            buttonWanted.setClickable(true);
+                                            buttonManage.setClickable(true);
+                                            buttonRefresh.setClickable(true);
                                             swag();
                                         }
 
@@ -269,6 +272,9 @@ public class MainActivity extends FragmentActivity {
                                     settings.edit().putString("responsemanage", "null").commit();
                                     settings.edit().putString("currentfragment", "wanted").commit();
                                     settings.edit().putString("errormessage", error.toString()).commit();
+                                    buttonWanted.setClickable(true);
+                                    buttonManage.setClickable(true);
+                                    buttonRefresh.setClickable(true);
                                     swag();
                                 }
 
