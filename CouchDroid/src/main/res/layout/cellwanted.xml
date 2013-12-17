@@ -7,6 +7,16 @@
     android:paddingBottom="12dp">
 
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/celltext"
+        android:layout_alignBottom="@+id/_image"
+        android:src="#CC47515f" />
+
+    <ImageView
         android:id="@+id/_image"
         android:layout_width="80dp"
         android:layout_height="120dp"
@@ -35,7 +45,7 @@
                 android:text="Small Text"
                 android:id="@+id/textViewMoviePlot"
                 android:paddingLeft="10dp"
-                android:paddingBottom="10dp"
+                android:paddingBottom="2dp"
                 android:layout_alignParentLeft="true" />
         </RelativeLayout>
 

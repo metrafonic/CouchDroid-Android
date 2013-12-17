@@ -129,6 +129,7 @@ public class FragmentSearch extends Fragment {
 
 
                             }
+                            settings.edit().putString("errormessage", "").commit();
                         }
 
                         @Override
