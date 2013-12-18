@@ -71,8 +71,10 @@ public class FragmentHome extends Fragment {
         final ArrayList<Integer> releasesQualityMovie = new ArrayList<Integer>();
         final ArrayList<String> posterMovie = new ArrayList<String>();
         final ArrayList<String> plotMovie = new ArrayList<String>();
+        final ArrayList<Integer> profileId = new ArrayList<Integer>();
 
-        final ArrayList<String> nameQuality = new ArrayList<String>();
+        final ArrayList<String> labelQuality = new ArrayList<String>();
+
 
         JSONObject jsonResponse = null;
         JSONObject jsonQualityResponse = null;
@@ -80,8 +82,10 @@ public class FragmentHome extends Fragment {
             jsonResponse = new JSONObject(response);
             jsonQualityResponse = new JSONObject(settings.getString("responsequality", ""));
 
+
             JSONArray jsonMainNode = jsonResponse.optJSONArray("movies");
             JSONArray jsonQualityMainNode = jsonQualityResponse.optJSONArray("list");
+
             //System.out.println(settings.getString("responsequality", ""));
 
             for (int j = 0; j < jsonQualityMainNode.length(); j++) {
@@ -89,9 +93,10 @@ public class FragmentHome extends Fragment {
                 //JSONObject jsonLibrary = jsonChildNode.getJSONObject("library");
 
                 if (jsonQualityChildNode.has("label")) {
-                    nameQuality.add(jsonQualityChildNode.getString("label"));
-                } else nameQuality.add("unknown");
+                    labelQuality.add(jsonQualityChildNode.getString("label"));
+                } else labelQuality.add("unknown");
             }
+
 
             for (int i = 0; i < jsonMainNode.length(); i++) {
                 JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
@@ -111,6 +116,8 @@ public class FragmentHome extends Fragment {
                     releasesStatusMovie.add(0);
                     releasesQualityMovie.add(0);
                 }
+
+
                 if (jsonPoster.length() >= 0) {
                     posterMovie.add(jsonPoster.get(0).toString());
                 } else posterMovie.add("null");
@@ -184,23 +191,23 @@ public class FragmentHome extends Fragment {
                 movieStatusId.setText("Snatched" + releasesStatusMovie.get(i).toString());
                 if (releasesStatusMovie.get(i).toString().contains("7")) {
                     movieStatusId.setBackgroundColor(Color.parseColor("#a2a232"));
-                    movieStatusId.setText("Snatched - " + nameQuality.get(releasesQualityMovie.get(i) - 1).toString());
+                    movieStatusId.setText("Snatched - " + labelQuality.get(releasesQualityMovie.get(i) - 1).toString());
                 }
                 if (releasesStatusMovie.get(i).toString().contains("1")) {
                     movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
-                    movieStatusId.setText("Snatched - " + nameQuality.get(releasesQualityMovie.get(i) - 1).toString());
+                    movieStatusId.setText("Snatched - " + labelQuality.get(releasesQualityMovie.get(i) - 1).toString());
                 }
                 if (releasesStatusMovie.get(i).toString().contains("6")) {
                     movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
-                    movieStatusId.setText("Downloaded - " + nameQuality.get(releasesQualityMovie.get(i) - 1).toString());
+                    movieStatusId.setText("Downloaded - " + labelQuality.get(releasesQualityMovie.get(i) - 1).toString());
                 }
                 if (releasesStatusMovie.get(i).toString().contains("0")) {
-                    //movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
-                    movieStatusId.setText("Wanted" + nameQuality.get(releasesQualityMovie.get(i) - 1).toString());
+
+                    movieStatusId.setText("Wanted" + labelQuality.get(releasesQualityMovie.get(i) - 1).toString());
                 }
 
             }
-
+            //movieProfile.setText(labelProfile.get(i).toString());
             movieTitle.setText(wantedMovieslist.get(i).toString());
             moviePlot.setText(plotMovie.get(i).toString());
             aq.id(R.id._image).image(posterMovie.get(i).toString());

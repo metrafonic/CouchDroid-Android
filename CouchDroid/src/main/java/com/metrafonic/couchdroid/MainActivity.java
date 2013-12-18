@@ -332,7 +332,7 @@ public class MainActivity extends FragmentActivity {
                                         public void onProgress(int bytesWritten, int totalSize) {
                                             int prosent = 75;
                                             progressloading.setProgress(prosent);
-                                            textViewLoading.setText("Loading... (" + prosent + "%)AAA");
+                                            textViewLoading.setText("Loading... (" + prosent + "%)");
 
                                         }
                                     });
