@@ -123,6 +123,7 @@
         android:layout_toLeftOf="@+id/buttonSettings"
         android:layout_alignBottom="@+id/buttonSettings"
         android:background="@drawable/couchnine"
-        android:src="@drawable/ic_action_refresh2" />
+        android:src="@drawable/ic_action_refresh2"
+        android:clickable="false" />
 
 </RelativeLayout>

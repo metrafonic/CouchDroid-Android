@@ -53,7 +53,7 @@ public class ActivitySettings extends Fragment {
                         .putString("port", editPort.getText().toString())
                         .putString("username", editUsername.getText().toString())
                         .putString("password", editPassword.getText().toString())
-                        .putString("apikey", "1d2092c35fbd466ba0bb2530628a11ac"/*editApiKey.getText().toString()*/)
+                        .putString("apikey", editApiKey.getText().toString())
                         .commit();
 
                 loadingscreen.setVisibility(View.VISIBLE);
@@ -78,26 +78,40 @@ public class ActivitySettings extends Fragment {
                                     @Override
                                     public void onSuccess(String response) {
                                         settings.edit().putString("responsequality", response).commit();
-                                        settings.edit().putString("currentfragment", "wanted").commit();
-                                        settings.edit().putString("errormessage", "null").commit();
-                                        settings.edit().putBoolean("serverstatus", true).commit();
-                                        ((MainActivity) getActivity()).swag();
+                                        client.get(webaddress + "/profile.list", new AsyncHttpResponseHandler() {
+                                            @Override
+                                            public void onSuccess(String response) {
+                                                settings.edit().putString("responseprofile", response).commit();
+                                                settings.edit().putString("currentfragment", "wanted").commit();
+                                                settings.edit().putString("errormessage", "null").commit();
+                                                settings.edit().putBoolean("serverstatus", true).commit();
+                                                ((MainActivity) getActivity()).swag();
+                                            }
+
+                                            @Override
+                                            public void onFailure(java.lang.Throwable error) {
+                                                progressText.setText(error.toString());
+                                                settings.edit().putBoolean("serverstatus", false).commit();
+                                            }
+
+                                            @Override
+                                            public void onProgress(int bytesWritten, int totalSize) {
+                                                int prosent = 99;
+                                                progressLoading.setProgress(prosent);
+                                                progressText.setText("Checking Connectivity (" + prosent + "%)...");
+                                            }
+                                        });
                                     }
 
                                     @Override
                                     public void onFailure(java.lang.Throwable error) {
-                                        System.out.println("timed out!!!!" + error);
-                                        settings.edit().putString("responsewanted", "null").commit();
-                                        settings.edit().putString("responsemanage", "null").commit();
-                                        settings.edit().putString("currentfragment", "wanted").commit();
-                                        settings.edit().putString("errormessage", error.toString()).commit();
+                                        progressText.setText(error.toString());
                                         settings.edit().putBoolean("serverstatus", false).commit();
-                                        ((MainActivity) getActivity()).swag();
                                     }
 
                                     @Override
                                     public void onProgress(int bytesWritten, int totalSize) {
-                                        int prosent = 100;
+                                        int prosent = 75;
                                         progressLoading.setProgress(prosent);
                                         progressText.setText("Checking Connectivity (" + prosent + "%)...");
                                     }
@@ -106,18 +120,13 @@ public class ActivitySettings extends Fragment {
                             }
 
                             public void onFailure(java.lang.Throwable error) {
-                                System.out.println("timed out!!!!" + error);
-                                settings.edit().putString("responsewanted", "null").commit();
-                                settings.edit().putString("responsemanage", "null").commit();
-                                settings.edit().putString("currentfragment", "wanted").commit();
-                                settings.edit().putString("errormessage", error.toString()).commit();
+                                progressText.setText(error.toString());
                                 settings.edit().putBoolean("serverstatus", false).commit();
-                                ((MainActivity) getActivity()).swag();
                             }
 
                             @Override
                             public void onProgress(int bytesWritten, int totalSize) {
-                                int prosent = 60;
+                                int prosent = 50;
                                 progressLoading.setProgress(prosent);
                                 progressText.setText("Checking Connectivity (" + prosent + "%)...");
                             }
@@ -128,7 +137,7 @@ public class ActivitySettings extends Fragment {
 
                     @Override
                     public void onProgress(int bytesWritten, int totalSize) {
-                        int prosent = 30;
+                        int prosent = 25;
                         progressLoading.setProgress(prosent);
                         progressText.setText("Checking Connectivity (" + prosent + "%)...");
                     }

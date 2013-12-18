@@ -4,9 +4,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -76,9 +86,10 @@ public class FragmentSearch extends Fragment {
                                 JSONArray jsonMainNode = jsonResponse.optJSONArray("movies");
 
 
-                                for (int i = 0; i < jsonMainNode.length(); i++) {
+                                if (jsonResponse.has("movies"))
+                                    for (int i = 0; i < jsonMainNode.length(); i++) {
 
-                                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+                                        JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
                                     JSONArray jsonTitles = jsonChildNode.getJSONArray("titles");
                                     JSONObject jsonImages = jsonChildNode.getJSONObject("images");
                                     JSONArray jsonPosters = jsonImages.getJSONArray("poster");
@@ -114,8 +125,10 @@ public class FragmentSearch extends Fragment {
                                 View cell = inflater.inflate(R.layout.cellsearch, container, false);
                                 final AQuery aq = new AQuery(cell);
                                 TextView movieTitle = (TextView) cell.findViewById(R.id.textViewSearchTitle);
-                                //ImageView moviePoster = (ImageView) cell.findViewById(R.id.imageViewSearchPoster);
-                                aq.id(R.id.imageViewSearchPoster).image(posterMovie.get(i).toString());
+                                final ImageView moviePoster = (ImageView) cell.findViewById(R.id.imageViewSearchPoster);
+                                final int finalI1 = i;
+                                //moviePoster.setImageBitmap(getBitmapFromURL(posterMovie.get(finalI1).toString()));
+                                //aq.id(R.id.imageViewSearchPoster).image(posterMovie.get(i).toString()).cache(posterMovie.get(i).toString(), 10);
                                 movieTitle.setText(nameMovie.get(i).toString() + " (" + yearMovie.get(i).toString() + ")");
                                 searchLayout.addView(cell);
                                 final int finalI = i;
@@ -235,4 +248,6 @@ public class FragmentSearch extends Fragment {
         });
 
     }
+
+
 }
