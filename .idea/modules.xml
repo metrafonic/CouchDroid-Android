@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CouchDroid/CouchDroid.iml" filepath="$PROJECT_DIR$/CouchDroid/CouchDroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/CouchDroid Android.iml" filepath="$PROJECT_DIR$/CouchDroid Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CouchDroid/CouchDroid-CouchDroid.iml" filepath="$PROJECT_DIR$/CouchDroid/CouchDroid-CouchDroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/couchdroid-android-gradle.iml" filepath="$PROJECT_DIR$/couchdroid-android-gradle.iml" />
     </modules>
   </component>

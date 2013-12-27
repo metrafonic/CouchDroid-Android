@@ -96,10 +96,12 @@ public class FragmentMovie extends Fragment {
                     JSONArray jsonPoster = jsonImages.getJSONArray("poster");
                     JSONArray jsonBackdrop = jsonImages.getJSONArray("backdrop");
 
-                    if (jsonPoster.length() >= 1)
+                    if (jsonPoster.length() >= 1){
                         aq.id(R.id.imageViewPoster).image(jsonPoster.get(0).toString());
-                    if (jsonBackdrop.length() >= 1)
+                    }else{aq.id(R.id.imageViewPoster).image("http://agraphicworld.files.wordpress.com/2010/09/amnesty_002.jpg");}
+                    if (jsonBackdrop.length() >= 1){
                         aq.id(R.id.imageViewBackDrop).image(jsonBackdrop.get(0).toString());
+                    }else{aq.id(R.id.imageViewBackDrop).image("http://agraphicworld.files.wordpress.com/2010/09/amnesty_002.jpg");}
 
                     movieTitle.setText(jsonTitles.get(0).toString() + " (" + jsonInfo.getInt("year") + ")");
                     moviePlot.setText(jsonInfo.getString("plot").toString());

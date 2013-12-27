@@ -118,16 +118,21 @@ public class FragmentHome extends Fragment {
                 }
 
 
-                if (jsonPoster.length() >= 0) {
+                System.out.println("LENGTH: " + jsonMainNode.length() + "i: " + i);
+
+                if (jsonPoster.length() > 0) {
                     posterMovie.add(jsonPoster.get(0).toString());
-                } else posterMovie.add("null");
+                } else posterMovie.add("http://agraphicworld.files.wordpress.com/2010/09/amnesty_002.jpg");
+
                 if (jsonChildNode.has("library_id")) {
                     idMovie.add(jsonChildNode.getInt("library_id"));
-                } else idMovie.add(1);
+                } else idMovie.add(99+i);
+
                 if (jsonInfo.has("plot")) {
                     plotMovie.add(jsonInfo.getString("plot").toString());
                 } else plotMovie.add("no plot found!");
-                if (jsonTitles.length() >= 0) {
+
+                if (jsonTitles.length() > 0) {
                     wantedMovieslist.add(jsonTitles.getString(0));
                 } else wantedMovieslist.add(null);
 
@@ -140,6 +145,7 @@ public class FragmentHome extends Fragment {
 
         //Create Horisontalview elements
         wantedLayout = (LinearLayout) rootView.findViewById(R.id._celllinearLayout);
+        System.out.print("SIZE:  " + wantedMovieslist.size());
         for (int i = 0; i < wantedMovieslist.size(); i++) {
 
             cell = inflater.inflate(R.layout.cellwanted, container, false);
