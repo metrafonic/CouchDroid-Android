@@ -57,13 +57,14 @@ public class FragmentMovie extends Fragment {
             movieId = extras.getInt("movieid");
             response = extras.getString("response");
         }
+        String titleforyoutube="";
         View rootView = inflater.inflate(R.layout.fragment_movieinfo, container, false);
         TextView movieTitle = (TextView) rootView.findViewById(R.id.textViewMovieName);
         TextView moviePlot = (TextView) rootView.findViewById(R.id.textViewMoviePlot);
         TextView movieMPAA = (TextView) rootView.findViewById(R.id.textViewMovieRating);
         TextView movieRuntime = (TextView) rootView.findViewById(R.id.textViewMovieRuntime);
         Button movieDelete = (Button) rootView.findViewById(R.id.buttonMovieDelete);
-        Button movieEdit = (Button) rootView.findViewById(R.id.buttonMovieEdit);
+        final Button movieTrailer = (Button) rootView.findViewById(R.id.buttonMovieTrailer);
 
         movieTitle.setText(String.valueOf(movieId));
 
@@ -104,6 +105,7 @@ public class FragmentMovie extends Fragment {
                     }else{aq.id(R.id.imageViewBackDrop).image("http://agraphicworld.files.wordpress.com/2010/09/amnesty_002.jpg");}
 
                     movieTitle.setText(jsonTitles.get(0).toString() + " (" + jsonInfo.getInt("year") + ")");
+                    titleforyoutube=jsonTitles.get(0).toString();
                     moviePlot.setText(jsonInfo.getString("plot").toString());
                     movieMPAA.setText("Rated: " + jsonInfo.getString("mpaa").toString());
                     if (jsonInfo.getString("mpaa").toString().contains("null"))
@@ -180,10 +182,36 @@ public class FragmentMovie extends Fragment {
                     });
                 }
             });
-            movieEdit.setOnClickListener(new View.OnClickListener() {
+            final String finalTitleforyoutube = titleforyoutube;
+            movieTrailer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((MainActivity) getActivity()).swag();
+                    movieTrailer.setClickable(false);
+
+                    client.get( "http://gdata.youtube.com/feeds/api/videos?max-results=1&alt=json&q=" + finalTitleforyoutube + " movie trailer", new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(String response) {
+
+                            try {
+                                JSONObject jsonResponseTrailer = new JSONObject(response);
+                                String url = jsonResponseTrailer.getJSONObject("feed").getJSONArray("entry").getJSONObject(0).getJSONArray("link").getJSONObject(0).get("href").toString();
+                                //Toast.makeText(getActivity(),url,Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getActivity(), TrailerActivity.class);
+                                intent.putExtra("url", url);
+                                getActivity().startActivity(intent);
+                                movieTrailer.setClickable(true);
+                            } catch (JSONException e) {
+                                Toast.makeText(getActivity(),"No trailer found!",Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                                movieTrailer.setClickable(true);
+                            }
+
+                        }
+                        @Override
+                        public void onFailure(java.lang.Throwable error) {
+                        }
+                    });
+
                 }
             });
 

@@ -126,20 +126,18 @@
                 android:background="#CC47515f" />
 
             <Button
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="39dp"
-                android:text="Edit"
-                android:id="@+id/buttonMovieEdit"
+                android:layout_height="45dp"
+                android:text="Trailer"
+                android:id="@+id/buttonMovieTrailer"
+                android:visibility="visible"
                 android:layout_above="@+id/buttonMovieDelete"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:visibility="gone" />
+                android:layout_alignParentRight="true" />
 
             <Button
-                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="39dp"
+                android:layout_height="45dp"
                 android:text="Delete Movie"
                 android:id="@+id/buttonMovieDelete"
                 android:layout_alignParentBottom="true"
@@ -152,7 +150,7 @@
                 android:id="@+id/scrollView2"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_above="@+id/buttonMovieEdit"
+                android:layout_above="@+id/buttonMovieTrailer"
                 android:layout_alignParentRight="true">
 
                 <RelativeLayout

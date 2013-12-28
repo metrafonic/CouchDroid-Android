@@ -153,7 +153,7 @@ public class FragmentHome extends Fragment {
 
             final ImageView imageView = (ImageView) cell.findViewById(R.id._image);
             final RelativeLayout cellText = (RelativeLayout) cell.findViewById(R.id.celltext);
-            cellText.setOnClickListener(new View.OnClickListener() {
+            cell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Bundle data = new Bundle();
@@ -166,24 +166,6 @@ public class FragmentHome extends Fragment {
                     ft.addToBackStack(null);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
                     ft.commit();
-                }
-            });
-            imageView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    Bundle data = new Bundle();
-                    data.putInt("movieid", Integer.parseInt(imageView.getTag().toString()));
-                    data.putString("response", response);
-                    android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    FragmentMovie myFragment = new FragmentMovie();
-                    myFragment.setArguments(data);
-                    ft.replace(R.id.fragmentLayout, myFragment);
-                    ft.addToBackStack(null);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE);
-                    ft.commit();
-                    //settings.edit().putFloat("scollloc", scrollListView.getY()).commit();
-
                 }
             });
             scrollListView.scrollTo(5, (int) settings.getFloat("scrollloc", 1));
