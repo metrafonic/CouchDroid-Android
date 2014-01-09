@@ -30,6 +30,9 @@
         <activity
             android:name="com.metrafonic.couchdroid.SetupActivity"
             ></activity>
+        <activity
+            android:name="com.metrafonic.couchdroid.FirstLaunchActivity"
+            ></activity>
 
     </application>
 
