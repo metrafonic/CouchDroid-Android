@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<RelativeLayout
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView"
-        android:layout_weight="1">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_above="@+id/buttonSetupNext"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,9 +125,9 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Sorry no https (yet)"
                 android:id="@+id/textView7"
-                android:paddingTop="10dp"
                 android:layout_below="@+id/editTextSetupPassword"
-                android:layout_toRightOf="@+id/textView10" />
+                android:layout_toRightOf="@+id/textView10"
+                android:paddingBottom="35dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,5 +181,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/abc_tab_selected_focused_holo" />
-</LinearLayout>
+        android:background="@drawable/abc_tab_selected_focused_holo"
+        android:visibility="visible" />
+
+</RelativeLayout>
