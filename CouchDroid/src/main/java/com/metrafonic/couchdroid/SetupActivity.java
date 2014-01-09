@@ -24,10 +24,11 @@ public class SetupActivity extends FragmentActivity {
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setupview);
+        //getActionBar().setTitle("Settings");
         if (savedInstanceState == null){
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
             final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
-            FragmentSetup1 newFragment = new FragmentSetup1();
+            FragmentSetup2 newFragment = new FragmentSetup2();
             transaction.add(R.id.fragmentlayoutsetup, newFragment, "search");
             //fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

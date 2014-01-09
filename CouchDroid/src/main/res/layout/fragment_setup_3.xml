@@ -10,13 +10,12 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/scrollView"
-        android:padding="10dp"
-        android:layout_weight="1"
-        android:paddingBottom="0dp">
+        android:layout_weight="1">
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,9 +43,10 @@
                 android:layout_below="@+id/textView2"
                 android:layout_alignParentBottom="true"
                 android:orientation="vertical"
-                android:paddingTop="20dp">
+                android:paddingTop="20dp"
+                android:paddingBottom="50dp">
 
-                <RadioButton
+            <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Automatically get API Key"
@@ -142,13 +142,14 @@
 
     <Button
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:text="Connect"
         android:id="@+id/buttonSetupConnect"
         android:layout_alignBottom="@+id/scrollView"
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/scrollView"
         android:background="@drawable/abc_tab_selected_focused_holo"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.metrafonic.couchdroid;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +26,13 @@ public class FragmentSetup2 extends Fragment {
         final EditText editPassword = (EditText) rootView.findViewById(R.id.editTextSetupPassword);
 
 
+        final String PREFS_NAME = "ServerPrefsFile";
+        final SharedPreferences settings = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        editHostname.setText(settings.getString("hostname", ""));
+        editPort.setText(settings.getString("port", ""));
+        editDirectory.setText(settings.getString("directory", ""));
+        editUsername.setText(settings.getString("username", ""));
+        editPassword.setText(settings.getString("password", ""));
 
         NextButton.setOnClickListener(new View.OnClickListener() {
             @Override

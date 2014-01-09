@@ -55,7 +55,7 @@ public class MainActivity extends FragmentActivity {
             buttonManage.setTypeface(null, Typeface.BOLD);
 
 
-        if (savedInstanceState == null) if (settings.getBoolean("serverstatus", false) == true) {
+        if (savedInstanceState == null) if (settings.getBoolean("complete", false) == true) {
             final String webaddress = settings.getString("webaddress", null);
             buttonWanted.setTypeface(null, Typeface.BOLD);
             buttonManage.setTypeface(null, Typeface.NORMAL);
