@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,9 +59,14 @@ public class FragmentHome extends Fragment {
         if (savedInstanceState == null) {
             //textViewResponse.setText(response);
         }
-        if (error.contains("null") == false) {
-            textViewError.setText(error);
-        } else {
+
+        try {
+            if (error.contains("null") == false) {
+                textViewError.setText(Html.fromHtml(error));
+            } else {
+                textViewError.setText(null);
+            }
+        } catch (Exception c) {
             textViewError.setText(null);
         }
 

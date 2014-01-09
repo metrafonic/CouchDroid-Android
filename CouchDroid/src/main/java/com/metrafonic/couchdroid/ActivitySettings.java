@@ -85,7 +85,7 @@ public class ActivitySettings extends Fragment {
                                                 settings.edit().putString("currentfragment", "wanted").commit();
                                                 settings.edit().putString("errormessage", "null").commit();
                                                 settings.edit().putBoolean("serverstatus", true).commit();
-                                                ((MainActivity) getActivity()).swag();
+                                                ((MainActivity) getActivity()).swag(null);
                                             }
 
                                             @Override

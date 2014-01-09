@@ -143,7 +143,7 @@ public class FragmentMovie extends Fragment {
                                             settings.edit().putString("responsemanage", response).commit();
                                             settings.edit().putString("currentfragment", "wanted").commit();
                                             getActivity().getSupportFragmentManager().popBackStack();
-                                            ((MainActivity) getActivity()).swag();
+                                            ((MainActivity) getActivity()).swag(null);
                                         }
 
                                         @Override
@@ -153,7 +153,7 @@ public class FragmentMovie extends Fragment {
                                             settings.edit().putString("responsemanage", "null").commit();
                                             settings.edit().putString("currentfragment", "wanted").commit();
                                             settings.edit().putString("errormessage", error.toString()).commit();
-                                            ((MainActivity) getActivity()).swag();
+                                            ((MainActivity) getActivity()).swag(null);
                                         }
                                     });
                                 }
@@ -165,7 +165,7 @@ public class FragmentMovie extends Fragment {
                                     settings.edit().putString("responsemanage", "null").commit();
                                     settings.edit().putString("currentfragment", "wanted").commit();
                                     settings.edit().putString("errormessage", error.toString()).commit();
-                                    ((MainActivity) getActivity()).swag();
+                                    ((MainActivity) getActivity()).swag(null);
                                 }
                             });
                         }
@@ -177,7 +177,7 @@ public class FragmentMovie extends Fragment {
                             settings.edit().putString("responsemanage", "null").commit();
                             settings.edit().putString("currentfragment", "wanted").commit();
                             settings.edit().putString("errormessage", error.toString()).commit();
-                            ((MainActivity) getActivity()).swag();
+                            ((MainActivity) getActivity()).swag(null);
                         }
                     });
                 }

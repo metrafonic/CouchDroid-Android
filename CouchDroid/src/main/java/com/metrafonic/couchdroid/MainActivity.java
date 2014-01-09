@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,8 +17,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.youtube.player.internal.r;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.json.JSONException;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -30,13 +34,14 @@ public class MainActivity extends FragmentActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageButton buttonSettings = (ImageButton) findViewById(R.id.buttonSettings);
+        final ImageButton buttonSettings = (ImageButton) findViewById(R.id.buttonSettings);
         final ImageButton buttonRefresh = (ImageButton) findViewById(R.id.imageButtonRefresh);
         final ImageButton buttonSearch = (ImageButton) findViewById(R.id.imageButtonSearch);
         final Button buttonManage = (Button) findViewById(R.id.buttonManage);
         final Button buttonWanted = (Button) findViewById(R.id.buttonWanted);
         final ProgressBar progressloading = (ProgressBar) findViewById(R.id.progressBarLoadingBar);
         final TextView textViewLoading = (TextView) findViewById(R.id.textViewLoading);
+        final TextView textViewError = (TextView) findViewById(R.id.textViewErrorHome);
         //TextView lobster = (TextView) findViewById(R.id.textViewLobster);
         //Typeface font = Typeface.createFromAsset(lobster.getContext().getAssets(), "fonts/lobster.ttf");
         final String PREFS_NAME = "ServerPrefsFile";
@@ -57,11 +62,6 @@ public class MainActivity extends FragmentActivity {
 
         if (savedInstanceState == null) if (settings.getBoolean("complete", false) == true) {
             final String webaddress = settings.getString("webaddress", null);
-            buttonWanted.setTypeface(null, Typeface.BOLD);
-            buttonManage.setTypeface(null, Typeface.NORMAL);
-            buttonWanted.setClickable(false);
-            buttonManage.setClickable(false);
-            buttonRefresh.setClickable(false);
             System.out.println("starting web request");
             System.out.println(webaddress);
             progressloading.setProgress(0);
@@ -86,23 +86,23 @@ public class MainActivity extends FragmentActivity {
                                         @Override
                                         public void onSuccess(String response) {
 
+                                            buttonWanted.setClickable(true);
+                                            buttonManage.setClickable(true);
+                                            buttonRefresh.setClickable(true);
+                                            buttonSettings.setClickable(true);
+                                            buttonSearch.setClickable(true);
+
                                             settings.edit().putString("responseprofile", response).commit();
                                             settings.edit().putString("currentfragment", "wanted").commit();
                                             settings.edit().putString("errormessage", "null").commit();
 
-                                            swag();
+                                            swag("");
                                         }
 
                                         @Override
-                                        public void onFailure(java.lang.Throwable error) {
-                                            System.out.println("timed out!!!!" + error);
-                                            settings.edit().putString("responsewanted", "null").commit();
-                                            settings.edit().putString("responseprofile", "null").commit();
-                                            settings.edit().putString("responsemanage", "null").commit();
-                                            settings.edit().putString("responsequality", "null").commit();
-                                            settings.edit().putString("currentfragment", "wanted").commit();
-                                            settings.edit().putString("errormessage", error.toString()).commit();
-                                            swag();
+                                        public void onFailure(java.lang.Throwable error, String response) {
+                                            failed(error.toString(), response);
+                                            buttonSettings.setClickable(true);
                                         }
 
                                         @Override
@@ -116,13 +116,14 @@ public class MainActivity extends FragmentActivity {
                                 }
 
                                 @Override
-                                public void onFailure(java.lang.Throwable error) {
+                                public void onFailure(java.lang.Throwable error, String response) {
                                     System.out.println("timed out!!!!" + error);
                                     settings.edit().putString("responsewanted", "null").commit();
                                     settings.edit().putString("responsemanage", "null").commit();
                                     settings.edit().putString("currentfragment", "wanted").commit();
                                     settings.edit().putString("errormessage", error.toString()).commit();
-                                    swag();
+                                    failed(error.toString(), response);
+                                    buttonSettings.setClickable(true);
                                 }
 
                                 @Override
@@ -138,13 +139,9 @@ public class MainActivity extends FragmentActivity {
                         }
 
                         @Override
-                        public void onFailure(java.lang.Throwable error) {
-                            System.out.println("timed out!!!!" + error);
-                            settings.edit().putString("responsewanted", "null").commit();
-                            settings.edit().putString("responsemanage", "null").commit();
-                            settings.edit().putString("currentfragment", "wanted").commit();
-                            settings.edit().putString("errormessage", error.toString()).commit();
-                            swag();
+                        public void onFailure(java.lang.Throwable error, String response) {
+                            failed(error.toString(), response);
+                            buttonSettings.setClickable(true);
                         }
 
                         @Override
@@ -159,13 +156,9 @@ public class MainActivity extends FragmentActivity {
                 }
 
                 @Override
-                public void onFailure(java.lang.Throwable error) {
-                    System.out.println("timed out!!!!" + error);
-                    settings.edit().putString("responsewanted", "null").commit();
-                    settings.edit().putString("responsemanage", "null").commit();
-                    settings.edit().putString("currentfragment", "wanted").commit();
-                    settings.edit().putString("errormessage", error.toString()).commit();
-                    swag();
+                public void onFailure(java.lang.Throwable error, String response) {
+                    failed(error.toString(), response);
+                    buttonSettings.setClickable(true);
                 }
 
                 @Override
@@ -173,6 +166,13 @@ public class MainActivity extends FragmentActivity {
                     int prosent = 25;
                     progressloading.setProgress(prosent);
                     textViewLoading.setText("Loading... (" + prosent + "%)");
+                    buttonWanted.setTypeface(null, Typeface.BOLD);
+                    buttonManage.setTypeface(null, Typeface.NORMAL);
+                    buttonWanted.setClickable(false);
+                    buttonManage.setClickable(false);
+                    buttonRefresh.setClickable(false);
+                    buttonSettings.setClickable(false);
+                    buttonSearch.setClickable(false);
 
                 }
             });
@@ -234,7 +234,11 @@ public class MainActivity extends FragmentActivity {
                     buttonWanted.setTypeface(null, Typeface.NORMAL);
                     buttonManage.setTypeface(null, Typeface.BOLD);
                     settings.edit().putString("currentfragment", "manage").commit();
-                    swag();
+                    try {
+                        swag("");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -250,7 +254,11 @@ public class MainActivity extends FragmentActivity {
                     buttonWanted.setTypeface(null, Typeface.BOLD);
                     buttonManage.setTypeface(null, Typeface.NORMAL);
                     settings.edit().putString("currentfragment", "wanted").commit();
-                    swag();
+                    try {
+                        swag("");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -271,6 +279,7 @@ public class MainActivity extends FragmentActivity {
                     buttonManage.setTypeface(null, Typeface.NORMAL);
                     buttonManage.setClickable(false);
                     buttonRefresh.setClickable(false);
+                    buttonSettings.setClickable(false);
                     android.support.v4.app.FragmentManager fm2 = getSupportFragmentManager();
                     final android.support.v4.app.FragmentTransaction transaction2 = fm2.beginTransaction();
                     transaction2.remove(fm2.findFragmentById(R.id.fragmentLayout));
@@ -300,20 +309,18 @@ public class MainActivity extends FragmentActivity {
                                                     buttonWanted.setClickable(true);
                                                     buttonManage.setClickable(true);
                                                     buttonRefresh.setClickable(true);
-                                                    swag();
+                                                    buttonSettings.setClickable(true);
+                                                    swag("");
+
                                                 }
 
                                                 @Override
-                                                public void onFailure(java.lang.Throwable error) {
-                                                    System.out.println("timed out!!!!" + error);
-                                                    settings.edit().putString("responsewanted", "null").commit();
-                                                    settings.edit().putString("responsemanage", "null").commit();
-                                                    settings.edit().putString("currentfragment", "wanted").commit();
-                                                    settings.edit().putString("errormessage", error.toString()).commit();
+                                                public void onFailure(java.lang.Throwable error, String response) {
+                                                    failed(error.toString(), response);
                                                     buttonWanted.setClickable(true);
                                                     buttonManage.setClickable(true);
                                                     buttonRefresh.setClickable(true);
-                                                    swag();
+                                                    buttonSettings.setClickable(true);
                                                 }
 
                                                 @Override
@@ -327,16 +334,12 @@ public class MainActivity extends FragmentActivity {
                                         }
 
                                         @Override
-                                        public void onFailure(java.lang.Throwable error) {
-                                            System.out.println("timed out!!!!" + error);
-                                            settings.edit().putString("responsewanted", "null").commit();
-                                            settings.edit().putString("responsemanage", "null").commit();
-                                            settings.edit().putString("currentfragment", "wanted").commit();
-                                            settings.edit().putString("errormessage", error.toString()).commit();
+                                        public void onFailure(java.lang.Throwable error, String response) {
+                                            failed(error.toString(), response);
                                             buttonWanted.setClickable(true);
                                             buttonManage.setClickable(true);
                                             buttonRefresh.setClickable(true);
-                                            swag();
+                                            buttonSettings.setClickable(true);
                                         }
 
                                         @Override
@@ -350,16 +353,12 @@ public class MainActivity extends FragmentActivity {
                                 }
 
                                 @Override
-                                public void onFailure(java.lang.Throwable error) {
-                                    System.out.println("timed out!!!!" + error);
-                                    settings.edit().putString("responsewanted", "null").commit();
-                                    settings.edit().putString("responsemanage", "null").commit();
-                                    settings.edit().putString("currentfragment", "wanted").commit();
-                                    settings.edit().putString("errormessage", error.toString()).commit();
+                                public void onFailure(java.lang.Throwable error, String response) {
+                                    failed(error.toString(), response);
                                     buttonWanted.setClickable(true);
                                     buttonManage.setClickable(true);
                                     buttonRefresh.setClickable(true);
-                                    swag();
+                                    buttonSettings.setClickable(true);
                                 }
 
                                 @Override
@@ -373,16 +372,13 @@ public class MainActivity extends FragmentActivity {
                         }
 
                         @Override
-                        public void onFailure(java.lang.Throwable error) {
-                            System.out.println("timed out!!!!" + error);
-                            settings.edit().putString("responsewanted", "null").commit();
-                            settings.edit().putString("responsemanage", "null").commit();
-                            settings.edit().putString("currentfragment", "wanted").commit();
-                            settings.edit().putString("errormessage", error.toString()).commit();
+                        public void onFailure(java.lang.Throwable error, String response) {
+
                             buttonWanted.setClickable(true);
                             buttonManage.setClickable(true);
                             buttonRefresh.setClickable(true);
-                            swag();
+                            buttonSettings.setClickable(true);
+                            failed(error.toString(), response);
 
                         }
 
@@ -425,7 +421,7 @@ public class MainActivity extends FragmentActivity {
 
     }
 
-    public void swag() {
+    public void swag(String error) {
         System.out.println("running SWAG");
         final String PREFS_NAME = "ServerPrefsFile";
         Bundle data = new Bundle();
@@ -438,7 +434,7 @@ public class MainActivity extends FragmentActivity {
         if (settings.getString("currentfragment", null).contains("wanted")) {
             data.putString("movielist", settings.getString("responsewanted", "null").toString());
             data.putString("listtype", "Wanted Movies:");
-            data.putString("error", settings.getString("errormessage", null));
+            data.putString("error", error);
             transaction.replace(R.id.fragmentLayout, newFragment, "wanted");
         } else if (settings.getString("currentfragment", null).contains("manage")) {
             data.putString("movielist", settings.getString("responsemanage", "null").toString());
@@ -455,6 +451,23 @@ public class MainActivity extends FragmentActivity {
         transaction.commit();
 
 
+    }
+
+    public void failed(String error, final String theresponse) {
+        final String PREFS_NAME = "ServerPrefsFile";
+        settings = getSharedPreferences(PREFS_NAME, 0);
+        System.out.println("timed out!!!!" + error);
+        settings.edit().putString("responsewanted", "null").commit();
+        settings.edit().putString("responsemanage", "null").commit();
+        settings.edit().putString("currentfragment", "wanted").commit();
+        settings.edit().putString("errormessage", error.toString()).commit();
+        try {
+            swag(error);
+
+
+        } catch (Exception c) {
+            swag(c.toString());
+        }
     }
 
 }

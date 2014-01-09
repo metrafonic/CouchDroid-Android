@@ -152,7 +152,7 @@ public class FragmentSearch extends Fragment {
                             settings.edit().putString("responsemanage", "null").commit();
                             settings.edit().putString("currentfragment", "wanted").commit();
                             settings.edit().putString("errormessage", error.toString()).commit();
-                            ((MainActivity) getActivity()).swag();
+                            ((MainActivity) getActivity()).swag(null);
 
                         }
 
@@ -200,7 +200,7 @@ public class FragmentSearch extends Fragment {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((MainActivity) getActivity()).swag();
+                                            ((MainActivity) getActivity()).swag(null);
                                         }
                                     });
                                 }
@@ -216,7 +216,7 @@ public class FragmentSearch extends Fragment {
                                     handler.post(new Runnable() {
                                         @Override
                                         public void run() {
-                                            ((MainActivity) getActivity()).swag();
+                                            ((MainActivity) getActivity()).swag(null);
                                         }
                                     });
                                 }
@@ -241,7 +241,7 @@ public class FragmentSearch extends Fragment {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        ((MainActivity) getActivity()).swag();
+                        ((MainActivity) getActivity()).swag(null);
                     }
                 });
             }

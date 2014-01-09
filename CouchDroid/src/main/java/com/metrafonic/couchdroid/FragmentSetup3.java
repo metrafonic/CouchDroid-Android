@@ -1,10 +1,13 @@
 package com.metrafonic.couchdroid;
 
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.AndroidCharacter;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +61,10 @@ public class FragmentSetup3 extends Fragment {
         EditUsername.setText(username);
         EditPassword.setText(password);
         EditKey.setText(settings.getString("apikey", "").toString());
+        if (settings.getString("apikey", "").toString().length() > 6) {
+            RadioAuto.setChecked(false);
+            RadioManual.setChecked(true);
+        }
 
         settings.edit()
                 .putString("username", username)
@@ -104,14 +111,27 @@ public class FragmentSetup3 extends Fragment {
                                     myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     getActivity().startActivity(myIntent);
+                                } else {
+                                    Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                                    settings.edit().putBoolean("complete", false).commit();
+                                    ButtonConnect.setText("Connect");
+                                    ButtonConnect.setClickable(true);
                                 }
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                Toast.makeText(getActivity(), "Failed. Check settings in previous screen", Toast.LENGTH_SHORT).show();
                             }
                         }
                         @Override
-                        public void onFailure(java.lang.Throwable error) {
-                            Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                        public void onFailure(java.lang.Throwable error, String response) {
+                            try {
+                                if (response.toString().length() > 5) {
+                                    Toast.makeText(getActivity(), Html.fromHtml(response.toString()), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            } catch (Exception c) {
+                                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                            }
                             settings.edit().putBoolean("complete", false).commit();
                             ButtonConnect.setText("Connect");
                             ButtonConnect.setClickable(true);
@@ -119,24 +139,52 @@ public class FragmentSetup3 extends Fragment {
                     });
                 }
                 if (RadioManual.isChecked()==true){
-                    String url = ("http://" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey + "/app.available");
+                    final String url = ("http://" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey + "/app.available");
+
                     ButtonConnect.setText("Connecting...");
                     client.get(url, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(String response) {
-                            Toast.makeText(getActivity(), "API Key works!", Toast.LENGTH_SHORT).show();
-                            settings.edit().putString("webaddress", ("http://" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey)).commit();
-                            settings.edit().putBoolean("complete", true).commit();
-                            settings.edit().putString("apikey", apiKey).commit();
-                            Intent myIntent = new Intent(getActivity(), MainActivity.class);
-                            //myIntent.putExtra("key", value); //Optional parameters
-                            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            getActivity().startActivity(myIntent);
+                            JSONObject jsonResponse;
+
+                            try {
+                                jsonResponse = new JSONObject(response);
+                                if (jsonResponse.getBoolean("success")) {
+                                    Toast.makeText(getActivity(), "API Key works!", Toast.LENGTH_SHORT).show();
+                                    settings.edit().putString("webaddress", ("http://" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey)).commit();
+                                    settings.edit().putBoolean("complete", true).commit();
+                                    settings.edit().putString("apikey", apiKey).commit();
+                                    Intent myIntent = new Intent(getActivity(), MainActivity.class);
+                                    //myIntent.putExtra("key", value); //Optional parameters
+                                    myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    getActivity().startActivity(myIntent);
+                                } else {
+                                    Toast.makeText(getActivity(), response, Toast.LENGTH_SHORT).show();
+                                    settings.edit().putBoolean("complete", false).commit();
+                                    ButtonConnect.setText("Connect");
+                                    ButtonConnect.setClickable(true);
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(getActivity(), "Failed! wrong api key or wrong directory!", Toast.LENGTH_LONG).show();
+                                settings.edit().putBoolean("complete", false).commit();
+                                ButtonConnect.setText("Connect");
+                                ButtonConnect.setClickable(true);
+                            }
+
                         }
                         @Override
-                        public void onFailure(java.lang.Throwable error) {
-                            Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
+                        public void onFailure(java.lang.Throwable error, String response) {
+                            try {
+                                if (response.toString().length() > 5) {
+                                    Toast.makeText(getActivity(), Html.fromHtml(response.toString()), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            } catch (Exception c) {
+                                Toast.makeText(getActivity(), "Oh no! " + error.toString(), Toast.LENGTH_LONG).show();
+                            }
+
                             settings.edit().putBoolean("complete", false).commit();
                             ButtonConnect.setText("Connect");
                             ButtonConnect.setClickable(true);
