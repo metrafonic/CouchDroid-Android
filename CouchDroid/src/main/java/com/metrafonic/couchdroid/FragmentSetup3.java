@@ -82,6 +82,8 @@ public class FragmentSetup3 extends Fragment {
                 String apiUsername = EditUsername.getText().toString();
                 String apiPassword = EditPassword.getText().toString();
                 final String apiKey = EditKey.getText().toString();
+                ButtonConnect.setText("Connecting...");
+                ButtonConnect.setClickable(false);
                 if (RadioAuto.isChecked()==true){
                     String url = ("http://" + finalHostname + ":" + finalPort + finalDirectory +"/getkey/?p=" + md5(apiPassword) + "&u=" + md5(apiUsername) + "");
                     client.get(url, new AsyncHttpResponseHandler() {
@@ -111,12 +113,14 @@ public class FragmentSetup3 extends Fragment {
                         public void onFailure(java.lang.Throwable error) {
                             Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                             settings.edit().putBoolean("complete", false).commit();
+                            ButtonConnect.setText("Connect");
+                            ButtonConnect.setClickable(true);
                         }
                     });
                 }
                 if (RadioManual.isChecked()==true){
                     String url = ("http://" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey + "/app.available");
-
+                    ButtonConnect.setText("Connecting...");
                     client.get(url, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(String response) {
@@ -134,6 +138,8 @@ public class FragmentSetup3 extends Fragment {
                         public void onFailure(java.lang.Throwable error) {
                             Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_SHORT).show();
                             settings.edit().putBoolean("complete", false).commit();
+                            ButtonConnect.setText("Connect");
+                            ButtonConnect.setClickable(true);
                         }
                     });
                 }
