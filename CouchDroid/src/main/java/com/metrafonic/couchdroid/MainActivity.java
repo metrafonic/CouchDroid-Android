@@ -226,7 +226,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View view) {
-                if (settings.getBoolean("serverstatus", false) == true) {
+                if (settings.getBoolean("complete", false) == true) {
                     android.support.v4.app.FragmentManager fm2 = getSupportFragmentManager();
                     final android.support.v4.app.FragmentTransaction transaction2 = fm2.beginTransaction();
                     transaction2.remove(fm2.findFragmentById(R.id.fragmentLayout));
@@ -246,7 +246,7 @@ public class MainActivity extends FragmentActivity {
         buttonWanted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (settings.getBoolean("serverstatus", false) == true) {
+                if (settings.getBoolean("complete", false) == true) {
                     android.support.v4.app.FragmentManager fm2 = getSupportFragmentManager();
                     final android.support.v4.app.FragmentTransaction transaction2 = fm2.beginTransaction();
                     transaction2.remove(fm2.findFragmentById(R.id.fragmentLayout));
@@ -268,7 +268,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onClick(View view) {
-                if (settings.getBoolean("serverstatus", false) == true) {
+                if (settings.getBoolean("complete", false) == true) {
                     final AsyncHttpClient clientnew = new AsyncHttpClient();
                     clientnew.setBasicAuth(settings.getString("username", ""), settings.getString("password", ""));
                     final String webaddressnew = settings.getString("webaddress", null);
@@ -398,7 +398,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 buttonSearch.setClickable(false);
-                if (settings.getBoolean("serverstatus", false) == true) {
+                if (settings.getBoolean("complete", false) == true) {
                     android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                     final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
                     FragmentSearch newFragment = new FragmentSearch();
