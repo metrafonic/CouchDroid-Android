@@ -42,15 +42,6 @@ public class MainActivity extends FragmentActivity {
         final String PREFS_NAME = "ServerPrefsFile";
         settings = getSharedPreferences(PREFS_NAME, 0);
 
-
-        //settings.edit().putString("webaddress", ("http://" + settings.getString("hostname", "127.0.0.1") + ":" + settings.getString("port", "80") + "/api/" + settings.getString("apikey", "key"))).commit();
-        final String webaddress = settings.getString("webaddress", null);
-        System.out.println(webaddress);
-
-
-        System.out.println("something");
-
-        System.out.println(webaddress);
         final AsyncHttpClient client = new AsyncHttpClient();
         client.setBasicAuth(settings.getString("username", ""), settings.getString("password", ""));
         client.setTimeout(0);
@@ -65,6 +56,7 @@ public class MainActivity extends FragmentActivity {
 
 
         if (savedInstanceState == null) if (settings.getBoolean("serverstatus", false) == true) {
+            final String webaddress = settings.getString("webaddress", null);
             buttonWanted.setTypeface(null, Typeface.BOLD);
             buttonManage.setTypeface(null, Typeface.NORMAL);
             buttonWanted.setClickable(false);
@@ -205,7 +197,7 @@ public class MainActivity extends FragmentActivity {
 
             //NEW WAY
 
-            Intent myIntent = new Intent(MainActivity.this, SetupActivity.class);
+            Intent myIntent = new Intent(MainActivity.this, FirstLaunchActivity.class);
             //myIntent.putExtra("key", value); //Optional parameters
             myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
