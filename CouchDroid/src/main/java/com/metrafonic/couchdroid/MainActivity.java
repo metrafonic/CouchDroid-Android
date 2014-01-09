@@ -43,7 +43,7 @@ public class MainActivity extends FragmentActivity {
         settings = getSharedPreferences(PREFS_NAME, 0);
 
 
-        settings.edit().putString("webaddress", ("http://" + settings.getString("hostname", "127.0.0.1") + ":" + settings.getString("port", "80") + "/api/" + settings.getString("apikey", "key"))).commit();
+        //settings.edit().putString("webaddress", ("http://" + settings.getString("hostname", "127.0.0.1") + ":" + settings.getString("port", "80") + "/api/" + settings.getString("apikey", "key"))).commit();
         final String webaddress = settings.getString("webaddress", null);
         System.out.println(webaddress);
 
@@ -191,6 +191,9 @@ public class MainActivity extends FragmentActivity {
             settings.edit().putString("responsemanage", "null").commit();
             settings.edit().putString("currentfragment", "wanted").commit();
             settings.edit().putString("errormessage", "not set up");
+
+            //OLD WAY
+            /*
             android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
             final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
             ActivitySettings newFragment = new ActivitySettings();
@@ -198,10 +201,20 @@ public class MainActivity extends FragmentActivity {
             //fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.commit();
+            */
+
+            //NEW WAY
+
+            Intent myIntent = new Intent(MainActivity.this, SetupActivity.class);
+            //myIntent.putExtra("key", value); //Optional parameters
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            MainActivity.this.startActivity(myIntent);
         }
         buttonSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
                 final android.support.v4.app.FragmentTransaction transaction = fm.beginTransaction();
                 ActivitySettings newFragment = new ActivitySettings();
@@ -209,6 +222,12 @@ public class MainActivity extends FragmentActivity {
                 fm.popBackStack(null, fm.POP_BACK_STACK_INCLUSIVE);
                 transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 transaction.commit();
+                */
+                Intent myIntent = new Intent(MainActivity.this, SetupActivity.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MainActivity.this.startActivity(myIntent);
             }
         });
         buttonManage.setOnClickListener(new View.OnClickListener() {

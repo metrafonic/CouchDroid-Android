@@ -27,6 +27,9 @@
         <activity
             android:name="com.metrafonic.couchdroid.TrailerActivity"
             android:theme="@style/Theme.Transparent"></activity>
+        <activity
+            android:name="com.metrafonic.couchdroid.SetupActivity"
+            ></activity>
 
     </application>
 

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:padding="10dp"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="API Key:"
+                android:id="@+id/textView"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="The API key is required for this app to work. You have the option to either manually enter the CouchPotato API key or supply the username and password of the CouchPotato applicaion so the app can get it for you."
+                android:id="@+id/textView2"
+                android:layout_below="@+id/textView"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical"
+                android:paddingTop="20dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Automatically get API Key"
+                    android:id="@+id/radioButtonSetupAuto"
+                    android:textSize="20dp"
+                    android:checked="true" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="32dp">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:ems="10"
+                        android:id="@+id/editTextSetupApiUsername"
+                        android:layout_below="@+id/textView6"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignLeft="@+id/textView4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="CouchDroid is able to get the API key for you. To prevent unauthorized access, the CouchPotato username and password is required"
+                        android:id="@+id/textView4" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Password:"
+                        android:id="@+id/textView5"
+                        android:layout_below="@+id/editTextSetupApiUsername"
+                        android:layout_alignLeft="@+id/editTextSetupApiUsername"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:ems="10"
+                        android:id="@+id/editTextSetupApiPassword"
+                        android:layout_below="@+id/textView5"
+                        android:layout_alignLeft="@+id/textView5"
+                        android:layout_alignParentRight="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Username:"
+                        android:id="@+id/textView6"
+                        android:layout_below="@+id/textView4"
+                        android:layout_alignLeft="@+id/editTextSetupApiUsername"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manually enter API key:"
+                    android:id="@+id/radioButtonSetupManual"
+                    android:textSize="20dp" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="32dp">
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:ems="10"
+                        android:id="@+id/editTextSetupApiKey"
+                        android:layout_below="@+id/textView3"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignLeft="@+id/textView3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="This can be found in CouchPotato settings in your web browser > press Show Advanced Settings. The API key is then displayed"
+                        android:id="@+id/textView3" />
+                </RelativeLayout>
+            </RadioGroup>
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Connect"
+        android:id="@+id/buttonSetupConnect"
+        android:layout_alignBottom="@+id/scrollView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/scrollView"
+        android:background="@drawable/abc_tab_selected_focused_holo" />
+</LinearLayout>

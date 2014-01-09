@@ -188,7 +188,7 @@ public class FragmentMovie extends Fragment {
                 public void onClick(View view) {
                     movieTrailer.setClickable(false);
 
-                    client.get( "http://gdata.youtube.com/feeds/api/videos?max-results=1&alt=json&q=" + finalTitleforyoutube + " movie trailer", new AsyncHttpResponseHandler() {
+                    client.get( "http://gdata.youtube.com/feeds/api/videos?max-results=1&alt=json&q=" + finalTitleforyoutube + " trailer", new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(String response) {
 
