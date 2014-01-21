@@ -127,9 +127,9 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Sorry no https (yet)"
                 android:id="@+id/textView7"
+                android:paddingBottom="50dp"
                 android:layout_below="@+id/editTextSetupPassword"
-                android:layout_toRightOf="@+id/textView10"
-                android:paddingBottom="50dp" />
+                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -69,7 +70,7 @@ public class FragmentSearch extends Fragment {
                     System.out.println(webaddress + "/movie.search?q=" + URLEncoder.encode(v.getText().toString()));
                     client.get(webaddress + "/movie.search?q=" + URLEncoder.encode(v.getText().toString()), new AsyncHttpResponseHandler() {
                         @Override
-                        public void onSuccess(String response) {
+                        public void onSuccess(final String response) {
                             searchProgress.setVisibility(View.GONE);
 
 
@@ -140,7 +141,7 @@ public class FragmentSearch extends Fragment {
                                     }
                                 });
 
-
+I
                             }
                             settings.edit().putString("errormessage", "").commit();
                         }
