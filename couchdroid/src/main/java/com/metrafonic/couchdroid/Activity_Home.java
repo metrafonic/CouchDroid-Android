@@ -2,6 +2,8 @@ package com.metrafonic.couchdroid;
 
 import java.util.Locale;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -43,8 +45,9 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.RED));
-
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#5c697b")));
+        actionBar.setTitle("");
+        actionBar.setLogo(R.drawable.couchdroid);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
