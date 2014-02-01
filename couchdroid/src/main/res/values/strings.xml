@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CouchDroidV2</string>
+    <string name="title_section1">Home</string>
+    <string name="title_section2">Wanted</string>
+    <string name="title_section3">Manage</string>
+    <string name="action_settings">Search</string>
+
+</resources>
