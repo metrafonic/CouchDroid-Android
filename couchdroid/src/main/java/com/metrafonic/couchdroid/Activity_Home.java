@@ -129,7 +129,15 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position) {
+                case 0:
+                    return Fragment_Home.newInstance(88);
+                case 1:
+                    return Fragment_Home.newInstance(position + 1);
+                case 2:
+                    return Fragment_Home.newInstance(position + 1);
+            }
+            return Fragment_Home.newInstance(position + 99);
         }
 
         @Override
@@ -169,6 +177,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
          */
         public static PlaceholderFragment newInstance(int sectionNumber) {
             PlaceholderFragment fragment = new PlaceholderFragment();
+            Fragment_Home fragmentnew = new Fragment_Home();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
