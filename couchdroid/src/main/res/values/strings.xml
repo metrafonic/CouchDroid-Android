@@ -5,6 +5,7 @@
     <string name="title_section1">Home</string>
     <string name="title_section2">Wanted</string>
     <string name="title_section3">Manage</string>
-    <string name="action_settings">Search</string>
+    <string name="action_search">Search</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
