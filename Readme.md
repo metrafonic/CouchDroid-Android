@@ -10,8 +10,10 @@ Completely rewritten and redecorated to fee feel like it was already part of you
 4. Add/delete/edit movies
 5. Watch movie trailers
 More to come...
+
 ## APIs Used:
 To do
+
 ## Credits
 Created by Mathias Hedberg 
 (WWW.metrafonic.com)[http://www.metrafonic.com/]
