@@ -63,6 +63,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
@@ -83,6 +84,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                     actionBar.newTab()
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
+
         }
         final SharedPreferences settings = getSharedPreferences("serversettings", 0);
         final AsyncHttpClient client = new AsyncHttpClient();
@@ -92,6 +94,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                 System.out.println(response);
                 settings.edit().putString("response", response).commit();
                 Fragment_Home.newInstance(response);
+                mViewPager.setCurrentItem(2);
 
             }
         });
