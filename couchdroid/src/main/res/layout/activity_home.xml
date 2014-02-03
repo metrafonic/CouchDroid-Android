@@ -4,16 +4,27 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.metrafonic.couchdroid.Activity_Home" />
+        tools:context="com.metrafonic.couchdroid.Activity_Home"
+        android:layout_alignParentTop="true"
+        android:background="#80000000" />
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:id="@+id/imageView"
-        android:src="#74869c" />
+        android:src="#AA434343" />
+
 </RelativeLayout>

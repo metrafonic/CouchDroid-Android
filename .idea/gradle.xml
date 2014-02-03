@@ -5,7 +5,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/sdk/extras/google/m2repository/com/google/android/gms/play-services/3.1.36" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../SDK/extras/google/m2repository/com/google/android/gms/play-services/3.1.36" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
