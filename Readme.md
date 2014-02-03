@@ -16,4 +16,4 @@ To do
 
 ## Credits
 Created by Mathias Hedberg 
-(WWW.metrafonic.com)[http://www.metrafonic.com/]
+[www.metrafonic.com](http://www.metrafonic.com/)
