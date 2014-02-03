@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
@@ -43,6 +44,9 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
     ViewPager mViewPager;
     private Handler handler;
 
+    public interface OnTutSelectedListener {
+        public void onTutSelected(Uri tutUri);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,23 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        final SharedPreferences settings = getSharedPreferences("serversettings", 0);
+        final AsyncHttpClient client = new AsyncHttpClient();
+        if (savedInstanceState == null) {
+            client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list?status=active", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+                    System.out.println(response);
+                    settings.edit().putString("responsewanted", response).commit();
+                    //mViewPager.setCurrentItem(0);
+                    mViewPager.setAdapter(mSectionsPagerAdapter);
+                }
+            });
+        } else {
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+        }
+        mViewPager.setOffscreenPageLimit(3);
 
 
         // When swiping between different sections, select the corresponding
@@ -86,18 +106,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                             .setTabListener(this));
 
         }
-        final SharedPreferences settings = getSharedPreferences("serversettings", 0);
-        final AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://www.metrafonic.com.com/", new AsyncHttpResponseHandler(){
-            @Override
-            public void onSuccess(String response) {
-                System.out.println(response);
-                settings.edit().putString("response", response).commit();
-                Fragment_Home.newInstance(response);
-                mViewPager.setCurrentItem(1);
 
-            }
-        });
     }
 
 
@@ -153,13 +162,13 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return Fragment_Home.newInstance(settings.getString("response", "none").toString());
+                    return Fragment_Home.newInstance(settings.getString("response", "none").toString(), position);
                 case 1:
-                    return Fragment_Home.newInstance(settings.getString("response", "none").toString());
+                    return Fragment_Wanted.newInstance(settings.getString("responsewanted", "none").toString(), position);
                 case 2:
-                    return Fragment_Home.newInstance(settings.getString("response", "none").toString());
+                    return Fragment_Manage.newInstance(settings.getString("response", "none").toString(), position);
             }
-            return Fragment_Home.newInstance(settings.getString("response", "none").toString());
+            return Fragment_Manage.newInstance(settings.getString("response", "none").toString(), position);
         }
 
         @Override
@@ -182,6 +191,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
             return null;
         }
     }
+
 
     /**
      * A placeholder fragment containing a simple view.
@@ -213,8 +223,6 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
