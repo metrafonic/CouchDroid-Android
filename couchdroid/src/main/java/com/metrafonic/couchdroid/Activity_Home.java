@@ -2,8 +2,11 @@ package com.metrafonic.couchdroid;
 
 import java.util.Locale;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -19,6 +22,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class Activity_Home extends ActionBarActivity implements ActionBar.TabListener {
 
@@ -36,6 +41,8 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    private Handler handler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,17 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                             .setText(mSectionsPagerAdapter.getPageTitle(i))
                             .setTabListener(this));
         }
+        final SharedPreferences settings = getSharedPreferences("serversettings", 0);
+        final AsyncHttpClient client = new AsyncHttpClient();
+        client.get("http://www.metrafonic.com.com/", new AsyncHttpResponseHandler(){
+            @Override
+            public void onSuccess(String response) {
+                System.out.println(response);
+                settings.edit().putString("response", response).commit();
+                Fragment_Home.newInstance(response);
+
+            }
+        });
     }
 
 
@@ -120,6 +138,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        final SharedPreferences settings = getSharedPreferences("serversettings", 0);
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -131,13 +150,13 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return Fragment_Home.newInstance(88);
+                    return Fragment_Home.newInstance(settings.getString("response", "none").toString());
                 case 1:
-                    return Fragment_Home.newInstance(position + 1);
+                    return Fragment_Home.newInstance(settings.getString("response", "none").toString());
                 case 2:
-                    return Fragment_Home.newInstance(position + 1);
+                    return Fragment_Home.newInstance(settings.getString("response", "none").toString());
             }
-            return Fragment_Home.newInstance(position + 99);
+            return Fragment_Home.newInstance(settings.getString("response", "none").toString());
         }
 
         @Override

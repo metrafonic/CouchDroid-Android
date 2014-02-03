@@ -1,5 +1,6 @@
 package com.metrafonic.couchdroid;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,11 +17,12 @@ public class Fragment_Home extends Fragment {
     /**
      * Returns a new instance of this fragment for the given section
      * number.
+     * @param sectionNumber
      */
-    public static Fragment_Home newInstance(int sectionNumber) {
+    public static Fragment_Home newInstance(String sectionNumber) {
         Fragment_Home fragment = new Fragment_Home();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putString(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,8 +34,10 @@ public class Fragment_Home extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        final SharedPreferences settings = this.getActivity().getSharedPreferences("serversettings", 0);
         TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+        textView.setText(settings.getString("response", "none").toString());
+        //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
         return rootView;
     }
 }
