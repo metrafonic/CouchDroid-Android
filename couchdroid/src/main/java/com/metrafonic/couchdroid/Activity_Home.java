@@ -94,7 +94,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                 System.out.println(response);
                 settings.edit().putString("response", response).commit();
                 Fragment_Home.newInstance(response);
-                mViewPager.setCurrentItem(2);
+                mViewPager.setCurrentItem(1);
 
             }
         });
