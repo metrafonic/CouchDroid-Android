@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CouchDroidV2.iml" filepath="$PROJECT_DIR$/CouchDroidV2.iml" />
       <module fileurl="file://$PROJECT_DIR$/couchdroid/couchdroid.iml" filepath="$PROJECT_DIR$/couchdroid/couchdroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/couchdroidv2.iml" filepath="$PROJECT_DIR$/couchdroidv2.iml" />
     </modules>
   </component>
 </project>

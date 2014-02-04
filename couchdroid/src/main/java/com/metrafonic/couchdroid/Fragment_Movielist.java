@@ -106,7 +106,10 @@ public class Fragment_Movielist extends Fragment {
                             Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
                             Intent myIntent = new Intent(getActivity(), Activity_Movieinfo.class);
                             myIntent.putExtra("key", finalI1); //Optional parameters
+                            myIntent.putExtra("response", getArguments().getString("response"));
                             getActivity().startActivity(myIntent);
+
+
                         }
                     });
                     movieLayout.addView(cell);

@@ -160,7 +160,7 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    return Fragment_Home.newInstance(settings.getString("response", "none").toString(), position);
+                    return Fragment_Home.newInstance(settings.getString("movielist", "none").toString(), position);
                 case 1:
                     return Fragment_Movielist.newInstance(settings.getString("movielist", "none").toString(), position);
                 case 2:
