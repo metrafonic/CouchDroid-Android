@@ -1,6 +1,6 @@
 package com.metrafonic.couchdroid;
 
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,7 +18,7 @@ import org.json.JSONObject;
 /**
  * Created by mathias on 2/1/14.
  */
-public class Fragment_Wanted extends Fragment {
+public class Fragment_Movielist extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
 
     /**
@@ -27,8 +27,8 @@ public class Fragment_Wanted extends Fragment {
      *
      * @param sectionNumber
      */
-    public static Fragment_Wanted newInstance(String response, int sectionNumber) {
-        Fragment_Wanted fragment = new Fragment_Wanted();
+    public static Fragment_Movielist newInstance(String response, int sectionNumber) {
+        Fragment_Movielist fragment = new Fragment_Movielist();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         args.putString("response", response);
@@ -36,13 +36,13 @@ public class Fragment_Wanted extends Fragment {
         return fragment;
     }
 
-    public Fragment_Wanted() {
+    public Fragment_Movielist() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_wanted, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_movielist, container, false);
         //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
         JSONObject jsonResponse = null;
         String title = "none";
@@ -57,6 +57,7 @@ public class Fragment_Wanted extends Fragment {
                 final AQuery aq = new AQuery(cell);
                 TextView movieTitle = (TextView) cell.findViewById(R.id.textViewMovieTitle);
                 TextView moviePlot = (TextView) cell.findViewById(R.id.textViewMoviePlot);
+                TextView movieStatusId = (TextView) cell.findViewById(R.id.textViewMovieStatusId);
 
                 title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
                 plot = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getString("plot");
@@ -68,6 +69,10 @@ public class Fragment_Wanted extends Fragment {
 
                 }
 
+                if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
+                    movieStatusId.setText("Done");
+                    movieStatusId.setBackgroundColor(Color.parseColor("#a2a232"));
+                }
                 movieTitle.setText(title);
                 moviePlot.setText(plot);
                 final String finalTitle = title;
