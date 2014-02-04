@@ -53,22 +53,25 @@ public class Fragment_Movielist extends Fragment {
             title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
             LinearLayout movieLayout = (LinearLayout) rootView.findViewById(R.id.homecell);
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
-                innerloop:
+                discard:
                 if (getArguments().getInt(ARG_SECTION_NUMBER)>0){
-                    superloop:
+                    keep:
                     if (getArguments().getInt(ARG_SECTION_NUMBER)==1){
                         if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
                             switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")){
-                                case 1:break superloop;
-                                case 7:break superloop;
-                                case 0:break superloop;
+                                case 6:break discard;
                             }
-                            break innerloop;
+                            break keep;
                         }
-                        //break innerloop;
                     }else{
                         if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()==0){
-                            break innerloop;
+                            break discard;
+                        }
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
+                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")){
+                                case 6:break keep;
+                            }
+                            break discard;
                         }
                     }
                     View cell = inflater.inflate(R.layout.cellmovielist, container, false);
@@ -88,7 +91,7 @@ public class Fragment_Movielist extends Fragment {
                     }
 
                     if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
-                        movieStatusId.setText("Done / Snatched");
+                        movieStatusId.setText("Downloaded");
                         movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
                     }
                     movieTitle.setText(title);
