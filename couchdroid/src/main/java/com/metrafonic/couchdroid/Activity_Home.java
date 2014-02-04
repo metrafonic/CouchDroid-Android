@@ -67,20 +67,13 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
         final SharedPreferences settings = getSharedPreferences("serversettings", 0);
         final AsyncHttpClient client = new AsyncHttpClient();
         if (savedInstanceState == null) {
-            client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list?status=active", new AsyncHttpResponseHandler() {
+            client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
                     System.out.println(response);
-                    settings.edit().putString("responsewanted", response).commit();
-                    client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list?status=done", new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(String response) {
-                            System.out.println(response);
-                            settings.edit().putString("responsemanage", response).commit();
-                            //mViewPager.setCurrentItem(0);
-                            mViewPager.setAdapter(mSectionsPagerAdapter);
-                        }
-                    });
+                    settings.edit().putString("movielist", response).commit();
+                    //mViewPager.setCurrentItem(0);
+                    mViewPager.setAdapter(mSectionsPagerAdapter);
                 }
             });
         } else {
@@ -169,9 +162,9 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                 case 0:
                     return Fragment_Home.newInstance(settings.getString("response", "none").toString(), position);
                 case 1:
-                    return Fragment_Movielist.newInstance(settings.getString("responsewanted", "none").toString(), position);
+                    return Fragment_Movielist.newInstance(settings.getString("movielist", "none").toString(), position);
                 case 2:
-                    return Fragment_Movielist.newInstance(settings.getString("responsemanage", "none").toString(), position);
+                    return Fragment_Movielist.newInstance(settings.getString("movielist", "none").toString(), position);
             }
             return Fragment_Home.newInstance(settings.getString("response", "none").toString(), position);
         }

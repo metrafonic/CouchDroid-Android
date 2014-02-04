@@ -53,36 +53,55 @@ public class Fragment_Movielist extends Fragment {
             title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
             LinearLayout movieLayout = (LinearLayout) rootView.findViewById(R.id.homecell);
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
-                View cell = inflater.inflate(R.layout.cellmovielist, container, false);
-                final AQuery aq = new AQuery(cell);
-                TextView movieTitle = (TextView) cell.findViewById(R.id.textViewMovieTitle);
-                TextView moviePlot = (TextView) cell.findViewById(R.id.textViewMoviePlot);
-                TextView movieStatusId = (TextView) cell.findViewById(R.id.textViewMovieStatusId);
-
-                title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
-                plot = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getString("plot");
-                try {
-                    poster = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0);
-                    aq.id(R.id._image).image(poster);
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                }
-
-                if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
-                    movieStatusId.setText("Done");
-                    movieStatusId.setBackgroundColor(Color.parseColor("#a2a232"));
-                }
-                movieTitle.setText(title);
-                moviePlot.setText(plot);
-                final String finalTitle = title;
-                cell.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
+                innerloop:
+                if (getArguments().getInt(ARG_SECTION_NUMBER)>0){
+                    superloop:
+                    if (getArguments().getInt(ARG_SECTION_NUMBER)==1){
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
+                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")){
+                                case 1:break superloop;
+                                case 7:break superloop;
+                                case 0:break superloop;
+                            }
+                            break innerloop;
+                        }
+                        //break innerloop;
+                    }else{
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()==0){
+                            break innerloop;
+                        }
                     }
-                });
-                movieLayout.addView(cell);
+                    View cell = inflater.inflate(R.layout.cellmovielist, container, false);
+                    final AQuery aq = new AQuery(cell);
+                    TextView movieTitle = (TextView) cell.findViewById(R.id.textViewMovieTitle);
+                    TextView moviePlot = (TextView) cell.findViewById(R.id.textViewMoviePlot);
+                    TextView movieStatusId = (TextView) cell.findViewById(R.id.textViewMovieStatusId);
+
+                    title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
+                    plot = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getString("plot");
+                    try {
+                        poster = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0);
+                        aq.id(R.id._image).image(poster);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+
+                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
+                        movieStatusId.setText("Done / Snatched");
+                        movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
+                    }
+                    movieTitle.setText(title);
+                    moviePlot.setText(plot);
+                    final String finalTitle = title;
+                    cell.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    movieLayout.addView(cell);
+                }
             }
 
         } catch (JSONException e) {
