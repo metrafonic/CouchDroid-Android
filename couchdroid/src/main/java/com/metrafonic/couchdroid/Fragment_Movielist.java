@@ -1,5 +1,6 @@
 package com.metrafonic.couchdroid;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -97,10 +98,15 @@ public class Fragment_Movielist extends Fragment {
                     movieTitle.setText(title);
                     moviePlot.setText(plot);
                     final String finalTitle = title;
+                    final int finalI = i;
+                    final int finalI1 = i;
                     cell.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(getActivity(), Activity_Movieinfo.class);
+                            myIntent.putExtra("key", finalI1); //Optional parameters
+                            getActivity().startActivity(myIntent);
                         }
                     });
                     movieLayout.addView(cell);
