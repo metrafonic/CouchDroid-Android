@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -16,13 +15,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -69,11 +67,11 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
         final SharedPreferences settings = getSharedPreferences("serversettings", 0);
         final AsyncHttpClient client = new AsyncHttpClient();
         if (savedInstanceState == null) {
-            client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list?status=active", new AsyncHttpResponseHandler() {
+            client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
                     System.out.println(response);
-                    settings.edit().putString("responsewanted", response).commit();
+                    settings.edit().putString("movielist", response).commit();
                     //mViewPager.setCurrentItem(0);
                     mViewPager.setAdapter(mSectionsPagerAdapter);
                 }
@@ -164,11 +162,11 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                 case 0:
                     return Fragment_Home.newInstance(settings.getString("response", "none").toString(), position);
                 case 1:
-                    return Fragment_Wanted.newInstance(settings.getString("responsewanted", "none").toString(), position);
+                    return Fragment_Movielist.newInstance(settings.getString("movielist", "none").toString(), position);
                 case 2:
-                    return Fragment_Manage.newInstance(settings.getString("response", "none").toString(), position);
+                    return Fragment_Movielist.newInstance(settings.getString("movielist", "none").toString(), position);
             }
-            return Fragment_Manage.newInstance(settings.getString("response", "none").toString(), position);
+            return Fragment_Home.newInstance(settings.getString("response", "none").toString(), position);
         }
 
         @Override
