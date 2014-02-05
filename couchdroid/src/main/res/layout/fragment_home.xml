@@ -63,8 +63,7 @@
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:padding="5dp">
+                    android:layout_height="fill_parent">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -73,7 +72,8 @@
                         android:text="Snatched / Avaiable:"
                         android:id="@+id/textView2"
                         android:textSize="25dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:padding="5dp" />
 
                     <HorizontalScrollView
                         android:layout_width="fill_parent"
@@ -81,7 +81,9 @@
                         android:id="@+id/horizontalScrollView"
                         android:layout_below="@+id/textView2"
                         android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true">
+                        android:layout_alignParentStart="true"
+                        android:background="#BB555555"
+                        android:clickable="false">
 
                         <LinearLayout
                             android:orientation="horizontal"
@@ -90,7 +92,8 @@
                             android:layout_below="@+id/textView2"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true"
-                            android:id="@+id/layoutSnatchedAvailable">
+                            android:id="@+id/layoutSnatchedAvailable"
+                            android:background="#4a4a4a">
 
                         </LinearLayout>
                     </HorizontalScrollView>

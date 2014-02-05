@@ -50,7 +50,7 @@ public class Fragment_Home extends Fragment {
             jsonResponse = new JSONObject(getArguments().getString("response"));
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
                 if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
-                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 7) {
+                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 7 || jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 1) {
                         View cell = inflater.inflate(R.layout.cell_snatchedavailable, container, false);
                         final AQuery aq = new AQuery(cell);
                         ImageView poster = (ImageView) cell.findViewById(R.id.imageViewPoster);
@@ -79,7 +79,9 @@ public class Fragment_Home extends Fragment {
         return rootView;
     }
 
-    public interface OnDataRefresh {
+    @Override
+    public void onResume() {
+        Toast.makeText(getActivity(), "resumed", Toast.LENGTH_SHORT).show();
 
     }
 
