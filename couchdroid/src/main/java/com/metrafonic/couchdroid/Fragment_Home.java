@@ -46,7 +46,7 @@ public class Fragment_Home extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         JSONObject jsonResponse = null;
         LinearLayout layoutsnatchedavailable = (LinearLayout) rootView.findViewById(R.id.layoutSnatchedAvailable);
-        /*
+
         try {
             jsonResponse = new JSONObject(getArguments().getString("response"));
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
@@ -76,14 +76,14 @@ public class Fragment_Home extends Fragment {
             e.printStackTrace();
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
-        */
+
         return rootView;
     }
 
     @Override
     public void onResume() {
         Toast.makeText(getActivity(), "resumed", Toast.LENGTH_SHORT).show();
-
+        super.onResume();
     }
 
 }
