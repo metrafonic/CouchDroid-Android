@@ -65,6 +65,19 @@
             android:paddingBottom="3dp"
             android:textSize="18dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/textViewMovieIMDBTitle"
+            android:layout_alignBottom="@+id/textViewMovieTitle"
+            android:textStyle="bold"
+            android:paddingBottom="3dp"
+            android:textSize="18dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="22dp"
+            android:text="0.0" />
+
     </RelativeLayout>
 
     <ScrollView
@@ -75,14 +88,14 @@
         android:layout_alignParentBottom="true"
         android:background="#AA3c3c3c">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeLayout"
                 android:id="@+id/relativeLayout3"
                 android:paddingRight="40dp"
                 android:focusable="false"
@@ -115,44 +128,154 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/relativeLayout2"
-                android:layout_below="@+id/relativeLayout3"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_height="fill_parent"
+                android:paddingTop="20dp"
+                android:paddingLeft="40dp">
 
-                <ScrollView
+                <Button
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/scrollView2"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:paddingRight="40dp"
-                    android:focusable="false"
-                    android:paddingTop="20dp">
+                    android:text="View Movie Trailer"
+                    android:id="@+id/buttonMovieTrailer"
+                    android:background="#DD3c3c3c"
+                    android:textSize="15dp"
+                    android:gravity="center_vertical|left"
+                    android:paddingLeft="20dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout3"
+                android:id="@+id/relativeLayout2"
+                android:paddingRight="40dp"
+                android:focusable="false"
+                android:paddingTop="20dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#DD3c3c3c"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Rating:"
+                        android:id="@+id/textView5"
+                        android:background="#DD3c3c3c"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
 
                     <LinearLayout
-                        android:orientation="vertical"
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="IMDB Score:"
+                            android:id="@+id/textView6"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="0.0"
+                            android:id="@+id/textViewMovieIMDB"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeLayout2"
+                android:id="@+id/relativeLayout4"
+                android:paddingRight="40dp"
+                android:focusable="false"
+                android:paddingTop="20dp">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#DD3c3c3c"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Details:"
+                        android:id="@+id/textView3"
+                        android:background="#DD3c3c3c"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Runtime:"
+                            android:id="@+id/textView4"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:text="minutes"
+                            android:id="@+id/textViewRuntime"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:background="#DD3c3c3c"
-                        android:paddingTop="2dp"
-                        android:paddingBottom="2dp">
+                        android:id="@+id/linearLayout">
 
                         <TextView
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:text="New Text"
+                            android:text="MPAA Rating:"
                             android:id="@+id/textView"
-                            android:paddingLeft="15dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingBottom="10dp" />
+                            android:layout_below="@+id/textView3"
+                            android:background="#DD3c3c3c"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:text="Rating"
+                            android:id="@+id/textViewMPAA"
+                            android:layout_below="@+id/textView3"
+                            android:background="#DD3c3c3c"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_weight="1" />
                     </LinearLayout>
-                </ScrollView>
+                </LinearLayout>
             </RelativeLayout>
-        </RelativeLayout>
+
+        </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>

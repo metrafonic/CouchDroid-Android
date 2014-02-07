@@ -21,6 +21,9 @@
         <activity
             android:name="com.metrafonic.couchdroid.Activity_Movieinfo"
             android:theme="@style/Theme.AppCompat"></activity>
+        <activity
+            android:name="com.metrafonic.couchdroid.Activity_Trailer"
+            android:theme="@style/Theme.Transparent"></activity>
     </application>
 
 </manifest>
