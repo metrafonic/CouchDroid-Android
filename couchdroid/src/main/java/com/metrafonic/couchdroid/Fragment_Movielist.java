@@ -1,5 +1,6 @@
 package com.metrafonic.couchdroid;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -54,22 +55,24 @@ public class Fragment_Movielist extends Fragment {
             LinearLayout movieLayout = (LinearLayout) rootView.findViewById(R.id.homecell);
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
                 discard:
-                if (getArguments().getInt(ARG_SECTION_NUMBER)>0){
+                if (getArguments().getInt(ARG_SECTION_NUMBER) > 0) {
                     keep:
-                    if (getArguments().getInt(ARG_SECTION_NUMBER)==1){
-                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
-                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")){
-                                case 6:break discard;
+                    if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
+                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                                case 6:
+                                    break discard;
                             }
                             break keep;
                         }
-                    }else{
-                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()==0){
+                    } else {
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() == 0) {
                             break discard;
                         }
-                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
-                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")){
-                                case 6:break keep;
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
+                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                                case 6:
+                                    break keep;
                             }
                             break discard;
                         }
@@ -90,17 +93,62 @@ public class Fragment_Movielist extends Fragment {
 
                     }
 
-                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length()>0){
-                        movieStatusId.setText("Downloaded");
-                        movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
+                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
+                        int status = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id");
+                        switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                            case 1: {
+                                movieStatusId.setText("Snatched");
+                                movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
+                                break;
+                            }
+                            case 2: {
+                                movieStatusId.setText("Downloaded #2");
+                                break;
+                            }
+                            case 3: {
+                                movieStatusId.setText("Downloaded #3");
+                                break;
+                            }
+                            case 4: {
+                                movieStatusId.setText("Downloaded #4");
+                                break;
+                            }
+                            case 5: {
+                                movieStatusId.setText("Downloaded #5");
+                                break;
+                            }
+                            case 6: {
+                                movieStatusId.setText("Downloaded");
+                                movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
+                                break;
+                            }
+                            case 7: {
+                                movieStatusId.setText("Snatched");
+                                movieStatusId.setBackgroundColor(Color.parseColor("#a2a232"));
+                                break;
+                            }
+                            case 8: {
+                                movieStatusId.setText("Downloaded #8");
+                                break;
+                            }
+                        }
+                        //movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
                     }
                     movieTitle.setText(title);
                     moviePlot.setText(plot);
                     final String finalTitle = title;
+                    final int finalI = i;
+                    final int finalI1 = i;
                     cell.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(getActivity(), Activity_Movieinfo.class);
+                            myIntent.putExtra("key", finalI1); //Optional parameters
+                            myIntent.putExtra("response", getArguments().getString("response"));
+                            getActivity().startActivity(myIntent);
+
+
                         }
                     });
                     movieLayout.addView(cell);
