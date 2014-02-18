@@ -1,19 +1,20 @@
-# CouchDroidV2 ![status](https://travis-ci.org/metrafonic/CouchDroid.png)
-###### An updated version of CouchDroid to be as native as possible
+# Introducing CouchDroid 
+CouchDroid for Android is the perfect app for managing your CouchPotato Library and Wanted list. Setup is a breeze and new movies are just a click away
+{<1>}![The Ghost Logo](http://www.metrafonic.com/wp-content/uploads/2013/12/Poster2.jpg)
 ---
-Completely rewritten and redecorated to fee feel like it was already part of your phone.
-
+{<2>}![status](https://travis-ci.org/metrafonic/CouchDroid.png)
+## What is does:
+CouchDroid is an easy and stylish way to control your CouchPotatov2 server from your phone or tablet. Manage your movies or add new ones to the wanted list with a single tap.
 ## Features:
-1. Uses the CouchPotato V2 API
-2. Native Android tab layout
-3. Dynamic refreshing
-4. Add/delete/edit movies
-5. Watch movie trailers
-More to come...
-
-## APIs Used:
-To do
-
-## Credits
-Created by Mathias Hedberg 
-[www.metrafonic.com](http://www.metrafonic.com/)
+- Search
+- Add to wanted list
+- Remove movie from wanted list
+- Watch movie trailer
+- Movie Manager
+- Couchpotato like layout
+- Tablet support
+- Basicauth authentication
+### Todo:
+- Support for virtualhost folder
+- https
+- Quality editing
