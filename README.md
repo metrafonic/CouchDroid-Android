@@ -1,6 +1,6 @@
 # Introducing CouchDroid 
 CouchDroid for Android is the perfect app for managing your CouchPotato Library and Wanted list. Setup is a breeze and new movies are just a click away
-![The Ghost Logo](http://www.metrafonic.com/wp-content/uploads/2013/12/Poster2.jpg)
+![The Ghost Logo](http://www.metrafonic.com/content/images/2014/Feb/Poster2.jpg)
 ---
 [status](https://travis-ci.org/metrafonic/CouchDroid.png)
 ## What is does:
