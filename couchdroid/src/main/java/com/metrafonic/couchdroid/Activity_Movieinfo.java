@@ -187,7 +187,7 @@ public class Activity_Movieinfo extends ActionBarActivity {
                         }
 
                         @Override
-                        public void onFailure(java.lang.Throwable error) {
+                        public void onFailure(Throwable error) {
                         }
                     });
 

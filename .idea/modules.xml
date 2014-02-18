@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CouchDroid.iml" filepath="$PROJECT_DIR$/CouchDroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/couchdroid/couchdroid.iml" filepath="$PROJECT_DIR$/couchdroid/couchdroid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/couchdroidv2.iml" filepath="$PROJECT_DIR$/couchdroidv2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/couchdroidv2.iml" filepath="$PROJECT_DIR$/couchdroidv2.iml" />
     </modules>
   </component>
 </project>
