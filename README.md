@@ -1,4 +1,4 @@
-# CouchDroidV2
+# CouchDroidV2 ![status](https://travis-ci.org/metrafonic/CouchDroid.png)
 ###### An updated version of CouchDroid to be as native as possible
 ---
 Completely rewritten and redecorated to fee feel like it was already part of your phone.
