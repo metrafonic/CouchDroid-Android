@@ -1,6 +1,7 @@
 language: java
 jdk: oraclejdk7
  
+ 
 before_install:
   # required libs for android build tools
   - sudo apt-get update
