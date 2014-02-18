@@ -4,14 +4,14 @@ package com.metrafonic.couchdroid;
  * Created by Mathias on 2/7/14.
  */
 
+import android.os.Bundle;
+import android.widget.Toast;
+
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
-
-import android.os.Bundle;
-import android.widget.Toast;
+import com.google.android.youtube.player.YouTubePlayerView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
