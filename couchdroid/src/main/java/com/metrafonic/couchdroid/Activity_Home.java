@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -74,6 +75,9 @@ public class Activity_Home extends ActionBarActivity implements ActionBar.TabLis
                     settings.edit().putString("movielist", response).commit();
                     //mViewPager.setCurrentItem(0);
                     mViewPager.setAdapter(mSectionsPagerAdapter);
+                }
+                public void onFailure(java.lang.Throwable error, String response) {
+                    System.out.println(error.toString());
                 }
             });
         } else {

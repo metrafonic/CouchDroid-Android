@@ -3,6 +3,7 @@ package com.metrafonic.couchdroid;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,11 +47,43 @@ public class Fragment_Movielist extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_movielist, container, false);
         //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
         JSONObject jsonResponse = null;
+        try {
+            jsonResponse = new JSONObject(getArguments().getString("response"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        makelist(rootView, inflater, container, savedInstanceState, jsonResponse);
+        return rootView;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    /*public void onResume(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View rootView = inflater.inflate(R.layout.fragment_movielist, container, false);
+        JSONObject jsonResponse = null;
+        try {
+            jsonResponse = new JSONObject(getArguments().getString("response"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getActivity(), "reumedhellyea", Toast.LENGTH_LONG).show();
+        makelist(rootView, inflater, container, savedInstanceState , jsonResponse);
+        super.onResume();
+    }*/
+
+    public interface OnDataRefresh {
+
+    }
+
+    public void makelist (View rootView, LayoutInflater inflater, ViewGroup container,
+                          Bundle savedInstanceState, JSONObject jsonResponse){
         String title = "none";
         String plot = "none";
         String poster = "none";
         try {
-            jsonResponse = new JSONObject(getArguments().getString("response"));
             title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
             LinearLayout movieLayout = (LinearLayout) rootView.findViewById(R.id.homecell);
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
@@ -60,7 +93,17 @@ public class Fragment_Movielist extends Fragment {
                     if (getArguments().getInt(ARG_SECTION_NUMBER) == 1) {
                         if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
                             switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                                case 8:
+                                    break discard;
                                 case 6:
+                                    break discard;
+                                case 5:
+                                    break discard;
+                                case 4:
+                                    break discard;
+                                case 3:
+                                    break discard;
+                                case 2:
                                     break discard;
                             }
                             break keep;
@@ -71,7 +114,17 @@ public class Fragment_Movielist extends Fragment {
                         }
                         if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
                             switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                                case 8:
+                                    break keep;
                                 case 6:
+                                    break keep;
+                                case 5:
+                                    break keep;
+                                case 4:
+                                    break keep;
+                                case 3:
+                                    break keep;
+                                case 2:
                                     break keep;
                             }
                             break discard;
@@ -102,7 +155,7 @@ public class Fragment_Movielist extends Fragment {
                                 break;
                             }
                             case 2: {
-                                movieStatusId.setText("Downloaded #2");
+                                movieStatusId.setText("Downloaded");
                                 break;
                             }
                             case 3: {
@@ -158,11 +211,6 @@ public class Fragment_Movielist extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return rootView;
-    }
-
-    public interface OnDataRefresh {
-
     }
 
 }

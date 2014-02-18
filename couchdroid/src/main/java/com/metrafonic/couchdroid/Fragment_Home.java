@@ -1,19 +1,29 @@
 package com.metrafonic.couchdroid;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 /**
  * Created by mathias on 2/1/14.
@@ -39,11 +49,16 @@ public class Fragment_Home extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
+        final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        final EditText searchMovie = (EditText) rootView.findViewById(R.id.editTextSearch);
+        final AsyncHttpClient client = new AsyncHttpClient();
+        createlay(inflater, container, savedInstanceState, getArguments().getString("response"));
+
         JSONObject jsonResponse = null;
         LinearLayout layoutsnatchedavailable = (LinearLayout) rootView.findViewById(R.id.layoutSnatchedAvailable);
+
 
         try {
             jsonResponse = new JSONObject(getArguments().getString("response"));
@@ -74,13 +89,83 @@ public class Fragment_Home extends Fragment {
             e.printStackTrace();
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
+        searchMovie.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            LinearLayout searchLayout = (LinearLayout) rootView.findViewById(R.id.layoutSearchCellPlace);
+            ProgressBar progressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+
+
+            @Override
+            public boolean onEditorAction(final TextView v, int actionId, KeyEvent keyEvent) {
+                searchLayout.removeAllViews();
+                progressBar.setVisibility(View.VISIBLE);
+                client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c"+ "/movie.search?q=" + URLEncoder.encode(v.getText().toString()), new AsyncHttpResponseHandler() {
+                    public void onSuccess(final String response) {
+                        progressBar.setVisibility(View.GONE);
+                        int l = 0;
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+
+                            for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
+                                l++;
+                                final View cell = inflater.inflate(R.layout.cell_search, container, false);
+                                TextView cellTitle = (TextView) cell.findViewById(R.id.textView);
+                                final String title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("titles").getString(0);
+                                final String imdb = jsonResponse.getJSONArray("movies").getJSONObject(i).getString("imdb");
+                                cellTitle.setText(title);
+                                cell.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        //Toast.makeText(getActivity(), imdb, Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c"+ "/movie.add?identifier=" + imdb, new AsyncHttpResponseHandler() {
+                                            public void onSuccess(final String response) {
+                                                Toast.makeText(getActivity(), "Added movie " + title, Toast.LENGTH_SHORT).show();
+
+                                                client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list", new AsyncHttpResponseHandler() {
+                                                    @Override
+                                                    public void onSuccess(String response) {
+                                                        searchLayout.removeAllViews();
+                                                        searchMovie.setText("");
+                                                        createlay(inflater, container, savedInstanceState, response);
+                                                        Toast.makeText(getActivity(), "SWAAAG ", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                    public void onFailure(java.lang.Throwable error, String response) {
+                                                        System.out.println(error.toString());
+                                                    }
+                                                });
+
+                                            }
+                                            @Override
+                                            public void onFailure(java.lang.Throwable error) {
+                                                progressBar.setVisibility(View.GONE);
+                                                searchLayout.removeAllViews();
+                                            }
+                                        });
+                                    }
+                                });
+                                searchLayout.addView(cell);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                return false;
+            }
+        });
 
         return rootView;
     }
 
+    public void createlay(final LayoutInflater inflater, final ViewGroup container,
+                          Bundle savedInstanceState, String response){
+
+    }
+
     @Override
     public void onResume() {
-        Toast.makeText(getActivity(), "resumed", Toast.LENGTH_SHORT).show();
+
         super.onResume();
     }
 
