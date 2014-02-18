@@ -95,7 +95,7 @@ public class Fragment_Home extends Fragment {
 
 
             @Override
-            public boolean onEditorAction(final TextView v, int actionId, KeyEvent keyEvent) {
+            apublic boolean onEditorAction(final TextView v, int actionId, KeyEvent keyEvent) {
                 searchLayout.removeAllViews();
                 progressBar.setVisibility(View.VISIBLE);
                 client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c"+ "/movie.search?q=" + URLEncoder.encode(v.getText().toString()), new AsyncHttpResponseHandler() {
