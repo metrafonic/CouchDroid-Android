@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Snatched / Avaiable:"
+                        android:text="Snatched / Available:"
                         android:id="@+id/textView2"
                         android:textSize="25dp"
                         android:textStyle="bold"
