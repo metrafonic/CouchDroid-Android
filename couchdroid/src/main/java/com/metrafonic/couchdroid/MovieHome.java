@@ -1,13 +1,22 @@
 package com.metrafonic.couchdroid;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.androidquery.AQuery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -65,7 +74,42 @@ public class MovieHome extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_movie_home, container, false);
+        JSONObject jsonResponse = null;
+        LinearLayout layoutsnatchedavailable = (LinearLayout) view.findViewById(R.id.layoutSnatchedAvailable);
+        final SharedPreferences settings = getActivity().getSharedPreferences("test", 0);
+
+        try {
+            jsonResponse = new JSONObject(settings.getString("test", "none"));
+            for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
+                if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
+                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 7 || jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 1) {
+                        View cell = inflater.inflate(R.layout.cell_snatched_available, container, false);
+                        final AQuery aq = new AQuery(cell);
+                        ImageView poster = (ImageView) cell.findViewById(R.id.imageViewPoster);
+                        aq.id(R.id.imageViewPoster).image(jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0));
+                        final int finalI = i;
+                        cell.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //Intent myIntent = new Intent(getActivity(), Activity_Movieinfo.class);
+                                //myIntent.putExtra("key", finalI); //Optional parameters
+                                //myIntent.putExtra("response", getArguments().getString("response"));
+                                //getActivity().startActivity(myIntent);
+                            }
+                        });
+                        layoutsnatchedavailable.addView(cell);
+                    }
+                }
+
+            }
+            String title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -138,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
         final AsyncHttpClient client = new AsyncHttpClient();
         final SharedPreferences settings = getSharedPreferences("test", 0);
-            client.get("http://date.jsontest.com/", new AsyncHttpResponseHandler() {
+            client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
                     settings.edit().putString("test", response).commit();
@@ -171,7 +171,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             Fragment frag = null;
             switch (position){
                 case 0:
-                    frag = MovieHome.newInstance("wanted", "data");
+                    frag = MovieHome.newInstance("home", "data");
                     break;
                 case 1:
                     frag = MovieList.newInstance("wanted", "data");

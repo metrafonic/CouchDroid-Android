@@ -1,7 +1,9 @@
 package com.metrafonic.couchdroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.androidquery.AQuery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -77,7 +86,144 @@ public class MovieList extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
         TextView text = (TextView) view.findViewById(R.id.textView);
-        text.setText(type + "\n\n" + settings.getString("test", "none"));
+        //text.setText(type + "\n\n" + settings.getString("test", "none"));
+
+        String title = "none";
+        String plot = "none";
+        String poster = "none";
+        JSONObject jsonResponse;
+        try {
+            jsonResponse = new JSONObject(settings.getString("test", "none"));
+            title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
+            LinearLayout movieLayout = (LinearLayout) view.findViewById(R.id.homecell);
+
+            for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
+                discard:
+                if (1+1==2) {
+
+                    keep:
+                    if (type.contains("wanted")) {
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
+                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                                case 8:
+                                    break discard;
+                                case 6:
+                                    break discard;
+                                case 5:
+                                    break discard;
+                                case 4:
+                                    break discard;
+                                case 3:
+                                    break discard;
+                                case 2:
+                                    break discard;
+                            }
+                            break keep;
+                        }
+                    } else {
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() == 0) {
+                            break discard;
+                        }
+                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
+                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                                case 8:
+                                    break keep;
+                                case 6:
+                                    break keep;
+                                case 5:
+                                    break keep;
+                                case 4:
+                                    break keep;
+                                case 3:
+                                    break keep;
+                                case 2:
+                                    break keep;
+                            }
+                            break discard;
+                        }
+                    }
+                    View cell = inflater.inflate(R.layout.cellmovielist, container, false);
+                    final AQuery aq = new AQuery(cell);
+                    TextView movieTitle = (TextView) cell.findViewById(R.id.textViewMovieTitle);
+                    TextView moviePlot = (TextView) cell.findViewById(R.id.textViewMoviePlot);
+                    TextView movieStatusId = (TextView) cell.findViewById(R.id.textViewMovieStatusId);
+
+                    title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
+                    plot = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getString("plot");
+                    try {
+                        poster = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0);
+                        aq.id(R.id._image).image(poster);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+
+                    }
+
+                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
+                        int status = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id");
+                        switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                            case 1: {
+                                movieStatusId.setText("Snatched");
+                                movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
+                                break;
+                            }
+                            case 2: {
+                                movieStatusId.setText("Downloaded");
+                                break;
+                            }
+                            case 3: {
+                                movieStatusId.setText("Downloaded #3");
+                                break;
+                            }
+                            case 4: {
+                                movieStatusId.setText("Downloaded #4");
+                                break;
+                            }
+                            case 5: {
+                                movieStatusId.setText("Downloaded #5");
+                                break;
+                            }
+                            case 6: {
+                                movieStatusId.setText("Downloaded");
+                                movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
+                                break;
+                            }
+                            case 7: {
+                                movieStatusId.setText("Snatched");
+                                movieStatusId.setBackgroundColor(Color.parseColor("#a2a232"));
+                                break;
+                            }
+                            case 8: {
+                                movieStatusId.setText("Downloaded #8");
+                                break;
+                            }
+                        }
+                        //movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
+                    }
+                    movieTitle.setText(title);
+                    moviePlot.setText(plot);
+                    final String finalTitle = title;
+                    final int finalI = i;
+                    final int finalI1 = i;
+                    cell.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            /*
+                            Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(getActivity(), Activity_Movieinfo.class);
+                            myIntent.putExtra("key", finalI1); //Optional parameters
+                            myIntent.putExtra("response", getArguments().getString("response"));
+                            getActivity().startActivity(myIntent);
+                            */
+
+                        }
+                    });
+                    movieLayout.addView(cell);
+                }
+            }
+
+        }catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return view;
     }
