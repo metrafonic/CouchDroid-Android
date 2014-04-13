@@ -2,7 +2,10 @@ package com.metrafonic.couchdroid;
 
 import java.util.Locale;
 
+import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -14,11 +17,15 @@ import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,MovieHome.OnFragmentInteractionListener, MovieList.OnFragmentInteractionListener {
@@ -37,6 +44,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+    //final SharedPreferences settings = getSharedPreferences("test", 0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +58,10 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        onRefreshClicked();
+
 
 
         // When swiping between different sections, select the corresponding
@@ -82,10 +90,11 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -94,7 +103,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
+            onRefreshClicked();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -122,7 +132,25 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
     @Override
     public void onRefreshClicked() {
-        mSectionsPagerAdapter.notifyDataSetChanged();
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Please wait ...", "Refreshing data ...", true);
+
+        ringProgressDialog.setCancelable(true);
+
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final SharedPreferences settings = getSharedPreferences("test", 0);
+            client.get("http://date.jsontest.com/", new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(String response) {
+                    settings.edit().putString("test", response).commit();
+                    mSectionsPagerAdapter.notifyDataSetChanged();
+                    ringProgressDialog.dismiss();
+                }
+
+                public void onFailure(java.lang.Throwable error, String response) {
+                    System.out.println(error.toString());
+                    ringProgressDialog.dismiss();
+                }
+            });
 
     }
 
@@ -155,6 +183,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
             }
             return frag;
         }
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+
 
         @Override
         public int getCount() {
@@ -177,9 +211,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         }
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
 
 
 }

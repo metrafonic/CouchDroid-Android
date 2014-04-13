@@ -1,13 +1,15 @@
 package com.metrafonic.couchdroid;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Button;
+import android.widget.TextView;
 
 
 /**
@@ -20,14 +22,15 @@ import android.view.ViewGroup;
  *
  */
 public class MovieList extends Fragment {
+    //final SharedPreferences settings = getActivity().getSharedPreferences("test", 0);
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "type";
     private static final String ARG_PARAM2 = "data";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String type;
+    private String data;
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,17 +58,28 @@ public class MovieList extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            type = getArguments().getString(ARG_PARAM1);
+            data = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final SharedPreferences settings = getActivity().getSharedPreferences("test", 0);
+        if (getArguments() != null) {
+            type = getArguments().getString(ARG_PARAM1);
+            data = getArguments().getString(ARG_PARAM2);
+        }
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_movie_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_movie_list, container, false);
+        TextView text = (TextView) view.findViewById(R.id.textView);
+        text.setText(type + "\n\n" + settings.getString("test", "none"));
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
