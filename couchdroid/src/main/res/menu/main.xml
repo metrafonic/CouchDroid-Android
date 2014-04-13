@@ -5,4 +5,9 @@ android:title="Refresh"
 android:orderInCategory="10"
     couchdroid:showAsAction="ifRoom"
     android:icon="@android:drawable/ic_menu_rotate" />
+    <item android:id="@+id/action_settings"
+        android:title="Settings"
+        android:orderInCategory="11"
+        couchdroid:showAsAction="ifRoom"
+        android:icon="@android:drawable/ic_menu_manage" />
     </menu>

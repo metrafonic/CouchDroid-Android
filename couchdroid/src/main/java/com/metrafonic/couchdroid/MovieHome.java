@@ -88,10 +88,11 @@ public class MovieHome extends Fragment {
         JSONObject jsonResponse = null;
         LinearLayout layoutsnatchedavailable = (LinearLayout) view.findViewById(R.id.layoutSnatchedAvailable);
         final EditText searchMovie = (EditText) view.findViewById(R.id.editTextSearch);
-        final SharedPreferences settings = getActivity().getSharedPreferences("data", 0);
+        final SharedPreferences data = getActivity().getSharedPreferences("data", 0);
+        final SharedPreferences settings = getActivity().getSharedPreferences("settings", 0);
 
         try {
-            jsonResponse = new JSONObject(settings.getString("data", "none"));
+            jsonResponse = new JSONObject(data.getString("data", "none"));
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
                 if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
                     if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 7 || jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 1) {
@@ -126,7 +127,7 @@ public class MovieHome extends Fragment {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 searchLayout.removeAllViews();
                 progressBar.setVisibility(View.VISIBLE);
-                client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c"+ "/movie.search?q=" + URLEncoder.encode(textView.getText().toString()), new AsyncHttpResponseHandler(){
+                client.get(settings.getString("webaddress", null) + "/movie.search?q=" + URLEncoder.encode(textView.getText().toString()), new AsyncHttpResponseHandler(){
                     public void onSuccess(final String response) {
                         progressBar.setVisibility(View.GONE);
                         int l = 0;
@@ -149,7 +150,7 @@ public class MovieHome extends Fragment {
                                         //progressBar.setVisibility(View.VISIBLE);
                                         final ProgressDialog ringProgressDialog = android.app.ProgressDialog.show(getActivity(), "Adding Movie ...", "Please wait ...", true);
                                         ringProgressDialog.setCancelable(true);
-                                        client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c"+ "/movie.add?identifier=" + imdb, new AsyncHttpResponseHandler() {
+                                        client.get(settings.getString("webaddress", null) + "/movie.add?identifier=" + imdb, new AsyncHttpResponseHandler() {
                                             public void onSuccess(final String response) {
 
                                                 handler.post(new Runnable() {

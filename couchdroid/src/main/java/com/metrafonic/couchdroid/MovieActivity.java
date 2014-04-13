@@ -75,9 +75,10 @@ public class MovieActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_movieitem, container, false);
-            final SharedPreferences settings = getActivity().getSharedPreferences("data", 0);
+            final SharedPreferences data = getActivity().getSharedPreferences("data", 0);
+            final SharedPreferences settings = getActivity().getSharedPreferences("settings", 0);
             int key = getArguments().getInt("key");
-            String response = settings.getString("data", "none");
+            String response = data.getString("data", "none");
 
             TextView textViewMovieTitle = (TextView) rootView.findViewById(R.id.textViewMovieTitle);
             TextView textViewMovieYear = (TextView) rootView.findViewById(R.id.textViewMovieYear);
@@ -202,7 +203,7 @@ public class MovieActivity extends ActionBarActivity {
                     final ProgressDialog ringProgressDialog = ProgressDialog.show(getActivity(), "Deleting movie ...", "Please wait ...", true);
                     ringProgressDialog.setCancelable(true);
                     final AsyncHttpClient client = new AsyncHttpClient();
-                    client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.delete?id=" + finalId, new AsyncHttpResponseHandler() {
+                    client.get(settings.getString("webaddress", null) + "/movie.delete?id=" + finalId, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(String response) {
                             ringProgressDialog.dismiss();

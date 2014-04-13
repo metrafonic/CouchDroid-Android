@@ -3,6 +3,7 @@ package com.metrafonic.couchdroid;
 import java.util.Locale;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -108,6 +109,11 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
             onRefreshClicked();
             return true;
         }
+        if (id == R.id.action_settings) {
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            this.startActivity(myIntent);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -138,11 +144,12 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
         ringProgressDialog.setCancelable(true);
 
         final AsyncHttpClient client = new AsyncHttpClient();
-        final SharedPreferences settings = getSharedPreferences("data", 0);
-            client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list", new AsyncHttpResponseHandler() {
+        final SharedPreferences data = getSharedPreferences("data", 0);
+        final SharedPreferences settings = getSharedPreferences("settings", 0);
+            client.get(settings.getString("webaddress", null) + "/movie.list", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
-                    settings.edit().putString("data", response).commit();
+                    data.edit().putString("data", response).commit();
                     mSectionsPagerAdapter.notifyDataSetChanged();
                     ringProgressDialog.dismiss();
                 }
