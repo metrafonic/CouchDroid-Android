@@ -2,6 +2,7 @@ package com.metrafonic.couchdroid;
 
 import java.util.Locale;
 
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -17,9 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,MovieHome.OnFragmentInteractionListener, MovieList.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -52,6 +54,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -112,6 +115,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Toast.makeText(this, uri.toString(), Toast.LENGTH_SHORT).show();
+
+    }
+    @Override
+    public void onRefreshClicked() {
+        mSectionsPagerAdapter.notifyDataSetChanged();
+
+    }
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -126,7 +140,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            Fragment frag = null;
+            switch (position){
+                case 0:
+                    frag = MovieHome.newInstance("wanted", "data");
+                    break;
+                case 1:
+                    frag = MovieList.newInstance("wanted", "data");
+                    break;
+                case 2:
+                    frag = MovieList.newInstance("manage", "data");
+                    break;
+
+            }
+            return frag;
         }
 
         @Override
@@ -153,36 +180,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
 
 }
