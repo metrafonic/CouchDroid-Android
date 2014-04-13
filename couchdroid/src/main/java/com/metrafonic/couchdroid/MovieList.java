@@ -1,6 +1,7 @@
 package com.metrafonic.couchdroid;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -77,7 +78,7 @@ public class MovieList extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final SharedPreferences settings = getActivity().getSharedPreferences("test", 0);
+        final SharedPreferences settings = getActivity().getSharedPreferences("data", 0);
         if (getArguments() != null) {
             type = getArguments().getString(ARG_PARAM1);
             data = getArguments().getString(ARG_PARAM2);
@@ -93,7 +94,7 @@ public class MovieList extends Fragment {
         String poster = "none";
         JSONObject jsonResponse;
         try {
-            jsonResponse = new JSONObject(settings.getString("test", "none"));
+            jsonResponse = new JSONObject(settings.getString("data", "none"));
             title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
             LinearLayout movieLayout = (LinearLayout) view.findViewById(R.id.homecell);
 
@@ -207,13 +208,14 @@ public class MovieList extends Fragment {
                     cell.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            /*
-                            Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
-                            Intent myIntent = new Intent(getActivity(), Activity_Movieinfo.class);
+                            final ProgressDialog ringProgressDialog = android.app.ProgressDialog.show(getActivity(), "Please wait ...", "Refreshing data ...", true);
+                            ringProgressDialog.setCancelable(true);
+                           //Toast.makeText(getActivity(), finalTitle, Toast.LENGTH_SHORT).show();
+                            Intent myIntent = new Intent(getActivity(), MovieActivity.class);
                             myIntent.putExtra("key", finalI1); //Optional parameters
-                            myIntent.putExtra("response", getArguments().getString("response"));
                             getActivity().startActivity(myIntent);
-                            */
+                            ringProgressDialog.dismiss();
+
 
                         }
                     });

@@ -1,22 +1,32 @@
 package com.metrafonic.couchdroid;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidquery.AQuery;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.URLEncoder;
 
 
 /**
@@ -71,16 +81,17 @@ public class MovieHome extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movie_home, container, false);
+        final View view = inflater.inflate(R.layout.fragment_movie_home, container, false);
         JSONObject jsonResponse = null;
         LinearLayout layoutsnatchedavailable = (LinearLayout) view.findViewById(R.id.layoutSnatchedAvailable);
-        final SharedPreferences settings = getActivity().getSharedPreferences("test", 0);
+        final EditText searchMovie = (EditText) view.findViewById(R.id.editTextSearch);
+        final SharedPreferences settings = getActivity().getSharedPreferences("data", 0);
 
         try {
-            jsonResponse = new JSONObject(settings.getString("test", "none"));
+            jsonResponse = new JSONObject(settings.getString("data", "none"));
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
                 if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
                     if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 7 || jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 1) {
@@ -92,10 +103,9 @@ public class MovieHome extends Fragment {
                         cell.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                //Intent myIntent = new Intent(getActivity(), Activity_Movieinfo.class);
-                                //myIntent.putExtra("key", finalI); //Optional parameters
-                                //myIntent.putExtra("response", getArguments().getString("response"));
-                                //getActivity().startActivity(myIntent);
+                                Intent myIntent = new Intent(getActivity(), MovieActivity.class);
+                                myIntent.putExtra("key", finalI); //Optional parameters
+                                getActivity().startActivity(myIntent);
                             }
                         });
                         layoutsnatchedavailable.addView(cell);
@@ -108,6 +118,77 @@ public class MovieHome extends Fragment {
             e.printStackTrace();
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
+        searchMovie.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            LinearLayout searchLayout = (LinearLayout) view.findViewById(R.id.layoutSearchCellPlace);
+            ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+            final AsyncHttpClient client = new AsyncHttpClient();
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                searchLayout.removeAllViews();
+                progressBar.setVisibility(View.VISIBLE);
+                client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c"+ "/movie.search?q=" + URLEncoder.encode(textView.getText().toString()), new AsyncHttpResponseHandler(){
+                    public void onSuccess(final String response) {
+                        progressBar.setVisibility(View.GONE);
+                        int l = 0;
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+
+                            for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
+                                l++;
+                                final View cell = inflater.inflate(R.layout.cell_search, container, false);
+                                TextView cellTitle = (TextView) cell.findViewById(R.id.textView);
+                                final String title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("titles").getString(0);
+                                final String imdb = jsonResponse.getJSONArray("movies").getJSONObject(i).getString("imdb");
+                                cellTitle.setText(title);
+                                final Handler handler = new Handler();
+
+                                cell.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        //Toast.makeText(getActivity(), imdb, Toast.LENGTH_SHORT).show();
+                                        //progressBar.setVisibility(View.VISIBLE);
+                                        final ProgressDialog ringProgressDialog = android.app.ProgressDialog.show(getActivity(), "Adding Movie ...", "Please wait ...", true);
+                                        ringProgressDialog.setCancelable(true);
+                                        client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c"+ "/movie.add?identifier=" + imdb, new AsyncHttpResponseHandler() {
+                                            public void onSuccess(final String response) {
+
+                                                handler.post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        try {
+                                                            //progressBar.setVisibility(View.GONE);
+                                                            Toast.makeText(getActivity(), "Added movie " + title, Toast.LENGTH_SHORT).show();
+                                                            Thread.sleep(4000);
+                                                            ringProgressDialog.dismiss();
+                                                            mListener.onRefreshClicked();
+                                                        } catch (InterruptedException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                });
+
+
+                                            }
+                                            @Override
+                                            public void onFailure(java.lang.Throwable error) {
+                                                progressBar.setVisibility(View.GONE);
+                                                searchLayout.removeAllViews();
+                                            }
+                                        });
+                                    }
+                                });
+                                searchLayout.addView(cell);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                return false;
+            }
+        });
 
         return view;
     }

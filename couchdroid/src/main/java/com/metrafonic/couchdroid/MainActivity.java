@@ -28,7 +28,7 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 
-public class MainActivity extends ActionBarActivity implements ActionBar.TabListener,MovieHome.OnFragmentInteractionListener, MovieList.OnFragmentInteractionListener {
+public class MainActivity extends ActionBarActivity implements MovieActivity.PlaceholderFragment.OnFragmentInteractionListener,ActionBar.TabListener,MovieHome.OnFragmentInteractionListener, MovieList.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -60,6 +60,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(3);
         onRefreshClicked();
 
 
@@ -132,16 +133,16 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     }
     @Override
     public void onRefreshClicked() {
-        final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Please wait ...", "Refreshing data ...", true);
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Refreshing data ...", "Please wait ...", true);
 
         ringProgressDialog.setCancelable(true);
 
         final AsyncHttpClient client = new AsyncHttpClient();
-        final SharedPreferences settings = getSharedPreferences("test", 0);
+        final SharedPreferences settings = getSharedPreferences("data", 0);
             client.get("http://couchpotato.metrafonic.com/api/5i78ot5xybtobtptv7t87c65cie5i75cicrck67ce7cei7c/movie.list", new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(String response) {
-                    settings.edit().putString("test", response).commit();
+                    settings.edit().putString("data", response).commit();
                     mSectionsPagerAdapter.notifyDataSetChanged();
                     ringProgressDialog.dismiss();
                 }

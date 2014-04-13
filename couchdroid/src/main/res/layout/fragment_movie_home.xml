@@ -70,7 +70,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/layoutSearchCellPlace"
                     android:paddingLeft="10dp"
-                    android:paddingRight="10dp"></LinearLayout>
+                    android:paddingRight="10dp"
+                    android:background="#5c697b"></LinearLayout>
 
             </LinearLayout>
 
