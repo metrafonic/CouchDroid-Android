@@ -1,6 +1,7 @@
 package com.metrafonic.couchdroid;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -39,7 +40,7 @@ public class SettingsActivity extends ActionBarActivity implements Setup3.OnFrag
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.settings, menu);
         return true;
@@ -51,9 +52,12 @@ public class SettingsActivity extends ActionBarActivity implements Setup3.OnFrag
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_help) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.metrafonic.com/couchdroid-for-android/"));
+            startActivity(browserIntent);
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

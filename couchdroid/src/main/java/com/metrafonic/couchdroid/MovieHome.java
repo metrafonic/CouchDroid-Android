@@ -159,7 +159,7 @@ public class MovieHome extends Fragment {
                                                         try {
                                                             //progressBar.setVisibility(View.GONE);
                                                             Toast.makeText(getActivity(), "Added movie " + title, Toast.LENGTH_SHORT).show();
-                                                            Thread.sleep(4000);
+                                                            Thread.sleep(5000);
                                                             ringProgressDialog.dismiss();
                                                             mListener.onRefreshClicked();
                                                         } catch (InterruptedException e) {
