@@ -140,7 +140,9 @@ public class MovieHome extends Fragment {
                                 TextView cellTitle = (TextView) cell.findViewById(R.id.textView);
                                 final String title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("titles").getString(0);
                                 final String imdb = jsonResponse.getJSONArray("movies").getJSONObject(i).getString("imdb");
-                                cellTitle.setText(title);
+                               final int  year = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getInt("year");
+
+                                cellTitle.setText(title + " (" + year + ")");
                                 final Handler handler = new Handler();
 
                                 cell.setOnClickListener(new View.OnClickListener() {
