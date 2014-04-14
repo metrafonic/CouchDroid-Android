@@ -12,7 +12,7 @@ android {
     }
     signingConfigs{
         release {
-            storeFile file("keystore")
+            storeFile file("com.metrafonic.jks")
             storePassword System.getenv("STORE_PASSWORD")
             keyAlias "couchdroid"
             keyPassword System.getenv("KEY_PASSWORD")
