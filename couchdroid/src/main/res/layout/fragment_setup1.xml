@@ -7,7 +7,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/imageView"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/full"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true" />
 

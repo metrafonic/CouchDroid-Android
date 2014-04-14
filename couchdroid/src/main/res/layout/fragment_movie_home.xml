@@ -104,7 +104,7 @@
                         android:layout_below="@+id/textView2"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        android:background="#BB555555"
+                        android:background="#AA555555"
                         android:clickable="false">
 
                         <LinearLayout

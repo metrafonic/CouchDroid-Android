@@ -62,7 +62,16 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(3);
-        onRefreshClicked();
+        final SharedPreferences settings = getSharedPreferences("settings", 0);
+        if (settings.getString("webaddress", null)==null){
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            this.startActivity(myIntent);
+        }else{
+            if (savedInstanceState==null){
+                onRefreshClicked();
+            }
+        }
+
 
 
 

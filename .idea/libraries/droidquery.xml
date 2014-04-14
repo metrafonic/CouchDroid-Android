@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="droidquery">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/couchdroid/libs/droidquery.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

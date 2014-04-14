@@ -89,6 +89,8 @@ public class MovieList extends Fragment {
         TextView text = (TextView) view.findViewById(R.id.textView);
         //text.setText(type + "\n\n" + settings.getString("test", "none"));
 
+        boolean memCache = false;
+        boolean fileCache = true;
         String title = "none";
         String plot = "none";
         String poster = "none";
@@ -153,7 +155,7 @@ public class MovieList extends Fragment {
                     plot = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getString("plot");
                     try {
                         poster = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0);
-                        aq.id(R.id._image).image(poster);
+                        aq.id(R.id._image).image(poster, memCache, fileCache, 100, 0, null, AQuery.FADE_IN);
                     } catch (Exception e) {
                         e.printStackTrace();
 
