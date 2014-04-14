@@ -10,4 +10,25 @@ android:orderInCategory="10"
         android:orderInCategory="11"
         couchdroid:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_manage" />
+    <item android:id="@+id/action_renamer"
+        android:title="Renamer Scan"
+        android:orderInCategory="12"
+        couchdroid:showAsAction="never"
+         />
+    <item android:id="@+id/action_restart"
+        android:title="Restart CP"
+        android:orderInCategory="13"
+        couchdroid:showAsAction="never"
+        />
+    <item android:id="@+id/action_shutdown"
+        android:title="Shutdown CP"
+        android:orderInCategory="13"
+        couchdroid:showAsAction="never"
+        />
+    <item android:id="@+id/action_update"
+        android:title="Check for updates"
+        android:orderInCategory="13"
+        couchdroid:showAsAction="never"
+        />
+
     </menu>

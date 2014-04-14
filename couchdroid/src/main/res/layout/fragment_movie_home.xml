@@ -12,7 +12,7 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/scrollView"
         android:background="#4e5969">
 
@@ -122,6 +122,37 @@
 
                 </RelativeLayout>
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Version:"
+            android:id="@+id/textViewVersion"
+            android:gravity="center|bottom"
+            android:layout_weight="0"
+            android:typeface="monospace" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="http://metrafonic.com/couchdroid-for-android/"
+            android:id="@+id/textView3"
+            android:gravity="center"
+            android:layout_weight="0"
+            android:typeface="monospace"
+            android:autoLink="web"
+            android:textSize="12dp"
+            android:paddingBottom="10dp" />
+    </LinearLayout>
 </LinearLayout>

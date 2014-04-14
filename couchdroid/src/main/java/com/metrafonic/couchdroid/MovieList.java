@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -95,19 +96,31 @@ public class MovieList extends Fragment {
         String plot = "none";
         String poster = "none";
         JSONObject jsonResponse;
+        JSONObject library = null;
+        JSONArray releases = null;
         try {
             jsonResponse = new JSONObject(settings.getString("data", "none"));
             title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
             LinearLayout movieLayout = (LinearLayout) view.findViewById(R.id.homecell);
 
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
+                try {
+                    library = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    releases = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 discard:
                 if (1+1==2) {
 
                     keep:
                     if (type.contains("wanted")) {
-                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
-                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                        if (releases.length() > 0) {
+                            switch (releases.getJSONObject(0).getInt("status_id")) {
                                 case 8:
                                     break discard;
                                 case 6:
@@ -124,11 +137,11 @@ public class MovieList extends Fragment {
                             break keep;
                         }
                     } else {
-                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() == 0) {
+                        if (releases.length() == 0) {
                             break discard;
                         }
-                        if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
-                            switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                        if (releases.length() > 0) {
+                            switch (releases.getJSONObject(0).getInt("status_id")) {
                                 case 8:
                                     break keep;
                                 case 6:
@@ -151,19 +164,20 @@ public class MovieList extends Fragment {
                     TextView moviePlot = (TextView) cell.findViewById(R.id.textViewMoviePlot);
                     TextView movieStatusId = (TextView) cell.findViewById(R.id.textViewMovieStatusId);
 
-                    title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
-                    plot = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getString("plot");
+
+                    title = library.getJSONObject("info").getJSONArray("titles").getString(0);
+                    plot = library.getJSONObject("info").getString("plot");
                     try {
-                        poster = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0);
+                        poster = library.getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0);
                         aq.id(R.id._image).image(poster, memCache, fileCache, 100, 0, null, AQuery.FADE_IN);
                     } catch (Exception e) {
                         e.printStackTrace();
 
                     }
 
-                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
-                        int status = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id");
-                        switch (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id")) {
+                    if (releases.length() > 0) {
+                        int status = releases.getJSONObject(0).getInt("status_id");
+                        switch (releases.getJSONObject(0).getInt("status_id")) {
                             case 1: {
                                 movieStatusId.setText("Snatched");
                                 movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));

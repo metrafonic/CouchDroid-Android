@@ -9,14 +9,14 @@
         android:layout_height="fill_parent"
         android:id="@+id/imageViewMoviePoster"
         android:scaleType="centerCrop"
-        android:layout_alignParentTop="true" />
+        android:layout_below="@+id/imageViewBehindTitle" />
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/imageView"
-        android:background="#CC5c697b"
-        android:visibility="visible" />
+        android:visibility="visible"
+        android:layout_below="@+id/imageViewBehindTitle" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
         android:id="@+id/scrollView3"
         android:layout_below="@+id/imageViewBehindTitle"
         android:layout_alignParentBottom="true"
-        android:background="#AA3c3c3c">
+        android:background="#CC3c3c3c">
 
         <LinearLayout
             android:layout_width="fill_parent"
