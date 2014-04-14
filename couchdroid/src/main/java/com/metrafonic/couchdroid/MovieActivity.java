@@ -100,56 +100,55 @@ public class MovieActivity extends ActionBarActivity {
             int year = 0;
             String title = "";
             JSONObject jsonResponse = null;
+            JSONObject library = null;
             try {
                 jsonResponse = new JSONObject(response);
-                title = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
+                library = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                jsonResponse = new JSONObject(response);
-                backdrop = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("backdrop").getString(0);
+                title = library.getJSONObject("info").getJSONArray("titles").getString(0);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                backdrop = library.getJSONObject("info").getJSONObject("images").getJSONArray("backdrop").getString(0);
             } catch (JSONException e) {
             }
             try {
-                jsonResponse = new JSONObject(response);
-                poster = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster_original").getString(0);
+                poster = library.getJSONObject("info").getJSONObject("images").getJSONArray("poster_original").getString(0);
             } catch (JSONException e) {
             }
             try {
-                jsonResponse = new JSONObject(response);
                 id = jsonResponse.getJSONArray("movies").getJSONObject(key).getInt("library_id");
             } catch (JSONException e) {
             }
             try {
-                jsonResponse = new JSONObject(response);
-                year = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getInt("year");
+
+                year = library.getJSONObject("info").getInt("year");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                jsonResponse = new JSONObject(response);
-                runtime = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getInt("runtime");
+                runtime = library.getJSONObject("info").getInt("runtime");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                jsonResponse = new JSONObject(response);
-                mpaa = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getString("mpaa");
+                mpaa = library.getJSONObject("info").getString("mpaa");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             try {
-                jsonResponse = new JSONObject(response);
-                imdb = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getJSONObject("rating").optJSONArray("imdb").getDouble(0);
+                imdb = library.getJSONObject("info").getJSONObject("rating").optJSONArray("imdb").getDouble(0);
             } catch (JSONException e) {
                 e.printStackTrace();
                 imdb = 000;
             }
 
             try {
-                jsonResponse = new JSONObject(response);
-                plot = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library").getJSONObject("info").getString("plot");
+                plot = library.getJSONObject("info").getString("plot");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -160,8 +159,8 @@ public class MovieActivity extends ActionBarActivity {
             textViewMovieRuntime.setText(runtime + " minutes");
             textViewMovieIMDB.setText(imdb + " ");
             textViewMovieIMDBTitle.setText("IMDB: " + imdb);
-            aq.id(R.id.imageViewBehindTitle).image(backdrop);
-            aq.id(R.id.imageViewMoviePoster).image(poster);
+            aq.id(R.id.imageViewBehindTitle).image(backdrop, true, true, 500, 0, null, AQuery.FADE_IN);
+            aq.id(R.id.imageViewMoviePoster).image(poster, true, true, 500, 0, null, AQuery.FADE_IN);
 
             final String finalTitle = title;
             buttonMovieTrailer.setOnClickListener(new View.OnClickListener() {

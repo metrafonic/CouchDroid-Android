@@ -123,6 +123,22 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
             this.startActivity(myIntent);
             return true;
         }
+        if (id == R.id.action_renamer) {
+            simpleHttp("/renamer.scan");
+            return true;
+        }
+        if (id == R.id.action_restart) {
+            simpleHttp("/app.restart");
+            return true;
+        }
+        if (id == R.id.action_shutdown) {
+            simpleHttp("/app.shutdown");
+            return true;
+        }
+        if (id == R.id.action_update) {
+            simpleHttp("/updater.check");
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -227,6 +243,31 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
             return null;
         }
     }
+    public void simpleHttp(String extra){
+        final AsyncHttpClient client = new AsyncHttpClient();
+        final SharedPreferences data = getSharedPreferences("data", 0);
+        final SharedPreferences settings = getSharedPreferences("settings", 0);
+        final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Executing Command ...", "Executing: " + extra, true);
+        client.get(settings.getString("webaddress", null) + extra, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+
+                Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ringProgressDialog.dismiss();
+            }
+
+            public void onFailure(java.lang.Throwable error, String response) {
+                System.out.println(error.toString());
+                ringProgressDialog.dismiss();
+            }
+        });
+    }
+
 
 
 

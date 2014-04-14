@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -84,12 +85,21 @@ public class MovieHome extends Fragment {
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         final View view = inflater.inflate(R.layout.fragment_movie_home, container, false);
         JSONObject jsonResponse = null;
         LinearLayout layoutsnatchedavailable = (LinearLayout) view.findViewById(R.id.layoutSnatchedAvailable);
         final EditText searchMovie = (EditText) view.findViewById(R.id.editTextSearch);
+        final TextView versionText = (TextView) view.findViewById(R.id.textViewVersion);
         final SharedPreferences data = getActivity().getSharedPreferences("data", 0);
         final SharedPreferences settings = getActivity().getSharedPreferences("settings", 0);
+        try {
+            String versionName = getActivity().getApplicationContext().getPackageManager()
+                    .getPackageInfo(getActivity().getApplicationContext().getPackageName(), 0).versionName;
+            versionText.setText("Couchdroid-Android " + versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
 
         try {
             jsonResponse = new JSONObject(data.getString("data", "none"));
@@ -131,6 +141,7 @@ public class MovieHome extends Fragment {
                     public void onSuccess(final String response) {
                         progressBar.setVisibility(View.GONE);
                         int l = 0;
+                        int year = 0;
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
 
@@ -140,8 +151,12 @@ public class MovieHome extends Fragment {
                                 TextView cellTitle = (TextView) cell.findViewById(R.id.textView);
                                 final String title = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("titles").getString(0);
                                 final String imdb = jsonResponse.getJSONArray("movies").getJSONObject(i).getString("imdb");
-                               final int  year = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getInt("year");
-
+                                try {
+                                    jsonResponse = new JSONObject(response);
+                                    year = jsonResponse.getJSONArray("movies").getJSONObject(i).getInt("year");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 cellTitle.setText(title + " (" + year + ")");
                                 final Handler handler = new Handler();
 
@@ -154,21 +169,15 @@ public class MovieHome extends Fragment {
                                         ringProgressDialog.setCancelable(true);
                                         client.get(settings.getString("webaddress", null) + "/movie.add?identifier=" + imdb, new AsyncHttpResponseHandler() {
                                             public void onSuccess(final String response) {
+                                                Toast.makeText(getActivity(), "Added movie " + title, Toast.LENGTH_SHORT).show();
+                                                try {
+                                                    Thread.sleep(5000);
+                                                } catch (InterruptedException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                ringProgressDialog.dismiss();
+                                                mListener.onRefreshClicked();
 
-                                                handler.post(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        try {
-                                                            //progressBar.setVisibility(View.GONE);
-                                                            Toast.makeText(getActivity(), "Added movie " + title, Toast.LENGTH_SHORT).show();
-                                                            Thread.sleep(5000);
-                                                            ringProgressDialog.dismiss();
-                                                            mListener.onRefreshClicked();
-                                                        } catch (InterruptedException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                });
 
 
                                             }
