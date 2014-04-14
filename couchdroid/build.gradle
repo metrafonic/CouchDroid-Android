@@ -12,7 +12,7 @@ android {
     }
     signingConfigs{
         release {
-            storeFile file("MathiasHedbergkeystore")
+            storeFile file("keystore")
             storePassword System.getenv("STORE_PASSWORD")
             keyAlias "couchdroid"
             keyPassword System.getenv("KEY_PASSWORD")
