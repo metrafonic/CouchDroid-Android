@@ -51,6 +51,8 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getActionBar().setIcon(R.drawable.logo);
+        getActionBar().setTitle("");
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
