@@ -252,7 +252,7 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
             @Override
             public void onSuccess(String response) {
 
-                Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
