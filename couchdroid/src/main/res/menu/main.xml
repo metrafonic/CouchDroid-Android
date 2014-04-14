@@ -4,11 +4,11 @@
 android:title="Refresh"
 android:orderInCategory="10"
     couchdroid:showAsAction="ifRoom"
-    android:icon="@android:drawable/ic_menu_rotate" />
+    android:icon="@drawable/ic_menu_refresh" />
     <item android:id="@+id/action_settings"
         android:title="Settings"
         android:orderInCategory="11"
-        couchdroid:showAsAction="ifRoom"
+        couchdroid:showAsAction="never"
         android:icon="@android:drawable/ic_menu_manage" />
     <item android:id="@+id/action_renamer"
         android:title="Renamer Scan"
