@@ -36,7 +36,7 @@ CouchDroid for Android is the perfect app for managing your CouchPotato Library 
 * **0.8-alpha:**<br>
 	* Added Trailers. Uses the Youtube api. Since couchpotato does not supply the app with a youtube url, the app searches for one. Search still a bit buggy.  
 	* Stability fixes
-	* 
+	
 
 ## Screenshots:
 <table border="0" bordercolor="#FFFFFF" style="background-color:#FFFFFF" width="100%" cellpadding="0" cellspacing="0">
