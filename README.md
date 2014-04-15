@@ -2,7 +2,6 @@ CouchDroid-Android
 ==================
 CouchDroid for Android is the perfect app for managing your CouchPotato Library and Wanted list. Setup is a breeze and new movies are just a click away
 ![CouchDroid Android](https://lh6.googleusercontent.com/-QiyrZB3Oh3I/UwO3iavigRI/AAAAAAAAdkQ/t5iD6ODQamI/w1199-h691-no/_DSC0220.JPG)
----
 [![Build Status](http://jenkins.metrafonic.com/job/CouchDroid-Android/badge/icon)](http://jenkins.metrafonic.com/job/CouchDroid-Android/)
 ## What it does:
 >CouchDroid is an easy and stylish way to control your CouchPotatov2 server from your phone or tablet. Manage your movies or add new ones to the wanted list with a single tap.
