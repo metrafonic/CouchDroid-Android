@@ -105,11 +105,12 @@ public class MovieHome extends Fragment {
             jsonResponse = new JSONObject(data.getString("data", "none"));
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
                 if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").length() > 0) {
-                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 7 || jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getInt("status_id") == 1) {
+                    try{
+                    if (jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONArray("releases").getJSONObject(0).getString("status").contains("snatched")) {
                         View cell = inflater.inflate(R.layout.cell_snatched_available, container, false);
                         final AQuery aq = new AQuery(cell);
                         ImageView poster = (ImageView) cell.findViewById(R.id.imageViewPoster);
-                        aq.id(R.id.imageViewPoster).image(jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library").getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0));
+                        aq.id(R.id.imageViewPoster).image(jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0));
                         final int finalI = i;
                         cell.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -121,10 +122,14 @@ public class MovieHome extends Fragment {
                         });
                         layoutsnatchedavailable.addView(cell);
                     }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
-            String title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
+            //String title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();

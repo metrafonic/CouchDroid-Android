@@ -96,16 +96,16 @@ public class MovieList extends Fragment {
         String plot = "none";
         String poster = "none";
         JSONObject jsonResponse;
-        JSONObject library = null;
+        JSONObject libraryinfo = null;
         JSONArray releases = null;
         try {
             jsonResponse = new JSONObject(settings.getString("data", "none"));
-            title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
+            title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("info").getJSONArray("titles").getString(0);
             LinearLayout movieLayout = (LinearLayout) view.findViewById(R.id.homecell);
 
             for (int i = 0; i < jsonResponse.getJSONArray("movies").length(); i++) {
                 try {
-                    library = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("library");
+                    libraryinfo = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("info");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -120,18 +120,13 @@ public class MovieList extends Fragment {
                     keep:
                     if (type.contains("wanted")) {
                         if (releases.length() > 0) {
-                            switch (releases.getJSONObject(0).getInt("status_id")) {
-                                case 8:
-                                    break discard;
-                                case 6:
-                                    break discard;
-                                case 5:
-                                    break discard;
-                                case 4:
-                                    break discard;
-                                case 3:
-                                    break discard;
-                                case 2:
+                            int status=0;
+                            if (releases.getJSONObject(0).getString("status").contains("snatched")){
+                                status=1;
+                            }
+                            switch (status) {
+
+                                case 0:
                                     break discard;
                             }
                             break keep;
@@ -141,18 +136,12 @@ public class MovieList extends Fragment {
                             break discard;
                         }
                         if (releases.length() > 0) {
-                            switch (releases.getJSONObject(0).getInt("status_id")) {
-                                case 8:
-                                    break keep;
-                                case 6:
-                                    break keep;
-                                case 5:
-                                    break keep;
-                                case 4:
-                                    break keep;
-                                case 3:
-                                    break keep;
-                                case 2:
+                            int status=0;
+                            if (releases.getJSONObject(0).getString("status").contains("snatched")){
+                                status=1;
+                            }
+                            switch (status) {
+                                case 0:
                                     break keep;
                             }
                             break discard;
@@ -165,54 +154,59 @@ public class MovieList extends Fragment {
                     TextView movieStatusId = (TextView) cell.findViewById(R.id.textViewMovieStatusId);
 
 
-                    title = library.getJSONObject("info").getJSONArray("titles").getString(0);
-                    plot = library.getJSONObject("info").getString("plot");
+                    title = libraryinfo.getJSONArray("titles").getString(0);
+                    plot = libraryinfo.getString("plot");
                     try {
-                        poster = library.getJSONObject("info").getJSONObject("images").getJSONArray("poster").getString(0);
+                        poster = libraryinfo.getJSONObject("images").getJSONArray("poster").getString(0);
                         aq.id(R.id._image).image(poster, memCache, fileCache, 100, 0, null, AQuery.FADE_IN);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
 
                     }
 
                     if (releases.length() > 0) {
-                        int status = releases.getJSONObject(0).getInt("status_id");
-                        switch (releases.getJSONObject(0).getInt("status_id")) {
+                        int status=0;
+                        if (releases.getJSONObject(0).getString("status").contains("snatched")){
+                            status=1;
+                        }
+                        switch (status) {
                             case 1: {
                                 movieStatusId.setText("Snatched");
                                 movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
                                 break;
                             }
-                            case 2: {
-                                movieStatusId.setText("Downloaded");
-                                break;
-                            }
-                            case 3: {
-                                movieStatusId.setText("Downloaded #3");
-                                break;
-                            }
-                            case 4: {
-                                movieStatusId.setText("Downloaded #4");
-                                break;
-                            }
-                            case 5: {
-                                movieStatusId.setText("Downloaded #5");
-                                break;
-                            }
-                            case 6: {
+                            case 0: {
                                 movieStatusId.setText("Downloaded");
                                 movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
                                 break;
                             }
-                            case 7: {
+                            /*case "snached2": {
+                                movieStatusId.setText("Downloaded #3");
+                                break;
+                            }
+                            case "snached3": {
+                                movieStatusId.setText("Downloaded #4");
+                                break;
+                            }
+                            case "snached4": {
+                                movieStatusId.setText("Downloaded #5");
+                                break;
+                            }
+                            case "snached5": {
+                                movieStatusId.setText("Downloaded");
+                                movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
+                                break;
+                            }
+                            case "snached6": {
                                 movieStatusId.setText("Snatched");
                                 movieStatusId.setBackgroundColor(Color.parseColor("#a2a232"));
                                 break;
                             }
-                            case 8: {
+                            case "snached7": {
                                 movieStatusId.setText("Downloaded #8");
                                 break;
-                            }
+                            }*/
                         }
                         //movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
                     }
@@ -241,6 +235,7 @@ public class MovieList extends Fragment {
 
         }catch (JSONException e) {
             e.printStackTrace();
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
 
         return view;
