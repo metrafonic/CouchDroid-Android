@@ -103,7 +103,7 @@ public class MovieActivity extends ActionBarActivity {
             JSONObject library = null;
             try {
                 jsonResponse = new JSONObject(response);
-                library = jsonResponse.getJSONArray("movies").getJSONObject(key).getJSONObject("library");
+                library = jsonResponse.getJSONArray("movies").getJSONObject(key);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
