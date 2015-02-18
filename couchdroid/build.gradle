@@ -7,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 19
-        versionCode 13
+        versionCode 14
         versionName "2.2.1-beta"
     }
     signingConfigs{
