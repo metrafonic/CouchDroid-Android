@@ -124,6 +124,7 @@ public class MovieHome extends Fragment {
                     }
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        
                         //Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
