@@ -1,6 +1,6 @@
 before_script:  
   - export ANDROID_HOME="/opt/android-sdk-linux"
-  - /opt/tools/android-accept-licenses.sh "android update sdk --all --no-ui --filter android-19"
+  - /opt/tools/android-accept-licenses.sh "android update sdk --all --no-ui --filter android-19,build-tools-19"
 
 dev:  
   script:
