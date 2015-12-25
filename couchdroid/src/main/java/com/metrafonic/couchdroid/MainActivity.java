@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.auth.AuthScope;
+
 
 public class MainActivity extends ActionBarActivity implements MovieActivity.PlaceholderFragment.OnFragmentInteractionListener,ActionBar.TabListener,MovieHome.OnFragmentInteractionListener, MovieList.OnFragmentInteractionListener {
 
@@ -173,18 +175,20 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
         final AsyncHttpClient client = new AsyncHttpClient();
         final SharedPreferences data = getSharedPreferences("data", 0);
         final SharedPreferences settings = getSharedPreferences("settings", 0);
-            client.get(settings.getString("webaddress", null) + "/movie.list", new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-                    data.edit().putString("data", response).commit();
-                    mSectionsPagerAdapter.notifyDataSetChanged();
-                    ringProgressDialog.dismiss();
-                }
+            client.setBasicAuth(settings.getString("username",null),settings.getString("password",null), new AuthScope(settings.getString("hostname", null), Integer.valueOf(settings.getString("port",null)), AuthScope.ANY_REALM));
+        client.get(settings.getString("webaddress", null) + "/movie.list", new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(String response) {
+                data.edit().putString("data", response).commit();
+                mSectionsPagerAdapter.notifyDataSetChanged();
+                ringProgressDialog.dismiss();
+            }
 
-                public void onFailure(java.lang.Throwable error, String response) {
-                    System.out.println(error.toString());
-                    ringProgressDialog.dismiss();
-                }
+            public void onFailure(java.lang.Throwable error, String response) {
+                System.out.println(error.toString());
+                ringProgressDialog.dismiss();
+                Toast.makeText(MainActivity.this, "Error accesing : " + settings.getString("webaddress", null) + " \n Recieved: " + error.toString(), Toast.LENGTH_LONG).show();
+            }
             });
 
     }

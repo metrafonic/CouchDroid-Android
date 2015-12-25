@@ -71,13 +71,23 @@
                 android:layout_alignParentRight="true"
                 android:hint="usually 5050" />
 
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/editTextSetupPort"
+                android:text="Use SSL (https)"
+                android:id="@+id/checkBoxSSL" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Optional Settings:"
                 android:id="@+id/textView4"
-                android:layout_below="@+id/editTextSetupPort"
+                android:layout_below="@+id/checkBoxSSL"
                 android:layout_alignParentLeft="true"
                 android:paddingTop="20dp" />
 
@@ -125,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Sorry no https (yet)"
+                android:text="https supported"
                 android:id="@+id/textView7"
                 android:paddingBottom="50dp"
                 android:layout_below="@+id/editTextSetupPassword"
