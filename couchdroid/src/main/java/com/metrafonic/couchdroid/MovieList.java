@@ -121,7 +121,7 @@ public class MovieList extends Fragment {
                     if (type.contains("wanted")) {
                         if (releases.length() > 0) {
                             int status=0;
-                            if (releases.getJSONObject(0).getString("status").contains("snatched")){
+                            if (releases.getJSONObject(0).getString("status").contains("snatched") || releases.getJSONObject(0).getString("status").contains("available")){
                                 status=1;
                             }
                             switch (status) {
@@ -137,7 +137,7 @@ public class MovieList extends Fragment {
                         }
                         if (releases.length() > 0) {
                             int status=0;
-                            if (releases.getJSONObject(0).getString("status").contains("snatched")){
+                            if (releases.getJSONObject(0).getString("status").contains("snatched") || releases.getJSONObject(0).getString("status").contains("available")){
                                 status=1;
                             }
                             switch (status) {
@@ -172,12 +172,12 @@ public class MovieList extends Fragment {
                         }
                         switch (status) {
                             case 1: {
-                                movieStatusId.setText("Snatched");
+                                movieStatusId.setText(releases.getJSONObject(0).getString("status"));
                                 movieStatusId.setBackgroundColor(Color.parseColor("#578bc3"));
                                 break;
                             }
                             case 0: {
-                                movieStatusId.setText("Downloaded");
+                                movieStatusId.setText(releases.getJSONObject(0).getString("status"));
                                 movieStatusId.setBackgroundColor(Color.parseColor("#369545"));
                                 break;
                             }

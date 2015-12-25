@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.view.KeyEvent;
@@ -185,16 +186,10 @@ public class MovieHome extends Fragment {
                                         //progressBar.setVisibility(View.VISIBLE);
                                         final ProgressDialog ringProgressDialog = android.app.ProgressDialog.show(getActivity(), "Adding Movie ...", "Please wait ...", true);
                                         ringProgressDialog.setCancelable(true);
+
                                         client.get(settings.getString("webaddress", null) + "/movie.add?identifier=" + imdb, new AsyncHttpResponseHandler() {
                                             public void onSuccess(final String response) {
                                                 Toast.makeText(getActivity(), "Added movie " + title, Toast.LENGTH_SHORT).show();
-                                                try {
-                                                    Thread.sleep(5000);
-                                                } catch (InterruptedException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                ringProgressDialog.dismiss();
-                                                mListener.onRefreshClicked();
 
 
                                             }
@@ -205,6 +200,9 @@ public class MovieHome extends Fragment {
                                                 searchLayout.removeAllViews();
                                             }
                                         });
+                                        ringProgressDialog.dismiss();
+                                        mListener.onRefreshClicked();
+
                                     }
                                 });
                                 searchLayout.addView(cell);
