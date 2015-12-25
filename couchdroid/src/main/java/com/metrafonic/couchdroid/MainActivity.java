@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -175,19 +176,28 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
         final AsyncHttpClient client = new AsyncHttpClient();
         final SharedPreferences data = getSharedPreferences("data", 0);
         final SharedPreferences settings = getSharedPreferences("settings", 0);
-            client.setBasicAuth(settings.getString("username",null),settings.getString("password",null), new AuthScope(settings.getString("hostname", null), Integer.valueOf(settings.getString("port",null)), AuthScope.ANY_REALM));
+        client.setBasicAuth(settings.getString("username",null),settings.getString("password",null), new AuthScope(settings.getString("hostname", null), Integer.valueOf(settings.getString("port",null)), AuthScope.ANY_REALM));
         client.get(settings.getString("webaddress", null) + "/movie.list", new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
                 data.edit().putString("data", response).commit();
                 mSectionsPagerAdapter.notifyDataSetChanged();
                 ringProgressDialog.dismiss();
+
             }
 
             public void onFailure(java.lang.Throwable error, String response) {
+                try {
+                    if (response.toString().length() > 5) {
+                        Toast.makeText(MainActivity.this, Html.fromHtml(response.toString()), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception c) {
+                    Toast.makeText(MainActivity.this, "Oh no! " + error.toString(), Toast.LENGTH_LONG).show();
+                }
                 System.out.println(error.toString());
                 ringProgressDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Error accesing : " + settings.getString("webaddress", null) + " \n Recieved: " + error.toString(), Toast.LENGTH_LONG).show();
             }
             });
 
@@ -254,11 +264,12 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
         final SharedPreferences data = getSharedPreferences("data", 0);
         final SharedPreferences settings = getSharedPreferences("settings", 0);
         final ProgressDialog ringProgressDialog = ProgressDialog.show(MainActivity.this, "Executing Command ...", "Executing: " + extra, true);
+        client.setBasicAuth(settings.getString("username",null),settings.getString("password",null), new AuthScope(settings.getString("hostname", null), Integer.valueOf(settings.getString("port",null)), AuthScope.ANY_REALM));
         client.get(settings.getString("webaddress", null) + extra, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(String response) {
 
-                Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, Html.fromHtml(response.toString()), Toast.LENGTH_LONG).show();
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -268,7 +279,15 @@ public class MainActivity extends ActionBarActivity implements MovieActivity.Pla
             }
 
             public void onFailure(java.lang.Throwable error, String response) {
-                System.out.println(error.toString());
+                try {
+                    if (response.toString().length() > 5) {
+                        Toast.makeText(MainActivity.this, Html.fromHtml(response.toString()), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception c) {
+                    Toast.makeText(MainActivity.this, "Oh no! " + error.toString(), Toast.LENGTH_LONG).show();
+                }
                 ringProgressDialog.dismiss();
             }
         });

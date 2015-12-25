@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.androidquery.AQuery;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.auth.AuthScope;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -125,7 +127,7 @@ public class MovieHome extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                         
-                        //Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -133,7 +135,7 @@ public class MovieHome extends Fragment {
             //String title = jsonResponse.getJSONArray("movies").getJSONObject(0).getJSONObject("library").getJSONObject("info").getJSONArray("titles").getString(0);
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
         searchMovie.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             LinearLayout searchLayout = (LinearLayout) view.findViewById(R.id.layoutSearchCellPlace);
@@ -143,11 +145,13 @@ public class MovieHome extends Fragment {
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 searchLayout.removeAllViews();
                 progressBar.setVisibility(View.VISIBLE);
-                client.get(settings.getString("webaddress", null) + "/movie.search?q=" + URLEncoder.encode(textView.getText().toString()), new AsyncHttpResponseHandler(){
+                client.setBasicAuth(settings.getString("username", null), settings.getString("password", null), new AuthScope(settings.getString("hostname", null), Integer.valueOf(settings.getString("port", null)), AuthScope.ANY_REALM));
+                client.get(settings.getString("webaddress", null) + "/movie.search?q=" + URLEncoder.encode(textView.getText().toString()), new AsyncHttpResponseHandler() {
                     public void onSuccess(final String response) {
                         progressBar.setVisibility(View.GONE);
                         int l = 0;
                         int year = 0;
+                        String poster = "";
                         try {
                             JSONObject jsonResponse = new JSONObject(response);
 
@@ -163,7 +167,15 @@ public class MovieHome extends Fragment {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                cellTitle.setText(title + " (" + year + ")");
+                                try {
+                                    jsonResponse = new JSONObject(response);
+                                    poster = jsonResponse.getJSONArray("movies").getJSONObject(i).getJSONObject("images").getJSONArray("poster").getString(0);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                final AQuery aq = new AQuery(cell);
+                                aq.id(R.id.imageView2).image(poster);
+                                        cellTitle.setText(title + " (" + year + ")");
                                 final Handler handler = new Handler();
 
                                 cell.setOnClickListener(new View.OnClickListener() {
@@ -185,8 +197,8 @@ public class MovieHome extends Fragment {
                                                 mListener.onRefreshClicked();
 
 
-
                                             }
+
                                             @Override
                                             public void onFailure(java.lang.Throwable error) {
                                                 progressBar.setVisibility(View.GONE);
@@ -200,6 +212,19 @@ public class MovieHome extends Fragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(java.lang.Throwable error, String response) {
+                        try {
+                            if (response.toString().length() > 5) {
+                                Toast.makeText(getActivity(), Html.fromHtml(response.toString()), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        } catch (Exception c) {
+                            Toast.makeText(getActivity(), "Oh no! " + error.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -161,7 +161,7 @@ public class MovieList extends Fragment {
                         aq.id(R.id._image).image(poster, memCache, fileCache, 100, 0, null, AQuery.FADE_IN);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -235,7 +235,7 @@ public class MovieList extends Fragment {
 
         }catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
 
         return view;
