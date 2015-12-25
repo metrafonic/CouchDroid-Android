@@ -124,7 +124,7 @@ public class Setup3 extends Fragment {
 
         final AsyncHttpClient client = new AsyncHttpClient();
         client.setBasicAuth(username, password);
-
+        final String httpMethod = "https://";
         final String finalUsername = username;
         final String finalPassword = password;
         final String finalHostname = hostname;
@@ -139,7 +139,7 @@ public class Setup3 extends Fragment {
                 ButtonConnect.setText("Connecting...");
                 ButtonConnect.setClickable(false);
                 if (RadioAuto.isChecked()==true){
-                    String url = ("http://" + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory +"/getkey/?p=" + md5(apiPassword) + "&u=" + md5(apiUsername) + "");
+                    String url = (httpMethod + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory +"/getkey/?p=" + md5(apiPassword) + "&u=" + md5(apiUsername) + "");
                     client.get(url, new AsyncHttpResponseHandler() {
                         @Override
                         public void onSuccess(String response) {
@@ -149,7 +149,7 @@ public class Setup3 extends Fragment {
                                 jsonResponse = new JSONObject(response);
                                 if (jsonResponse.getBoolean("success")){
                                     Toast.makeText(getActivity(), "Recieved key: " + jsonResponse.getString("api_key").toString(), Toast.LENGTH_SHORT).show();
-                                    settings.edit().putString("webaddress", ("http://" + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + jsonResponse.getString("api_key").toString())).commit();
+                                    settings.edit().putString("webaddress", (httpMethod + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + jsonResponse.getString("api_key").toString())).commit();
                                     settings.edit().putBoolean("complete", true).commit();
                                     settings.edit().putString("apikey", jsonResponse.getString("api_key").toString()).commit();
 
@@ -186,7 +186,7 @@ public class Setup3 extends Fragment {
                     });
                 }
                 if (RadioManual.isChecked()==true){
-                    final String url = ("http://" + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey + "/app.available");
+                    final String url = (httpMethod + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey + "/app.available");
 
                     ButtonConnect.setText("Connecting...");
                     client.get(url, new AsyncHttpResponseHandler() {
@@ -198,7 +198,7 @@ public class Setup3 extends Fragment {
                                 jsonResponse = new JSONObject(response);
                                 if (jsonResponse.getBoolean("success")) {
                                     Toast.makeText(getActivity(), "API Key correct!", Toast.LENGTH_SHORT).show();
-                                    settings.edit().putString("webaddress", ("http://" + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey)).commit();
+                                    settings.edit().putString("webaddress", (httpMethod + finalUsername + ":" + finalPassword + "@" + finalHostname + ":" + finalPort + finalDirectory + "/api/" + apiKey)).commit();
                                     settings.edit().putBoolean("complete", true).commit();
                                     settings.edit().putString("apikey", apiKey).commit();
                                     Intent myIntent = new Intent(getActivity(), MainActivity.class);
