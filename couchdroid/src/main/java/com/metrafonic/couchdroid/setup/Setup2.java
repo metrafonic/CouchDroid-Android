@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.metrafonic.couchdroid.R;
@@ -75,6 +76,7 @@ public class Setup2 extends Fragment {
         final EditText editDirectory = (EditText) rootView.findViewById(R.id.editTextSetupDirectory);
         final EditText editUsername = (EditText) rootView.findViewById(R.id.editTextSetupUsername);
         final EditText editPassword = (EditText) rootView.findViewById(R.id.editTextSetupPassword);
+        final CheckBox setSSL = (CheckBox) rootView.findViewById(R.id.checkBoxSSL);
 
 
         final String PREFS_NAME = "settings";
@@ -84,6 +86,7 @@ public class Setup2 extends Fragment {
         editDirectory.setText(settings.getString("directory", ""));
         editUsername.setText(settings.getString("username", ""));
         editPassword.setText(settings.getString("password", ""));
+        setSSL.setChecked(settings.getBoolean("ssl", false));
 
         NextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +97,12 @@ public class Setup2 extends Fragment {
                 data.putString("directory", editDirectory.getText().toString());
                 data.putString("username", editUsername.getText().toString());
                 data.putString("password", editPassword.getText().toString());
+                if (setSSL.isChecked()==true){
+                    data.putString("head", "https://");
+                }else{
+                    data.putString("head", "http://");
+                }
+                data.putBoolean("ssl", setSSL.isChecked());
                 android.support.v4.app.FragmentTransaction ft = getFragmentManager().beginTransaction();
                 Setup3 myFragment = new Setup3();
                 myFragment.setArguments(data);
